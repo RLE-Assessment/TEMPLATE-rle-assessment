@@ -1,0 +1,279 @@
+country_name: Columbia
+country_code: MM
+ecosystem_gee_asset: 
+  id: projects/goog-rle-assessments/assets/columbia/GETCol
+  classes: 
+    - code: F1.1_Indef_R1
+      functional_group: F1.1
+    - code: F1.1_Catatum mf_R1
+      functional_group: F1.1
+    - code: F1.1_Cauca V mf_R1
+      functional_group: F1.1
+    - code: F1.1_Indef_R1
+      functional_group: F1.1
+    - code: F1.1_Mag-Urab mf_R1
+      functional_group: F1.1
+    - code: F1.1_Magd Val mf_R1
+      functional_group: F1.1
+    - code: F1.1_NW And mf_R1
+      functional_group: F1.1
+    - code: F1.2_Indef_R2
+      functional_group: F1.2
+    - code: F1.2a_Indef_R2
+      functional_group: F1.2a
+    - code: F2.1_Indef_L1
+      functional_group: F2.1
+    - code: F2.2_Indef_L1
+      functional_group: F2.2
+    - code: F2.3_Indef_L3
+      functional_group: F2.3
+    - code: F3.1_Indef_L4
+      functional_group: F3.1
+    - code: FM1.2_Indef_Cg
+      functional_group: FM1.2
+    - code: MFT1.1_ChoDar_mf_B0
+      functional_group: MFT1.1
+    - code: MFT1.1_WEcua  mf_B0
+      functional_group: MFT1.1
+    - code: MFT1.2_AmOriSCar_mg_B0
+      functional_group: MFT1.2
+    - code: MFT1.2_SAmPacif mg_B0
+      functional_group: MFT1.2
+    - code: T1.1_Apure_Vill f_B1
+      functional_group: T1.1
+    - code: T1.1_Caq mf_B1
+      functional_group: T1.1
+    - code: T1.1_Caq mf_B2
+      functional_group: T1.1
+    - code: T1.1_Caq mf_B3
+      functional_group: T1.1
+    - code: T1.1_Catatum mf_B1
+      functional_group: T1.1
+    - code: T1.1_Catatum mf_B2
+      functional_group: T1.1
+    - code: T1.1_ChoDar_mf_B2
+      functional_group: T1.1
+    - code: T1.1_ChoDar_mf_B3
+      functional_group: T1.1
+    - code: T1.1_ChoDar_mf_Bm1
+      functional_group: T1.1
+    - code: T1.1_GuaiPiedm f_B4
+      functional_group: T1.1
+    - code: T1.1_GuaiPiedm f_B5
+      functional_group: T1.1
+    - code: T1.1_Jap-So-Ne mf_B1
+      functional_group: T1.1
+    - code: T1.1_Jap-So-Ne mf_B2
+      functional_group: T1.1
+    - code: T1.1_Jap-So-Ne mf_B3
+      functional_group: T1.1
+    - code: T1.1_Llanos_B2
+      functional_group: T1.1
+    - code: T1.1_Mag-Urab mf_B1
+      functional_group: T1.1
+    - code: T1.1_Mag-Urab mf_B2
+      functional_group: T1.1
+    - code: T1.1_Mag-Urab mf_Bm1
+      functional_group: T1.1
+    - code: T1.1_Napo mf_B1
+      functional_group: T1.1
+    - code: T1.1_Napo mf_B2
+      functional_group: T1.1
+    - code: T1.1_Napo mf_B3
+      functional_group: T1.1
+    - code: T1.1_SolJapura mf_B1
+      functional_group: T1.1
+    - code: T1.1_SolJapura mf_B2
+      functional_group: T1.1
+    - code: T1.1_SolJapura mf_B3
+      functional_group: T1.1
+    - code: T1.1_WEcua  mf_B2
+      functional_group: T1.1
+    - code: T1.1_WEcua  mf_B3
+      functional_group: T1.1
+    - code: T1.2_CatOcañ df_B10
+      functional_group: T1.2
+    - code: T1.2_CatOcañ df_B8
+      functional_group: T1.2
+    - code: T1.2_CatOcañ df_Bm2
+      functional_group: T1.2
+    - code: T1.2_Cauca Val df_B10
+      functional_group: T1.2
+    - code: T1.2_Cauca Val df_B8
+      functional_group: T1.2
+    - code: T1.2_Cauca Val df_B9
+      functional_group: T1.2
+    - code: T1.2_Cauca Val df_Bm2
+      functional_group: T1.2
+    - code: T1.2_ChV df_A5
+      functional_group: T1.2
+    - code: T1.2_ChV df_Bm2
+      functional_group: T1.2
+    - code: T1.2_CordOri mf_Bm2
+      functional_group: T1.2
+    - code: T1.2_Guaj-Barr xs_B10
+      functional_group: T1.2
+    - code: T1.2_Guaj-Barr xs_B11
+      functional_group: T1.2
+    - code: T1.2_Guaj-Barr xs_B8
+      functional_group: T1.2
+    - code: T1.2_Guaj-Barr xs_B9
+      functional_group: T1.2
+    - code: T1.2_Magd Val df_B10
+      functional_group: T1.2
+    - code: T1.2_Magd Val df_B8
+      functional_group: T1.2
+    - code: T1.2_Magd Val df_B9
+      functional_group: T1.2
+    - code: T1.2_Magd Val df_Bm2
+      functional_group: T1.2
+    - code: T1.2_Pat Dag df_A5
+      functional_group: T1.2
+    - code: T1.2_Pat Dag df_B10
+      functional_group: T1.2
+    - code: T1.2_Pat Dag df_B8
+      functional_group: T1.2
+    - code: T1.2_Pat Dag df_B9
+      functional_group: T1.2
+    - code: T1.2_Pat Dag df_Bm2
+      functional_group: T1.2
+    - code: T1.2_Sinú Valley df_B10
+      functional_group: T1.2
+    - code: T1.2_Sinú Valley df_B8
+      functional_group: T1.2
+    - code: T1.2_Sinú Valley df_B9
+      functional_group: T1.2
+    - code: T1.2_Sinú Valley df_Bm2
+      functional_group: T1.2
+    - code: T1.2a_Magd Val mf_A6
+      functional_group: T1.2a
+    - code: T1.3_Catatum mf_Bm1
+      functional_group: T1.3
+    - code: T1.3_Catatum mf_Bm2
+      functional_group: T1.3
+    - code: T1.3_Cauca V mf_Bm1
+      functional_group: T1.3
+    - code: T1.3_Cauca V mf_Bm2
+      functional_group: T1.3
+    - code: T1.3_Cauca V mf_Bm3
+      functional_group: T1.3
+    - code: T1.3_Cauca V mf_Bm3a
+      functional_group: T1.3
+    - code: T1.3_CordOri mf_Bm1
+      functional_group: T1.3
+    - code: T1.3_CordOri mf_Bm2
+      functional_group: T1.3
+    - code: T1.3_CordOri mf_Bm3
+      functional_group: T1.3
+    - code: T1.3_CordOri mf_Bm3a
+      functional_group: T1.3
+    - code: T1.3_EastCR mf_Bm1
+      functional_group: T1.3
+    - code: T1.3_EastCR mf_Bm2
+      functional_group: T1.3
+    - code: T1.3_EastCR mf_Bm3
+      functional_group: T1.3
+    - code: T1.3_Macarena mf_B17
+      functional_group: T1.3
+    - code: T1.3_Macarena mf_B18
+      functional_group: T1.3
+    - code: T1.3_Macarena mf_Bm1
+      functional_group: T1.3
+    - code: T1.3_Magd Val mf_Bm1
+      functional_group: T1.3
+    - code: T1.3_Magd Val mf_Bm2
+      functional_group: T1.3
+    - code: T1.3_Magd Val mf_Bm3
+      functional_group: T1.3
+    - code: T1.3_Magd Val mf_Bm3a
+      functional_group: T1.3
+    - code: T1.3_NW And mf_Bm1
+      functional_group: T1.3
+    - code: T1.3_NW And mf_Bm2
+      functional_group: T1.3
+    - code: T1.3_NW And mf_Bm3
+      functional_group: T1.3
+    - code: T1.3_NW And mf_Bm3a
+      functional_group: T1.3
+    - code: T1.3_S Mart mf_Bm1
+      functional_group: T1.3
+    - code: T1.3_S Mart mf_Bm2
+      functional_group: T1.3
+    - code: T1.3_S Mart mf_Bm3
+      functional_group: T1.3
+    - code: T1.4_Jap-So-Ne mf_B6
+      functional_group: T1.4
+    - code: T1.4_Neg Branc mf_B7
+      functional_group: T1.4
+    - code: T1.4a_Negro camp_S1
+      functional_group: T1.4a
+    - code: T3.1_Pantepui_A4
+      functional_group: T3.1
+    - code: T3.1_Pantepui_S2
+      functional_group: T3.1
+    - code: T4.2_ChV df_S13
+      functional_group: T4.2
+    - code: T4.2_LLanos_S5
+      functional_group: T4.2
+    - code: T4.2_Llanos_S3
+      functional_group: T4.2
+    - code: T4.2_Llanos_S4
+      functional_group: T4.2
+    - code: T4.2_Llanos_S5
+      functional_group: T4.2
+    - code: T4.2_Llanos_S6
+      functional_group: T4.2
+    - code: T4.2_Llanos_S7
+      functional_group: T4.2
+    - code: T4.2_Llanos_S8
+      functional_group: T4.2
+    - code: T4.2_Mag-Urab mf_S11
+      functional_group: T4.2
+    - code: T4.2a_Llanos_S10
+      functional_group: T4.2a
+    - code: T4.2a_Llanos_S9
+      functional_group: T4.2a
+    - code: T4.2b_Sinú Valley df_S12
+      functional_group: T4.2b
+    - code: T5.2_Guaj-Barr xs_A1
+      functional_group: T5.2
+    - code: T5.2_Guaj-Barr xs_A3
+      functional_group: T5.2
+    - code: T5.2_Magd Val df_A2
+      functional_group: T5.2
+    - code: T6.5_N And par_N
+      functional_group: T6.5
+    - code: T6.5_N And par_P1
+      functional_group: T6.5
+    - code: T6.5_N And par_P2
+      functional_group: T6.5
+    - code: T6.5_N And par_P3
+      functional_group: T6.5
+    - code: T6.5_SM Paramo_N
+      functional_group: T6.5
+    - code: T6.5_SM Paramo_P2
+      functional_group: T6.5
+    - code: TF1.1_Am-Ori alvf_B0
+      functional_group: TF1.1
+    - code: TF1.1_And alvf_B0
+      functional_group: TF1.1
+    - code: TF1.1_AndPac  alvf_B0
+      functional_group: TF1.1
+    - code: TF1.3_EastCR mf_H1
+      functional_group: TF1.3
+    - code: TF1.3_Magd Val mf_H1
+      functional_group: TF1.3
+    - code: TF1.3_NW And mf_H1
+      functional_group: TF1.3
+    - code: TF1.4_ChoDar_mf_H4
+      functional_group: TF1.4
+    - code: TF1.4_Sin-Mag w_H2
+      functional_group: TF1.4
+    - code: TF1.4_Sin-Mag w_H3
+      functional_group: TF1.4
+    - code: TF1.5_Guaj-Barr xs_B0
+      functional_group: TF1.5
+    - code: TF1.5_Magd Val df_B0
+      functional_group: TF1.5
+    - code: TF1.5_Sinú Valley df_B0
+      functional_group: TF1.5
