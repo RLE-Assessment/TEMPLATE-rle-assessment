@@ -1,6 +1,5 @@
 ---
 number-sections: false
-subtitle: An IUCN Red List of Ecosystems Assessment
 authors:
     - name: Jane Smith
     - name: José García
@@ -8,21 +7,20 @@ authors:
 
 ---
 
-# Threatened ecosystems of {{< meta country-name >}} {.unnumbered}
-
-
 {{< meta year >}} | Version {{< meta version >}}
 
+# Home {.unnumbered}
 
 ::: {.content-hidden unless-meta="show-instructions"}
 
 :::: {.callout-important}
-## How to customize the Index page
+## How to customize the Home page
 
 - Edit the `_quarto.yml` file:
   - Update the `country-name` value
   - Update the `year` value
   - Update the `version` value
+  - Update the `book.title` value
 - Edit the `index.qmd` file:
   - Update the `subtitle` value
   - Update the `authors` list
