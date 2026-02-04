@@ -1,16 +1,32 @@
 ---
-subtitle: An IUCN Red List of Ecosystems Assessment
 number-sections: false
+subtitle: An IUCN Red List of Ecosystems Assessment
 authors:
-    - name: Andrés Etter
-    - name: Ángela Andrade
-    - name: Kelly Saavedra
-    - name: Paula Amaya
-    - name: Paulo Arévalo 
-date: 2017-01-01
+    - name: Jane Smith
+    - name: José García
+    - name: Wei Wang
+
 ---
 
-# Threatened ecosystems of Columbia {.unnumbered}
+# Threatened ecosystems of {{< meta country-name >}} {.unnumbered}
 
 
-2017 | Version 2.0
+{{< meta year >}} | Version {{< meta version >}}
+
+
+::: {.content-hidden unless-meta="show-instructions"}
+
+:::: {.callout-important}
+## How to customize the Index page
+
+- Edit the `_quarto.yml` file:
+  - Update the `country-name` value
+  - Update the `year` value
+  - Update the `version` value
+- Edit the `index.qmd` file:
+  - Update the `subtitle` value
+  - Update the `authors` list
+
+**To hide these instructions on all pages, set `show-instructions: false` in the `_quarto.yml` file.**
+::::
+:::

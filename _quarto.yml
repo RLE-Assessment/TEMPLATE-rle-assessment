@@ -2,11 +2,15 @@ project:
   type: book
 
 book:
-  title: "Threatened ecosystems of Columbia"
-  date: "1/26/2026"
+  title: "Threatened ecosystems of COUNTRY_NAME"
+  date: "2000-01-01"
   chapters:
     - index.qmd
     - content/0.1_foreword.qmd
+    - content/0.2_preface.qmd
+    - content/0.3_acknowledgments.qmd
+    - content/0.4_coordinating_orgs.qmd
+    - content/0.5_summary.qmd
     - content/2_ecosystem_overview.qmd
     - references.qmd
 
@@ -19,3 +23,8 @@ format:
     documentclass: scrreprt
 
 show-instructions: true
+
+# Content Constants
+country-name: COUNTRY_NAME
+version: 0.1
+year: 2000
