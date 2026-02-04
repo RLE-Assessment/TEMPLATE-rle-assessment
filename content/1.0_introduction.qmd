@@ -1,0 +1,10 @@
+---
+numbering:
+  figure:
+    enumerator: 1.%s
+suppress-bibliography: true
+---
+
+# Introduction
+
+{{< include 1.1_background.qmd >}}
