@@ -1,0 +1,104 @@
+---
+jupyter: python3
+keep-ipynb: true
+format:
+  html:
+    other-links:
+      - text: Download Notebook
+        icon: journal-code
+        href: 2_ecosystem_overview.ipynb
+numbering:
+  figure:
+    enumerator: 2.%s
+---
+
+# Terrestrial Ecosystems of Columbia
+
+The Columbia ecosystem typology includes of 64??? ecosystem types across 10??? biomes (Table ???).
+The ecosystem typology is consistent with the IUCN global ecosystem typology (Keith et al., 2019)
+to support crosswalks and comparisons with Red Lists of ecosystems in other countries and
+regions. The Columbia ecosystem typology has a hierarchical structure, where each ecosystem type
+is assigned to a realm, biome and functional group (ecotype).
+Realm refers to one of the four component media in the biosphere (Figure 2.1???), biome is the
+segment of the biosphere united by major functional traits and macro-environmental features
+(Figure 2.2???), and functional group is a group of related ecosystems within a biome (Figure 2.3???). The
+distribution of Columbia’s ecosystem types is shown in Figure 2.4, and map data is made publicly
+available (Murray et al., 2020).
+
+```{python}
+from pprint import pprint
+
+import geopandas as gpd
+import yaml
+
+import gee_redlist
+import iucn_get_data
+
+print(f'{gee_redlist.__version__ = }')
+print(f'{iucn_get_data.__version__ = }')
+```
+
+Load up the country-level configuration.
+
+```{python}
+with open('../config/country_config.yaml', 'r') as f:
+    config = yaml.safe_load(f)
+```
+
+Initialize Google Earth Engine.
+
+```{python}
+gee_redlist.initialize_ee(project=config['gcp_project'])
+```
+
+Load the country's ecosystems data as a pandas DataFrame.
+
+```{python}
+asset_id = config['ecosystem_gee_asset']['id']
+
+ecosystems = gee_redlist.Ecosystems(
+    asset_id,
+    get_level3_column='EFG1',
+    get_level456_column='Glob_Typol'
+)
+
+ecosystems_df = ecosystems.functional_group_dataframe()
+ecosystems_df
+```
+
+Create an IUCN Global Ecosystem Typology (GET) in spanish using the ecosystems data.
+
+```{python}
+typology_es = iucn_get_data.Typology(
+    language="spanish",
+    ecosystems=ecosystems_df.drop(columns=['COD_new', 'ECRG', 'EFG2', 'EFG_Etter', 'GETyp_CODn'], errors='ignore'),
+    ecosystems_functional_group_column='functional_group_code'
+)
+typology_es.dataframe
+```
+
+```{python}
+print(typology_es)
+```
+
+
+Count the number of ecosystem types (functionalgroups)
+```{python}
+print(f'Number of ecosystem types (functional groups): {len(typology_es.get_groups())}')
+```
+
+Count the number of biomes
+```{python}
+print(f'Number of biomes: {len(typology_es.get_biomes())}')
+```
+
+Count the number of realms
+```{python}
+print(f'Number of realms: {len(typology_es.realms)}')
+```
+
+Display the data in a nice table.
+
+```{python}
+typology_es
+```

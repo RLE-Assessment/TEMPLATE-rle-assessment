@@ -1,0 +1,23 @@
+{
+	"folders": [
+        {
+            "name": "gee-redlist-python",
+            "path": "../../VorGeo/gee-redlist-python"
+        },
+        {
+            "name": "iucn-get-data",
+            "path": "../iucn-get-data"
+        },
+        {
+            "name": "rle-assessment-report",
+            "path": "../../VorGeo/rle-assessment-report"
+        },
+        {
+            "name": "TEMPLATE-rle-assessment",
+            "path": "."
+        }
+    ],
+    "settings": {
+        "python.defaultInterpreterPath": "/Users/tylere/Documents/GitHub/RLE-Assessment/TEMPLATE-rle-assessment/.pixi/envs/default/bin/python"
+    }
+}

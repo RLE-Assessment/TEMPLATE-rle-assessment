@@ -1,6 +1,5 @@
 [project]
 authors = [{name = "Tyler Erickson", email = "tyler@vorgeo.com"}]
-dependencies = []
 name = "TEMPLATE-rle-assessment"
 requires-python = ">= 3.11"
 version = "0.1.0"
@@ -14,6 +13,8 @@ channels = ["conda-forge"]
 platforms = ["osx-arm64", "linux-64"]
 
 [tool.pixi.pypi-dependencies]
+iucn_get_data = { path = "../iucn-get-data", editable = true }
+gee_redlist_python = { path = "../../VorGeo/gee-redlist-python", editable = true }
 
 [tool.pixi.tasks]
 
@@ -21,3 +22,7 @@ platforms = ["osx-arm64", "linux-64"]
 python = "==3.11"
 jupyter = ">=1.1.1,<2"
 quarto = ">=1.8.27,<2"
+pyyaml = ">=6.0.3,<7"
+geopandas = ">=1.1.2,<2"
+ipykernel = ">=7.1.0,<8"
+pytest = ">=8.0.0,<9"

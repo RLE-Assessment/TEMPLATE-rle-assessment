@@ -1,5 +1,6 @@
 country_name: Columbia
 country_code: MM
+gcp_project: goog-rle-assessments
 ecosystem_gee_asset: 
   id: projects/goog-rle-assessments/assets/columbia/GETCol
   classes: 
@@ -20,7 +21,7 @@ ecosystem_gee_asset:
     - code: F1.2_Indef_R2
       functional_group: F1.2
     - code: F1.2a_Indef_R2
-      functional_group: F1.2a
+      functional_group: F1.2
     - code: F2.1_Indef_L1
       functional_group: F2.1
     - code: F2.2_Indef_L1
@@ -146,7 +147,7 @@ ecosystem_gee_asset:
     - code: T1.2_Sinú Valley df_Bm2
       functional_group: T1.2
     - code: T1.2a_Magd Val mf_A6
-      functional_group: T1.2a
+      functional_group: T1.2
     - code: T1.3_Catatum mf_Bm1
       functional_group: T1.3
     - code: T1.3_Catatum mf_Bm2
@@ -206,7 +207,7 @@ ecosystem_gee_asset:
     - code: T1.4_Neg Branc mf_B7
       functional_group: T1.4
     - code: T1.4a_Negro camp_S1
-      functional_group: T1.4a
+      functional_group: T1.4
     - code: T3.1_Pantepui_A4
       functional_group: T3.1
     - code: T3.1_Pantepui_S2
@@ -230,11 +231,11 @@ ecosystem_gee_asset:
     - code: T4.2_Mag-Urab mf_S11
       functional_group: T4.2
     - code: T4.2a_Llanos_S10
-      functional_group: T4.2a
+      functional_group: T4.2
     - code: T4.2a_Llanos_S9
-      functional_group: T4.2a
+      functional_group: T4.2
     - code: T4.2b_Sinú Valley df_S12
-      functional_group: T4.2b
+      functional_group: T4.2
     - code: T5.2_Guaj-Barr xs_A1
       functional_group: T5.2
     - code: T5.2_Guaj-Barr xs_A3

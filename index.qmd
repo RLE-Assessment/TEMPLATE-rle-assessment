@@ -1,0 +1,16 @@
+---
+subtitle: An IUCN Red List of Ecosystems Assessment
+number-sections: false
+authors:
+    - name: Andrés Etter
+    - name: Ángela Andrade
+    - name: Kelly Saavedra
+    - name: Paula Amaya
+    - name: Paulo Arévalo 
+date: 2017-01-01
+---
+
+# Threatened ecosystems of Columbia {.unnumbered}
+
+
+2017 | Version 2.0

@@ -1,0 +1,21 @@
+project:
+  type: book
+
+book:
+  title: "Threatened ecosystems of Columbia"
+  date: "1/26/2026"
+  chapters:
+    - index.qmd
+    - content/0.1_foreword.qmd
+    - content/2_ecosystem_overview.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+show-instructions: true
