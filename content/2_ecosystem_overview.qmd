@@ -12,17 +12,17 @@ numbering:
     enumerator: 2.%s
 ---
 
-# Terrestrial Ecosystems of Columbia
+# Terrestrial Ecosystems of {{< meta country-name >}}
 
-The Columbia ecosystem typology includes of 64??? ecosystem types across 10??? biomes (Table ???).
+The {{< meta country-name >}} ecosystem typology includes of ... ecosystem types across ... biomes (Table ???).
 The ecosystem typology is consistent with the IUCN global ecosystem typology (Keith et al., 2019)
 to support crosswalks and comparisons with Red Lists of ecosystems in other countries and
-regions. The Columbia ecosystem typology has a hierarchical structure, where each ecosystem type
+regions. The {{< meta country-name >}} ecosystem typology has a hierarchical structure, where each ecosystem type
 is assigned to a realm, biome and functional group (ecotype).
 Realm refers to one of the four component media in the biosphere (Figure 2.1???), biome is the
 segment of the biosphere united by major functional traits and macro-environmental features
 (Figure 2.2???), and functional group is a group of related ecosystems within a biome (Figure 2.3???). The
-distribution of Columbia’s ecosystem types is shown in Figure 2.4, and map data is made publicly
+distribution of {{< meta country-name >}}’s ecosystem types is shown in Figure 2.4, and map data is made publicly
 available (Murray et al., 2020).
 
 ```{python}
