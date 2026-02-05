@@ -31,10 +31,10 @@ from pprint import pprint
 import geopandas as gpd
 import yaml
 
-import gee_redlist
+import rle_python_gee
 import iucn_get_data
 
-print(f'{gee_redlist.__version__ = }')
+print(f'{rle_python_gee.__version__ = }')
 print(f'{iucn_get_data.__version__ = }')
 ```
 
@@ -48,7 +48,7 @@ with open('../config/country_config.yaml', 'r') as f:
 Initialize Google Earth Engine.
 
 ```{python}
-gee_redlist.ee_auth.initialize_ee(project=config['gcp_project'])
+rle_python_gee.ee_auth.initialize_ee(project=config['gcp_project'])
 ```
 
 Load the country's ecosystems data as a pandas DataFrame.
@@ -56,7 +56,7 @@ Load the country's ecosystems data as a pandas DataFrame.
 ```{python}
 asset_id = config['ecosystem_gee_asset']['id']
 
-ecosystems = gee_redlist.Ecosystems(
+ecosystems = rle_python_gee.Ecosystems(
     asset_id,
     get_level3_column='EFG1',
     get_level456_column='Glob_Typol'
