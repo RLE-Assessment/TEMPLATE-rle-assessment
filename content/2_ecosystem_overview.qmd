@@ -48,7 +48,7 @@ with open('../config/country_config.yaml', 'r') as f:
 Initialize Google Earth Engine.
 
 ```{python}
-gee_redlist.initialize_ee(project=config['gcp_project'])
+gee_redlist.ee_auth.initialize_ee(project=config['gcp_project'])
 ```
 
 Load the country's ecosystems data as a pandas DataFrame.
