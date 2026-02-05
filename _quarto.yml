@@ -16,7 +16,9 @@ book:
     - content/2_ecosystem_overview.qmd
     - references.qmd
 
-bibliography: references.bib
+bibliography: 
+  - references_iucn.bib
+  - references_country_specific.bib
 
 format:
   html:
