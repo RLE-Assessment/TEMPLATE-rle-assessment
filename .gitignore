@@ -2,8 +2,11 @@
 .pixi/*
 !.pixi/config.toml
 
+# Quarto files
 /.quarto/
-
+/_site/
+/_book/
 **/*.quarto_ipynb
-/_book/*
+
+
 images/country_map.png
