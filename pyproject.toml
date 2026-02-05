@@ -21,6 +21,8 @@ rle_python_gee = { git = "https://github.com/RLE-Assessment/rle-python-gee" }
 
 
 [tool.pixi.tasks]
+tinytex-install = "quarto install tinytex"
+quarto-render = "quarto render"
 
 [tool.pixi.dependencies]
 python = "==3.11"
