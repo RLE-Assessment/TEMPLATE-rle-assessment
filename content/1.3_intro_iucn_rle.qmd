@@ -33,7 +33,7 @@ native biota are lost from the system, or when functional components (biota that
 According to the IUCN guidelines [@bland2017guidelines], risks to ecosystems can be caused by a variety of threatening processes that are expressed through different symptoms of ecosystem collapse.
 The RLE risk model groups these symptoms into four major types, which ultimately form the RLE criteria (@fig-iucn-rle-risk-assessment-model).
 
-![The IUCN Red List of Ecosystems risk assessment model. Source: [@bland2017guidelines].](images/map_elevation_myanmnar.png){#fig-iucn-rle-risk-assessment-model width=500px fig-align="center"}
+![The IUCN Red List of Ecosystems risk assessment model. Source: [@bland2017guidelines].](../images/iucn_rle_assessment_model.png){#fig-iucn-rle-risk-assessment-model width=500px fig-align="center"}
 
 For more information on the concept of collapse and how to identify when an ecosystem is collapsed, we recommend referring to the IUCN Red List of Ecosystems guidelines, which describes this in detail (Bland et al., 2017a; Bland et al., 2018).
 In this report and as recommended by the guidelines, we explicitly define collapse for each ecosystem type in Myanmar in their ecosystem descriptions (See section 3).
