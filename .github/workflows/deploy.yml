@@ -41,6 +41,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pixi run tinytex-install
       - name: Authenticate to Google Cloud
+        if: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER != '' }}
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
