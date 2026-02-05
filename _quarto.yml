@@ -28,5 +28,6 @@ show-instructions: true
 
 # Content Constants
 country-name: PLACEHOLDER_COUNTRY_NAME
+country-code: CO  # ISO 3166-1 alpha-2 country code
 version: 0.1
 year: 2000

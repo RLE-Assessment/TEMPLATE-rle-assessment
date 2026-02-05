@@ -6,3 +6,4 @@
 
 **/*.quarto_ipynb
 /_book/*
+images/country_map.png

@@ -15,7 +15,7 @@ This report describes the development of the IUCN Red List of Ecosystems for
 - ...
 - An expert review process for the ecosystem typology, descriptions and assessments.
 
-![A map of {{< meta country-name >}} showing the area of assessment in grey](images/country_map.png){#fig-country-map width=500px fig-align="center"}
+![A map of {{< meta country-name >}} showing the area of assessment in grey](../images/country_map.png){#fig-country-map width=500px fig-align="center"}
 
 ::: {.content-hidden unless-meta="show-instructions"}
 
