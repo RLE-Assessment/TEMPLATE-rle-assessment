@@ -14,9 +14,11 @@ platforms = ["osx-arm64", "linux-64"]
 
 [tool.pixi.pypi-dependencies]
 # iucn_get_data = { path = "../iucn-get-data", editable = true }
-# gee_redlist_python = { path = "../../VorGeo/gee-redlist-python", editable = true }
+# rle_python_gee = { path = "../../VorGeo/gee-redlist-python", editable = true }
 iucn_get_data = { git = "https://github.com/RLE-Assessment/iucn-get-data" }
-gee_redlist_python = { git = "https://github.com/VorGeo/gee-redlist-python" }
+# rle_python_gee = { git = "https://github.com/VorGeo/gee-redlist-python" }
+rle_python_gee = { git = "https://github.com/RLE-Assessment/rle-python-gee" }
+
 
 [tool.pixi.tasks]
 
