@@ -72,7 +72,7 @@ Create an IUCN Global Ecosystem Typology (GET) in spanish using the ecosystems d
 typology_es = iucn_get_data.Typology(
     language="spanish",
     ecosystems=ecosystems_df.drop(columns=['COD_new', 'ECRG', 'EFG2', 'EFG_Etter', 'GETyp_CODn'], errors='ignore'),
-    ecosystems_functional_group_column='functional_group_code'
+    ecosystems_functional_group_column='EFG1'
 )
 typology_es.dataframe
 ```
