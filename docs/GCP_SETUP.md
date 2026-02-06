@@ -42,12 +42,20 @@ gcloud iam service-accounts create "github-actions-rle" \
   --display-name="GitHub Actions RLE"
 ```
 
-### 4. Grant Earth Engine Access
+### 4. Grant Required IAM Roles
+
+The service account needs two roles:
+- `roles/earthengine.writer` - Access to Earth Engine
+- `roles/serviceusage.serviceUsageConsumer` - Permission to use GCP APIs
 
 ```bash
 gcloud projects add-iam-policy-binding "goog-rle-assessments" \
   --member="serviceAccount:github-actions-rle@goog-rle-assessments.iam.gserviceaccount.com" \
   --role="roles/earthengine.writer"
+
+gcloud projects add-iam-policy-binding "goog-rle-assessments" \
+  --member="serviceAccount:github-actions-rle@goog-rle-assessments.iam.gserviceaccount.com" \
+  --role="roles/serviceusage.serviceUsageConsumer"
 ```
 
 ### 5. Get Project Number
@@ -128,3 +136,18 @@ If you see permission errors:
 If notebooks fail with Earth Engine errors:
 - Verify the service account is registered in Earth Engine
 - Check that `GOOGLE_CLOUD_PROJECT` in the workflow matches your GCP project
+
+### "Caller does not have required permission" Error
+
+If you see an error like:
+```
+Caller does not have required permission to use project goog-rle-assessments.
+Grant the caller the roles/serviceusage.serviceUsageConsumer role...
+```
+
+The service account is missing the Service Usage Consumer role. Run:
+```bash
+gcloud projects add-iam-policy-binding "goog-rle-assessments" \
+  --member="serviceAccount:github-actions-rle@goog-rle-assessments.iam.gserviceaccount.com" \
+  --role="roles/serviceusage.serviceUsageConsumer"
+```
