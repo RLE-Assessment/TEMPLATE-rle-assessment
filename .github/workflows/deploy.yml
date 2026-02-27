@@ -51,7 +51,7 @@ jobs:
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
       - name: Render Quarto Project
         env:
-          GOOGLE_CLOUD_PROJECT: goog-rle-assessments
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
         run: pixi run quarto-render
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
