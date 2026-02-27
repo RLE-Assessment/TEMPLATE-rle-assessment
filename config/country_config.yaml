@@ -1,6 +1,5 @@
 country_name: Columbia
 country_code: MM
-gcp_project: goog-rle-assessments
 ecosystem_gee_asset: 
   id: projects/goog-rle-assessments/assets/columbia/GETCol
   classes: 
