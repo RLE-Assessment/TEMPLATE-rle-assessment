@@ -52,10 +52,27 @@ import os
 rle_python_gee.ee_auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
 ```
 
+::: {.content-hidden unless-meta="show-instructions"}
+
+:::: {.callout-important}
+## How to customize the Ecosystem Overview page
+
+- To modify the ecosystem overview text, edit the `content/2_ecosystem_overview.qmd` file.
+- To remove the ecosystem overview section, edit the `_quarto.yml` file and remove the
+  `- content/2_ecosystem_overview.qmd` line.
+
+**To hide these instructions on all pages, set `show-instructions: false`
+in the `_quarto.yml` file.**
+::::
+:::
+
+
 Load the country's ecosystems data as a pandas DataFrame.
 
 ```{python}
 asset_id = config['ecosystem_gee_asset']['id']
+if not asset_id.startswith('projects/'):
+    asset_id = f"projects/{os.environ['GOOGLE_CLOUD_PROJECT']}/assets/{asset_id}"
 
 ecosystems = rle_python_gee.Ecosystems(
     asset_id,
