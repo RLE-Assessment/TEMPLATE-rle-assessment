@@ -71,8 +71,6 @@ Load the country's ecosystems data as a pandas DataFrame.
 
 ```{python}
 asset_id = config['ecosystem_gee_asset']['id']
-if not asset_id.startswith('projects/'):
-    asset_id = f"projects/{os.environ['GOOGLE_CLOUD_PROJECT']}/assets/{asset_id}"
 
 ecosystems = rle_python_gee.Ecosystems(
     asset_id,
