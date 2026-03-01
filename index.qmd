@@ -17,8 +17,6 @@ authors:
 ## How to customize the Home page
 
 - Edit the `_quarto.yml` file:
-  - Update the `country-name` value
-  - Update the `year` value
   - Update the `version` value
   - Update the `book.title` value
 - Edit the `index.qmd` file:
