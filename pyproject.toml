@@ -32,3 +32,6 @@ pyyaml = ">=6.0.3,<7"
 geopandas = ">=1.1.2,<2"
 ipykernel = ">=7.1.0,<8"
 pytest = ">=8.0.0,<9"
+
+[tool.pixi.activation.env]
+GOOGLE_CLOUD_PROJECT = "PLACEHOLDER_GCP_PROJECT_ID"
