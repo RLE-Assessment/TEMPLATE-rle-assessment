@@ -1,36 +1,33 @@
-# RLE Assessment Template
+# RLE Assessment
 
-Template repository for IUCN Red List of Ecosystems assessment reports using Quarto and Google Earth Engine.
+An IUCN Red List of Ecosystems assessment report using Quarto and Google Earth Engine.
 
-## Getting Started
+For setup instructions, see the [RLE-Assessment organization README](https://github.com/RLE-Assessment).
 
-1. Create a new repository from this template
-2. Update `config/country_config.yaml` with your country-specific settings
-3. Configure GCP authentication (see [docs/GCP_SETUP.md](docs/GCP_SETUP.md))
-4. Enable GitHub Pages in repository settings (deploy with **GitHub Actions**)
+## Development
 
-## Local Development
-
-Install dependencies:
-```bash
-pixi install
+Start the development environment:
+```
+pixi shell
 ```
 
-Preview the Quarto book:
-```bash
-pixi run quarto preview
+Preview the site:
+```
+quarto preview
 ```
 
-Render the book:
-```bash
-pixi run quarto-render
+Make changes, preview the changes, and repeat until satisfied.
+
+Render the final HTML and PDF artifacts:
+```
+quarto render
 ```
 
-## Configuration
+Commit and push your changes to publish the site.
 
-- `config/country_config.yaml` - Country-specific settings (GCP project, ecosystem asset ID)
-- `_quarto.yml` - Quarto book configuration
+## Main content files to edit
 
-## Documentation
-
-- [GCP Setup Guide](docs/GCP_SETUP.md) - Configure Google Cloud authentication for GitHub Actions
+- `pyproject.toml` — Python dependencies and project metadata
+- `_quarto.yml` — Quarto book configuration (title, date, chapters)
+- `config/country_config.yaml` - Country level configuration
+- `references_country_specific.bib` - Reference bibliography used to assess the country's ecosystems
