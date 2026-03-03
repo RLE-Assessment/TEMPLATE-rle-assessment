@@ -6,21 +6,16 @@ For setup instructions, see the [RLE-Assessment organization README](https://git
 
 ## Development
 
-Start the development environment:
-```
-pixi shell
-```
-
 Preview the site:
 ```
-quarto preview
+pixi run quarto preview
 ```
 
 Make changes, preview the changes, and repeat until satisfied.
 
 Render the final HTML and PDF artifacts:
 ```
-quarto render
+pixi run quarto render
 ```
 
 Commit and push your changes to publish the site.
