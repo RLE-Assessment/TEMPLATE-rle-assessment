@@ -34,4 +34,4 @@ ipykernel = ">=7.1.0,<8"
 pytest = ">=8.0.0,<9"
 
 [tool.pixi.activation.env]
-GOOGLE_CLOUD_PROJECT = "PLACEHOLDER_GCP_PROJECT_ID"
+GOOGLE_CLOUD_PROJECT = "goog-rle-assessments"
