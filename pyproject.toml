@@ -18,6 +18,7 @@ platforms = ["osx-arm64", "linux-64"]
 iucn_get_data = { git = "https://github.com/RLE-Assessment/iucn-get-data" }
 # rle_python_gee = { git = "https://github.com/VorGeo/gee-redlist-python" }
 rle_python_gee = { git = "https://github.com/RLE-Assessment/rle-python-gee" }
+wkls = ">=1.0.1"
 
 
 [tool.pixi.tasks]
@@ -34,4 +35,4 @@ ipykernel = ">=7.1.0,<8"
 pytest = ">=8.0.0,<9"
 
 [tool.pixi.activation.env]
-GOOGLE_CLOUD_PROJECT = "goog-rle-assessments"
+GOOGLE_CLOUD_PROJECT = "PLACEHOLDER_GCP_PROJECT_ID"

@@ -259,11 +259,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zlib-1.3.1-hb9d3cd8_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zlib-ng-2.3.2-hceb46e0_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zstd-1.5.7-hb78ec9c_6.conda
-      - pypi: https://files.pythonhosted.org/packages/97/67/b9309e5351d4ff02720719c6ca01716ded33075fa486157db409bc5f47be/adbc_driver_manager-1.10.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/0b/f7/85273299ab57117850cc0a936c64151171fac4da49bc6fba0dad984a7c5f/affine-2.4.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/1e/d3/26bf1008eb3d2daa8ef4cacc7f3bfdc11818d111f7e2d0201bc6e3b49d45/annotated_doc-0.0.4-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5b/03/c17464bbf682ea87e7e3de2ddc63395e359a78ae9c01f55fc78759ecbd79/anywidget-0.9.21-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/1e/51/f3ab04c58d738ed8dcb190f8a30f0a2492f98f4a478e9abd5062ca2cc8a6/apache_sedona-1.8.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/20/7a/7e3b845352b3db21d2ad8cd8685fc98b29721d185a1e392baede38f9b6a5/bqplot-0.12.30-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/a1/b6/f39407d27d641a949496a52ab00220fe0635758e3cb7afb4b7328abe17e7/cartopy-0.25.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/98/78/01c019cdb5d6498122777c1a43056ebb3ebfeef2076d9d026bfe15583b2b/click-8.3.1-py3-none-any.whl
@@ -309,7 +307,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/f9/77/3869a426f6e752dde13f3868cdf16253ca0214f92107db79c1583c9aa07b/rasterio-1.4.4-cp311-cp311-manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/f2/98/7e6d147fd16a10a5f821db6e25f192265d6ecca3d82957a4fdd592cad49c/ratelim-0.1.6-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/14/25/b208c5683343959b670dc001595f2f3737e051da617f66c31f7c4fa93abc/rich-14.3.3-py3-none-any.whl
-      - pypi: git+https://github.com/RLE-Assessment/rle-python-gee#e16467c8abace3145363224ae6cc1ae89d708123
+      - pypi: git+https://github.com/RLE-Assessment/rle-python-gee#d3736356240e16d9ee4f541e93cfa7f7e6ded7c9
       - pypi: https://files.pythonhosted.org/packages/64/8d/0133e4eb4beed9e425d9a98ed6e081a55d195481b7632472be1af08d2f6b/rsa-4.9.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/a3/bb/bbae36d06c0fd670e8373da67096cd57058b57c9bad7d92969b5e3b730af/scooby-0.11.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/0f/ab/edd95492f6741d6411ed4a8d9caed797f86e4c17c97461b89df2ca7e4be0/sedonadb-0.2.0-cp311-cp311-manylinux_2_28_x86_64.whl
@@ -318,7 +316,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/c0/fdf9d3ee103ce66a55f0532835ad5e154226c5222423c6636ba049dc42fc/traittypes-0.2.3-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/4a/91/48db081e7a63bb37284f9fbcefda7c44c277b18b0e13fbc36ea2335b71e6/typer-0.24.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/a9/99/3ae339466c9183ea5b8ae87b34c0b897eda475d2aec2307cae60e5cd4f29/uritemplate-4.2.0-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/51/3e/3c92a4348f7213717469934e5a946deea6ca7513c2c230d3f997a9c61850/wkls-0.5.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/aa/c1/b8dcc28fec450150b08b01f6cc10555b73b2a5c044f771fe20bbf9b07b72/wkls-1.0.1-py3-none-any.whl
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/_openmp_mutex-4.5-7_kmp_llvm.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/anyio-4.12.1-pyhcf101f3_0.conda
@@ -566,11 +564,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zlib-1.3.1-h8359307_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zlib-ng-2.3.2-hed4e4f5_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstd-1.5.7-hbf9d68e_6.conda
-      - pypi: https://files.pythonhosted.org/packages/4b/37/b81d64da4b1a032df0798bbf8c2e3abf875f9dd319598308d2efebe06523/adbc_driver_manager-1.10.0-cp311-cp311-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/0b/f7/85273299ab57117850cc0a936c64151171fac4da49bc6fba0dad984a7c5f/affine-2.4.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/1e/d3/26bf1008eb3d2daa8ef4cacc7f3bfdc11818d111f7e2d0201bc6e3b49d45/annotated_doc-0.0.4-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5b/03/c17464bbf682ea87e7e3de2ddc63395e359a78ae9c01f55fc78759ecbd79/anywidget-0.9.21-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/86/36/150071e1d859f50d7ca947ce103a56011f061e942564287a4365c34891a6/apache_sedona-1.8.1-cp311-cp311-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/20/7a/7e3b845352b3db21d2ad8cd8685fc98b29721d185a1e392baede38f9b6a5/bqplot-0.12.30-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/68/06/38bcfeab9822acffc86474659d33c4dc3c5dec4e61e9927fb8cc8617f651/cartopy-0.25.0-cp311-cp311-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/98/78/01c019cdb5d6498122777c1a43056ebb3ebfeef2076d9d026bfe15583b2b/click-8.3.1-py3-none-any.whl
@@ -616,7 +612,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/ec/fa/fce8dc9f09e5bc6520b6fc1b4ecfa510af9ca06eb42ad7bdff9c9b8989d0/rasterio-1.4.4.tar.gz
       - pypi: https://files.pythonhosted.org/packages/f2/98/7e6d147fd16a10a5f821db6e25f192265d6ecca3d82957a4fdd592cad49c/ratelim-0.1.6-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/14/25/b208c5683343959b670dc001595f2f3737e051da617f66c31f7c4fa93abc/rich-14.3.3-py3-none-any.whl
-      - pypi: git+https://github.com/RLE-Assessment/rle-python-gee#e16467c8abace3145363224ae6cc1ae89d708123
+      - pypi: git+https://github.com/RLE-Assessment/rle-python-gee#d3736356240e16d9ee4f541e93cfa7f7e6ded7c9
       - pypi: https://files.pythonhosted.org/packages/64/8d/0133e4eb4beed9e425d9a98ed6e081a55d195481b7632472be1af08d2f6b/rsa-4.9.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/a3/bb/bbae36d06c0fd670e8373da67096cd57058b57c9bad7d92969b5e3b730af/scooby-0.11.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/ff/fa/d61c5c1eef096d2eaff534f3710d218b19390231935f3a2930d101d251d2/sedonadb-0.2.0-cp311-cp311-macosx_12_0_arm64.whl
@@ -625,7 +621,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/c0/fdf9d3ee103ce66a55f0532835ad5e154226c5222423c6636ba049dc42fc/traittypes-0.2.3-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/4a/91/48db081e7a63bb37284f9fbcefda7c44c277b18b0e13fbc36ea2335b71e6/typer-0.24.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/a9/99/3ae339466c9183ea5b8ae87b34c0b897eda475d2aec2307cae60e5cd4f29/uritemplate-4.2.0-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/51/3e/3c92a4348f7213717469934e5a946deea6ca7513c2c230d3f997a9c61850/wkls-0.5.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/aa/c1/b8dcc28fec450150b08b01f6cc10555b73b2a5c044f771fe20bbf9b07b72/wkls-1.0.1-py3-none-any.whl
 packages:
 - conda: https://conda.anaconda.org/conda-forge/linux-64/_libgcc_mutex-0.1-conda_forge.tar.bz2
   sha256: fe51de6107f9edc7aa4f786a70f4a883943bc9d39b3bb7307c04c41410990726
@@ -659,34 +655,6 @@ packages:
   purls: []
   size: 8325
   timestamp: 1764092507920
-- pypi: https://files.pythonhosted.org/packages/4b/37/b81d64da4b1a032df0798bbf8c2e3abf875f9dd319598308d2efebe06523/adbc_driver_manager-1.10.0-cp311-cp311-macosx_11_0_arm64.whl
-  name: adbc-driver-manager
-  version: 1.10.0
-  sha256: 4bd40c9b20be54c55b3ce64cabd5f35f29a61886574d990a1d5b5bdd7f81a7b6
-  requires_dist:
-  - typing-extensions
-  - pandas ; extra == 'dbapi'
-  - pyarrow>=14.0.1 ; extra == 'dbapi'
-  - duckdb ; extra == 'test'
-  - pandas ; extra == 'test'
-  - polars ; extra == 'test'
-  - pyarrow>=14.0.1 ; extra == 'test'
-  - pytest ; extra == 'test'
-  requires_python: '>=3.10'
-- pypi: https://files.pythonhosted.org/packages/97/67/b9309e5351d4ff02720719c6ca01716ded33075fa486157db409bc5f47be/adbc_driver_manager-1.10.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
-  name: adbc-driver-manager
-  version: 1.10.0
-  sha256: 92fdf3247aef506583e79b3b583c1bf93f28c70e771281a41843aba63c61f732
-  requires_dist:
-  - typing-extensions
-  - pandas ; extra == 'dbapi'
-  - pyarrow>=14.0.1 ; extra == 'dbapi'
-  - duckdb ; extra == 'test'
-  - pandas ; extra == 'test'
-  - polars ; extra == 'test'
-  - pyarrow>=14.0.1 ; extra == 'test'
-  - pytest ; extra == 'test'
-  requires_python: '>=3.10'
 - pypi: https://files.pythonhosted.org/packages/0b/f7/85273299ab57117850cc0a936c64151171fac4da49bc6fba0dad984a7c5f/affine-2.4.0-py3-none-any.whl
   name: affine
   version: 2.4.0
@@ -730,46 +698,6 @@ packages:
   - psygnal>=0.8.1
   - typing-extensions>=4.2.0
   - watchfiles>=0.18.0 ; extra == 'dev'
-  requires_python: '>=3.8'
-- pypi: https://files.pythonhosted.org/packages/1e/51/f3ab04c58d738ed8dcb190f8a30f0a2492f98f4a478e9abd5062ca2cc8a6/apache_sedona-1.8.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
-  name: apache-sedona
-  version: 1.8.1
-  sha256: cd86b55f9dd279de5d9c58cd2302655adc80b1527761ea263cb22bd82ad79a54
-  requires_dist:
-  - attrs
-  - shapely>=1.7.0
-  - pyspark>=3.4.0,<4.1.0 ; extra == 'spark'
-  - geopandas ; extra == 'pydeck-map'
-  - pydeck==0.8.0 ; extra == 'pydeck-map'
-  - geopandas ; extra == 'kepler-map'
-  - keplergl==0.3.2 ; extra == 'kepler-map'
-  - apache-flink>=1.19.0 ; extra == 'flink'
-  - sedonadb[geopandas] ; python_full_version >= '3.9' and extra == 'db'
-  - pyspark>=3.4.0,<4.1.0 ; extra == 'all'
-  - geopandas ; extra == 'all'
-  - pydeck==0.8.0 ; extra == 'all'
-  - keplergl==0.3.2 ; extra == 'all'
-  - rasterio>=1.2.10 ; extra == 'all'
-  requires_python: '>=3.8'
-- pypi: https://files.pythonhosted.org/packages/86/36/150071e1d859f50d7ca947ce103a56011f061e942564287a4365c34891a6/apache_sedona-1.8.1-cp311-cp311-macosx_11_0_arm64.whl
-  name: apache-sedona
-  version: 1.8.1
-  sha256: 432f56dc2c554806878b77c9459bd9e9aadc58107fa29df7c442da1e057aa5bf
-  requires_dist:
-  - attrs
-  - shapely>=1.7.0
-  - pyspark>=3.4.0,<4.1.0 ; extra == 'spark'
-  - geopandas ; extra == 'pydeck-map'
-  - pydeck==0.8.0 ; extra == 'pydeck-map'
-  - geopandas ; extra == 'kepler-map'
-  - keplergl==0.3.2 ; extra == 'kepler-map'
-  - apache-flink>=1.19.0 ; extra == 'flink'
-  - sedonadb[geopandas] ; python_full_version >= '3.9' and extra == 'db'
-  - pyspark>=3.4.0,<4.1.0 ; extra == 'all'
-  - geopandas ; extra == 'all'
-  - pydeck==0.8.0 ; extra == 'all'
-  - keplergl==0.3.2 ; extra == 'all'
-  - rasterio>=1.2.10 ; extra == 'all'
   requires_python: '>=3.8'
 - conda: https://conda.anaconda.org/conda-forge/noarch/appnope-0.1.4-pyhd8ed1ab_1.conda
   sha256: 8f032b140ea4159806e4969a68b4a3c0a7cab1ad936eb958a2b5ffe5335e19bf
@@ -5898,7 +5826,7 @@ packages:
   - markdown-it-py>=2.2.0
   - pygments>=2.13.0,<3.0.0
   requires_python: '>=3.8.0'
-- pypi: git+https://github.com/RLE-Assessment/rle-python-gee#e16467c8abace3145363224ae6cc1ae89d708123
+- pypi: git+https://github.com/RLE-Assessment/rle-python-gee#d3736356240e16d9ee4f541e93cfa7f7e6ded7c9
   name: rle-python-gee
   version: 0.1.13
   requires_dist:
@@ -6603,12 +6531,14 @@ packages:
   - pkg:pypi/widgetsnbextension?source=hash-mapping
   size: 889195
   timestamp: 1762040404362
-- pypi: https://files.pythonhosted.org/packages/51/3e/3c92a4348f7213717469934e5a946deea6ca7513c2c230d3f997a9c61850/wkls-0.5.0-py3-none-any.whl
+- pypi: https://files.pythonhosted.org/packages/aa/c1/b8dcc28fec450150b08b01f6cc10555b73b2a5c044f771fe20bbf9b07b72/wkls-1.0.1-py3-none-any.whl
   name: wkls
-  version: 0.5.0
-  sha256: ae0367ab0c9a5b208bb115e3f381a82203708b7e649768416b16c826eba56a2b
+  version: 1.0.1
+  sha256: 8f6374c7f2fea0b663fcc6840c05c6372f8f3dfaf4f5189b412b7ff6c99921e5
   requires_dist:
-  - apache-sedona[db]>=1.8.0
+  - geoarrow-pyarrow>=0.2.0
+  - pyarrow>=14.0.0
+  - sedonadb>=0.2.0
   - sqlescapy>=1.0.1
   requires_python: '>=3.9'
 - conda: https://conda.anaconda.org/conda-forge/linux-64/xerces-c-3.3.0-h988505b_0.conda
