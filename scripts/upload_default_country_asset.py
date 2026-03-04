@@ -9,7 +9,7 @@ import google.auth
 
 
 def upload_default_country_asset(project: str) -> None:
-    """Upload a 3-feature demo FeatureCollection at Null Island."""
+    """Upload a 3-feature default country FeatureCollection."""
     asset_id = f"projects/{project}/assets/ruritania/null_island_ecosystems"
 
     credentials, _ = google.auth.default(
@@ -156,7 +156,7 @@ def upload_default_country_asset(project: str) -> None:
         assetId=asset_id,
     )
     task.start()
-    print("Uploading demo asset…")
+    print("Uploading default country asset…")
 
     while task.active():
         time.sleep(2)
