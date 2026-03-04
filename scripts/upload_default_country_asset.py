@@ -1,4 +1,4 @@
-"""Upload the Null Island demo ecosystem FeatureCollection to Earth Engine."""
+"""Upload the default country ecosystem FeatureCollection to Earth Engine."""
 
 import argparse
 import os
@@ -25,7 +25,7 @@ def upload_default_country_asset(project: str) -> None:
     except ee.EEException:
         pass
 
-    # Create demo/ folder
+    # Create ruritania/ folder
     folder_id = f"projects/{project}/assets/ruritania"
     try:
         ee.data.createAsset({"type": "FOLDER"}, folder_id)
@@ -45,7 +45,6 @@ def upload_default_country_asset(project: str) -> None:
 
     # Null Island polygon from:
     # https://github.com/nixta/null-island/blob/master/GeoJSON/null-island.geo.json
-    # based on: https://github.com/gnip/null-island
     island_coords = [
         [-0.01316, 0.02599], [-0.01316, 0.02648], [-0.01318, 0.02976],
         [-0.01294, 0.03041], [-0.00926, 0.03472], [-0.00916, 0.03482],
