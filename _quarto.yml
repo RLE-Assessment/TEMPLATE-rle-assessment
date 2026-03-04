@@ -27,6 +27,7 @@ format:
     documentclass: scrreprt
 
 show-instructions: true
+tbl-cap-location: top
 
 # Content Constants
 country-name: PLACEHOLDER_COUNTRY_NAME

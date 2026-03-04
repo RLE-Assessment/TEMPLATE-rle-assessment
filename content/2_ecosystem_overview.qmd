@@ -14,18 +14,8 @@ numbering:
 
 # Terrestrial Ecosystems of {{< meta country-name >}}
 
-The {{< meta country-name >}} ecosystem typology includes of ... ecosystem types across ... biomes (Table ???).
-The ecosystem typology is consistent with the IUCN global ecosystem typology (Keith et al., 2019)
-to support crosswalks and comparisons with Red Lists of ecosystems in other countries and
-regions. The {{< meta country-name >}} ecosystem typology has a hierarchical structure, where each ecosystem type
-is assigned to a realm, biome and functional group (ecotype).
-Realm refers to one of the four component media in the biosphere (Figure 2.1???), biome is the
-segment of the biosphere united by major functional traits and macro-environmental features
-(Figure 2.2???), and functional group is a group of related ecosystems within a biome (Figure 2.3???). The
-distribution of {{< meta country-name >}}’s ecosystem types is shown in Figure 2.4, and map data is made publicly
-available (Murray et al., 2020).
-
 ```{python}
+#| echo: false
 from pprint import pprint
 
 import geopandas as gpd
@@ -38,19 +28,71 @@ print(f'{rle_python_gee.__version__ = }')
 print(f'{iucn_get_data.__version__ = }')
 ```
 
-Load up the country-level configuration.
-
 ```{python}
+# Load up the country-level configuration.
 with open('../config/country_config.yaml', 'r') as f:
     config = yaml.safe_load(f)
+pprint(config)
 ```
 
-Initialize Google Earth Engine.
-
 ```{python}
+# Initialize Google Earth Engine.
 import os
 rle_python_gee.ee_auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
 ```
+
+
+```{python}
+#| echo: false
+# Load the country's ecosystems data as a pandas DataFrame.
+asset_id = config['ecosystem_gee_asset']['id']
+
+ecosystems = rle_python_gee.Ecosystems(
+    asset_id,
+    get_level3_column='EFG1',
+    get_level456_column='Glob_Typol'
+)
+
+ecosystems_df = ecosystems.functional_group_dataframe()
+ecosystems_df
+```
+
+```{python}
+#| echo: false
+ecosystem_type_count = len(ecosystems_df)
+biome_count = len(ecosystems_df.index.get_level_values('EFG1').unique())
+```
+
+
+The {{< meta country-name >}} ecosystem typology includes `{python} ecosystem_type_count` ecosystem types across `{python} biome_count` biomes (@tbl-typology).
+The ecosystem typology is consistent with the IUCN global ecosystem typology [@keith2020get]
+to support crosswalks and comparisons with Red Lists of ecosystems in other countries and
+regions. The {{< meta country-name >}} ecosystem typology has a hierarchical structure, where each ecosystem type is assigned to a realm, biome and functional group (ecotype).
+Realm refers to one of the four component media in the biosphere (Figure [2.1???]{.mark}),
+biome is the segment of the biosphere united by major functional traits and macro-environmental features (Figure [2.2???]{.mark}),
+and functional group is a group of related ecosystems within a biome (Figure [2.3???]{.mark}).
+The distribution of {{< meta country-name >}}’s ecosystem types is shown in Figure [2.4]{.mark},
+and map data is made publicly available ([reference?]{.mark}).
+
+```{python}
+#| echo: false
+typology_es = iucn_get_data.Typology(
+    language="spanish",
+    ecosystems=ecosystems_df.drop(columns=['COD_new', 'ECRG', 'EFG2', 'EFG_Etter', 'GETyp_CODn'], errors='ignore'),
+    ecosystems_functional_group_column='EFG1'
+)
+# typology_es.dataframe
+```
+
+
+```{python}
+#| echo: false
+#| label: tbl-typology
+#| tbl-cap: "List of the terrestrial ecosystems of {{< meta country-name >}} developed in this project."
+typology_es
+```
+
+
 
 ::: {.content-hidden unless-meta="show-instructions"}
 
@@ -65,38 +107,6 @@ rle_python_gee.ee_auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
 in the `_quarto.yml` file.**
 ::::
 :::
-
-
-Load the country's ecosystems data as a pandas DataFrame.
-
-```{python}
-asset_id = config['ecosystem_gee_asset']['id']
-
-ecosystems = rle_python_gee.Ecosystems(
-    asset_id,
-    get_level3_column='EFG1',
-    get_level456_column='Glob_Typol'
-)
-
-ecosystems_df = ecosystems.functional_group_dataframe()
-ecosystems_df
-```
-
-Create an IUCN Global Ecosystem Typology (GET) in spanish using the ecosystems data.
-
-```{python}
-typology_es = iucn_get_data.Typology(
-    language="spanish",
-    ecosystems=ecosystems_df.drop(columns=['COD_new', 'ECRG', 'EFG2', 'EFG_Etter', 'GETyp_CODn'], errors='ignore'),
-    ecosystems_functional_group_column='EFG1'
-)
-typology_es.dataframe
-```
-
-```{python}
-print(typology_es)
-```
-
 
 Count the number of ecosystem types (functionalgroups)
 ```{python}
