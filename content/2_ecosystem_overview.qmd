@@ -7,15 +7,16 @@ format:
       - text: Download Notebook
         icon: journal-code
         href: 2_ecosystem_overview.ipynb
+title: "Terrestrial Ecosystems of {{< meta country-name >}}"
 numbering:
   figure:
     enumerator: 2.%s
 ---
 
-# Terrestrial Ecosystems of {{< meta country-name >}}
-
 ```{python}
 #| echo: false
+#| output: false
+import os
 from pprint import pprint
 
 import geopandas as gpd
@@ -29,6 +30,8 @@ print(f'{iucn_get_data.__version__ = }')
 ```
 
 ```{python}
+#| echo: false
+#| output: false
 # Load up the country-level configuration.
 with open('../config/country_config.yaml', 'r') as f:
     config = yaml.safe_load(f)
@@ -36,14 +39,15 @@ pprint(config)
 ```
 
 ```{python}
+#| echo: false
 # Initialize Google Earth Engine.
-import os
 rle_python_gee.ee_auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
 ```
 
 
 ```{python}
 #| echo: false
+#| output: false
 # Load the country's ecosystems data as a pandas DataFrame.
 asset_id = config['ecosystem_gee_asset']['id']
 
@@ -107,24 +111,3 @@ typology_es
 in the `_quarto.yml` file.**
 ::::
 :::
-
-Count the number of ecosystem types (functionalgroups)
-```{python}
-print(f'Number of ecosystem types (functional groups): {len(typology_es.get_groups())}')
-```
-
-Count the number of biomes
-```{python}
-print(f'Number of biomes: {len(typology_es.get_biomes())}')
-```
-
-Count the number of realms
-```{python}
-print(f'Number of realms: {len(typology_es.realms)}')
-```
-
-Display the data in a nice table.
-
-```{python}
-typology_es
-```

@@ -2,9 +2,9 @@ project:
   type: book
 
 book:
-  title: "Threatened ecosystems of PLACEHOLDER_COUNTRY_NAME"
+  title: "Threatened ecosystems of Ruritania"
   subtitle: An IUCN Red List of Ecosystems Assessment
-  date: "2000-01-01"
+  date: "1234-12-31"
   chapters:
     - index.qmd
     - content/0.1_foreword.qmd
@@ -30,7 +30,7 @@ show-instructions: true
 tbl-cap-location: top
 
 # Content Constants
-country-name: PLACEHOLDER_COUNTRY_NAME
-country-code: CO  # ISO 3166-1 alpha-2 country code
+country-name: Ruritania
+country-code: XX  # https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 version: 0.1
-year: 2000
+year: 1234
