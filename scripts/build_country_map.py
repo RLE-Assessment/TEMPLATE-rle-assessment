@@ -9,7 +9,7 @@ from pathlib import Path
 
 import yaml
 
-from gee_redlist import create_country_map
+from rle-python-gee import create_country_map
 
 # Configuration
 IMAGES_DIR = Path("images")
