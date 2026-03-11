@@ -24,6 +24,7 @@ import yaml
 
 import rle_python_gee
 import iucn_get_data
+from iucn_get_data import open_ecosystem_map, Typology
 
 print(f'{rle_python_gee.__version__ = }')
 print(f'{iucn_get_data.__version__ = }')
@@ -51,7 +52,7 @@ rle_python_gee.ee_auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
 # Load the country's ecosystems data as a pandas DataFrame.
 asset_id = config['ecosystem_gee_asset']['id']
 
-ecosystems = rle_python_gee.Ecosystems(
+ecosystems = open_ecosystem_map(
     asset_id,
     get_level3_column='EFG1',
     get_level456_column='Glob_Typol'
@@ -72,10 +73,10 @@ The {{< meta country-name >}} ecosystem typology includes `{python} ecosystem_ty
 The ecosystem typology is consistent with the IUCN global ecosystem typology [@keith2020get]
 to support crosswalks and comparisons with Red Lists of ecosystems in other countries and
 regions. The {{< meta country-name >}} ecosystem typology has a hierarchical structure, where each ecosystem type is assigned to a realm, biome and functional group (ecotype).
-Realm refers to one of the four component media in the biosphere (Figure [2.1???]{.mark}),
-biome is the segment of the biosphere united by major functional traits and macro-environmental features (Figure [2.2???]{.mark}),
-and functional group is a group of related ecosystems within a biome (Figure [2.3???]{.mark}).
-The distribution of {{< meta country-name >}}’s ecosystem types is shown in Figure [2.4]{.mark},
+Realm refers to one of the four component media in the biosphere (@fig-realm-distribution),
+biome is the segment of the biosphere united by major functional traits and macro-environmental features (@fig-biome-distribution),
+and functional group is a group of related ecosystems within a biome (@fig-functional-group-distribution).
+The distribution of {{< meta country-name >}}’s ecosystem types is shown in @fig-heat-map-ecosystems,
 and map data is made publicly available ([reference?]{.mark}).
 
 ```{python}
@@ -85,7 +86,6 @@ typology_es = iucn_get_data.Typology(
     ecosystems=ecosystems_df.drop(columns=['COD_new', 'ECRG', 'EFG2', 'EFG_Etter', 'GETyp_CODn'], errors='ignore'),
     ecosystems_functional_group_column='EFG1'
 )
-# typology_es.dataframe
 ```
 
 
@@ -96,6 +96,42 @@ typology_es = iucn_get_data.Typology(
 typology_es
 ```
 
+```{python}
+#| echo: false
+#| label: fig-realm-distribution
+#| fig-cap: "The distribution of the realms of {{< meta country-name >}}."
+m_realm = ecosystems.to_realm_map(view_state=config['view_state'])
+m_realm
+```
+
+```{python}
+#| echo: false
+#| label: fig-biome-distribution
+#| fig-cap: "The distribution of the biomes of {{< meta country-name >}}."
+m_biome = ecosystems.to_biome_map(view_state=config['view_state'])
+m_biome
+```
+
+```{python}
+#| echo: false
+#| label: fig-functional-group-distribution
+#| fig-cap: "The distribution of the biomes of {{< meta country-name >}}."
+ecosystems.to_functional_group_map(view_state=config['view_state'])
+```
+
+```{python}
+#| echo: false
+#| label: fig-heat-map-ecosystems
+#| fig-cap: "Heat map of the distribution of natural ecosystem types of {{< meta country-name >} mapped as the number of ecosystems intersecting a 10 x 10 km grid."
+print('(Heat map of the distribution of natural ecosystem types not implemented yet.)')
+```
+
+```{python}
+from ipywidgets import jslink
+
+# Use .map to access the underlying lonboard.Map from ClickableMap
+jslink((m_realm.map, 'view_state'), (m_biome.map, 'view_state'))
+```
 
 
 ::: {.content-hidden unless-meta="show-instructions"}
