@@ -126,13 +126,6 @@ ecosystems.to_functional_group_map(view_state=config['view_state'])
 print('(Heat map of the distribution of natural ecosystem types not implemented yet.)')
 ```
 
-```{python}
-from ipywidgets import jslink
-
-# Use .map to access the underlying lonboard.Map from ClickableMap
-jslink((m_realm.map, 'view_state'), (m_biome.map, 'view_state'))
-```
-
 
 ::: {.content-hidden unless-meta="show-instructions"}
 
