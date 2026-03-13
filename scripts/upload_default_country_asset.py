@@ -10,7 +10,7 @@ import google.auth
 
 def upload_default_country_asset(project: str) -> None:
     """Upload a 3-feature default country FeatureCollection."""
-    asset_id = f"projects/{project}/assets/ruritania/null_island_ecosystems"
+    asset_id = f"projects/{project}/assets/ruritania/ruritania_ecosystems"
 
     credentials, _ = google.auth.default(
         scopes=["https://www.googleapis.com/auth/earthengine"],
@@ -152,7 +152,7 @@ def upload_default_country_asset(project: str) -> None:
 
     task = ee.batch.Export.table.toAsset(
         collection=fc,
-        description="null_island_ecosystems",
+        description="ruritania_ecosystems",
         assetId=asset_id,
     )
     task.start()
