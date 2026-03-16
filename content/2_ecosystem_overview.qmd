@@ -50,12 +50,10 @@ rle_python_gee.ee_auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
 #| echo: false
 #| output: false
 # Load the country's ecosystems data as a pandas DataFrame.
-asset_id = config['ecosystem_gee_asset']['id']
-
 ecosystems = open_ecosystem_map(
-    asset_id,
-    get_level3_column='EFG1',
-    get_level456_column='Glob_Typol'
+    config['ecosystem_gee_asset']['id'],
+    get_level3_column=config['ecosystem_gee_asset']['functional_group_column'],
+    get_level456_column=config['ecosystem_gee_asset']['ecosystem_column']
 )
 
 ecosystems_df = ecosystems.functional_group_dataframe()
