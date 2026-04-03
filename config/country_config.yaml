@@ -6,3 +6,5 @@ view_state:
   zoom: 11
 ecosystem_gee_asset:
   id: projects/goog-rle-assessments/assets/ruritania/ruritania_ecosystems
+  ecosystem_column: ECO_CODE
+  functional_group_column: EFG1
