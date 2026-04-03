@@ -9,6 +9,9 @@
 **/*.quarto_ipynb
 **/execute-results/
 
+# uv
+uv.lock
+
 # Python files
 *.pyc
 __pycache__/
