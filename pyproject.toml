@@ -15,7 +15,7 @@ platforms = ["osx-arm64", "linux-64"]
 [tool.pixi.pypi-dependencies]
 # For local development use the editable paths below:
 # iucn_get_data = { path = "../iucn-get-data", editable = true }
-# rle_python_gee = { path = "../../VorGeo/gee-redlist-python", editable = true }
+# rle_python_gee = { path = "../rle-python-gee", editable = true }
 
 # For production use:
 iucn_get_data = { git = "https://github.com/RLE-Assessment/iucn-get-data" }
