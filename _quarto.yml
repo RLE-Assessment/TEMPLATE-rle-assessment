@@ -5,6 +5,8 @@ book:
   title: "Threatened ecosystems of Ruritania"
   subtitle: An IUCN Red List of Ecosystems Assessment
   date: "1234-12-31"
+  sidebar:
+    collapse-level: 1
   chapters:
     - index.qmd
     - content/0.1_foreword.qmd
@@ -14,6 +16,7 @@ book:
     - content/0.5_summary.qmd
     - content/1.0_introduction.qmd
     - content/2_ecosystem_overview.qmd
+    - content/3_ecosystem_description.qmd
     - references.qmd
 
 bibliography: 
@@ -23,6 +26,7 @@ bibliography:
 format:
   html:
     theme: cosmo
+    css: styles.css
   pdf:
     documentclass: scrreprt
 
