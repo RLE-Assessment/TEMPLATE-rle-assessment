@@ -1,4 +1,4 @@
-"""Update the ecosystem GEE asset ID in country_config.yaml."""
+"""Update the ecosystem data source in country_config.yaml."""
 
 import argparse
 
@@ -10,20 +10,20 @@ CONFIG_PATH = "config/country_config.yaml"
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "asset_id",
-        help="Earth Engine asset ID (e.g. projects/my-project/assets/my-ecosystems)",
+        "data",
+        help="Ecosystem data source (EE asset ID, gs:// URI, or local file path)",
     )
     args = parser.parse_args()
 
     with open(CONFIG_PATH) as f:
         config = yaml.safe_load(f)
 
-    config["ecosystem_gee_asset"]["id"] = args.asset_id
+    config["ecosystem_source"]["data"] = args.data
 
     with open(CONFIG_PATH, "w") as f:
         yaml.dump(config, f, default_flow_style=False, sort_keys=False)
 
-    print(f"Updated {CONFIG_PATH}: ecosystem_gee_asset.id = {args.asset_id}")
+    print(f"Updated {CONFIG_PATH}: ecosystem_source.data = {args.data}")
 
 
 if __name__ == "__main__":
