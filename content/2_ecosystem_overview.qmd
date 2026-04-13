@@ -51,9 +51,9 @@ rle_python_gee.ee_auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
 #| output: false
 # Load the country's ecosystems data as a pandas DataFrame.
 ecosystems = open_ecosystem_map(
-    config['ecosystem_gee_asset']['id'],
-    get_level3_column=config['ecosystem_gee_asset']['functional_group_column'],
-    get_level456_column=config['ecosystem_gee_asset']['ecosystem_column']
+    config['ecosystem_source']['data'],
+    get_level3_column=config['ecosystem_source']['functional_group_column'],
+    get_level456_column=config['ecosystem_source']['ecosystem_code_column']
 )
 
 ecosystems_df = ecosystems.functional_group_dataframe()
@@ -82,7 +82,9 @@ and map data is made publicly available ([reference?]{.mark}).
 typology_es = iucn_get_data.Typology(
     language="spanish",
     ecosystems=ecosystems_df.drop(columns=['COD_new', 'ECRG', 'EFG2', 'EFG_Etter', 'GETyp_CODn'], errors='ignore'),
-    ecosystems_functional_group_column='EFG1'
+    ecosystems_functional_group_column='EFG1',
+    ecosystems_column='ECO_CODE',
+    ecosystem_name_column='ECO_NAME',
 )
 ```
 
