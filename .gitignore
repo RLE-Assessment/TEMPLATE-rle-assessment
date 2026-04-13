@@ -8,6 +8,8 @@
 /_book/
 **/*.quarto_ipynb
 **/execute-results/
+config/ecosystems/*
+content/3_ecosystem_assessments/*
 
 # uv
 uv.lock
