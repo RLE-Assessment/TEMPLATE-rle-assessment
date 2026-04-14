@@ -25,10 +25,6 @@ book:
       chapters:
         - content/3_ecosystem_assessments/T1.1.1/T1.1.1.qmd
         - content/3_ecosystem_assessments/T1.1.1/T1.1.1_crit_b.qmd
-    - part: "T6.5.1 - Null Island Alpine Grassland"
-      chapters:
-        - content/3_ecosystem_assessments/T6.5.1/T6.5.1.qmd
-        - content/3_ecosystem_assessments/T6.5.1/T6.5.1_crit_b.qmd
     - references.qmd
 
 bibliography: 

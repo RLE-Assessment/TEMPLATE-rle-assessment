@@ -1,0 +1,95 @@
+---
+jupyter: python3
+---
+
+# Criterion B Details {.unnumbered}
+
+```{python}
+#| echo: false
+
+# Default ecosystem code for template development.
+# This line is replaced by build_ecosystem_pages.py for each ecosystem.
+ecosystem_code = 'M1.1.1'
+```
+
+```{python}
+import os
+import yaml
+from pathlib import Path
+from lonboard import Map
+from rle_python_gee.ecosystems import Ecosystems
+from rle_python_gee.eoo import make_eoo
+from rle_python_gee.aoo import make_aoo_grid
+```
+
+```{python}
+# Load the country config
+project_root = os.environ.get('PIXI_PROJECT_ROOT', str(Path('..').resolve()))
+config_path = Path(project_root) / 'config' / 'country_config.yaml'
+with open(config_path) as f:
+    config = yaml.safe_load(f)
+```
+
+# Load Ecosystem Data
+
+```{python}
+source = config['ecosystem_source']
+ecosystems = Ecosystems.from_file(
+    source['data'],
+    ecosystem_column=source['ecosystem_code_column'],
+)
+ecosystem = ecosystems.filter(ecosystem_code)
+print(f'{ecosystem.size()=}')
+```
+
+# Extent of Occurrence (EOO) (subcriterion B1)
+
+```{python}
+eoo = make_eoo(ecosystem).compute()
+print(f'EOO area: {eoo.area_km2:.0f} km²')
+```
+
+```{python}
+display(Map(layers=eoo.to_layer() + ecosystem.to_layer()))
+```
+
+# Area of Occupancy (AOO) (subcriterion B2)
+
+The protocol for this adjustment includes the following steps:
+
+> - Intersect AOO grid with the ecosystem's distribution map.
+> - Calculate extent of the ecosystem type in each grid cell ('area') and sum these areas to obtain the total ecosystem area ('total area').
+> - Arrange grid cells in ascending order based on their area (smaller first).
+> - Calculate accumulated sum of area per cell ('cumulative area').
+> - Calculate 'cumulative proportion' by dividing 'cumulative area' by 'total area'.
+> - Calculate AOO by counting the number of cells with a 'cumulative proportion' greater than 0.01.
+
+```{python}
+aoo_grid = make_aoo_grid(ecosystems).compute()
+aoo_grid_filtered = aoo_grid.filter_by_ecosystem(ecosystem_code)
+```
+
+```{python}
+aoo_count = ecosystem.calculate_aoo()
+print(f'AOO: {aoo_count} grid cells')
+```
+
+```{python}
+display(Map(layers=aoo_grid_filtered.to_layer() + ecosystem.to_layer()))
+```
+
+# Criterion B Summary
+
+```{python}
+#| echo: false
+from IPython.display import Markdown, display
+
+slug = ecosystem_code.lower().replace('.', '-')
+display(
+    Markdown(
+        f'AOO and EOO were measured as '
+        f'{aoo_count} 10 x 10 km grid cells '
+        f'and {eoo.area_km2:.0f} km², respectively. '
+    )
+)
+```
