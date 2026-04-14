@@ -41,8 +41,10 @@ ecosystems = Ecosystems.from_file(
     functional_group_column=source['functional_group_column']
 )
 ecosystem = ecosystems.filter(ecosystem_code)
-print(f'{ecosystem.size()=}')
+print(f'{ecosystem.size() = }')
 ```
+
+Display a map of ecosystem `{ecosystem_code}`
 
 ```{python}
 #| echo: true
@@ -52,14 +54,43 @@ ecosystem.to_map()
 
 # Extent of Occurrence (EOO) (subcriterion B1)
 
+> **Extent of occurrence (EOO).** The EOO of an ecosystem is the area (km2) of a minimum convex polygon – the smallest polygon in which no internal angle exceeds 180° that encompasses all known current spatial occurrences of the ecosystem type. 
+> 
+> The minimum convex polygon (also known as a convex hull) must not exclude any areas, discontinuities or disjunctions, regardless of whether the ecosystem can occur in those areas or not. Regions such as oceans (for terrestrial ecosystems), land (for coastal or marine ecosystems), or areas outside the study area (such as in a different country) must remain included within the minimum convex polygon to ensure that this standardised method is comparable across ecosystem types. In addition, these features contribute to spreading risks across the distribution of the ecosystem by making different parts of its distribution more spatially independent.
+
+## Calculate EOO
+
+Start by calculating the convex hull of the ecosystem's distribution.
+
+```{python}
+#| echo: true
+from lonboard import Map
+from rle_python_gee.eoo import make_eoo
+
+eoo_convex_poly = make_eoo(ecosystem).compute()
+display(Map(layers=eoo_convex_poly.to_layer() + ecosystem.to_layer()))
+```
+
+Calculate the area of the convex polygon.
+
+```{python}
+#| echo: true
+#| output: false
+print(f'EOO is {eoo_convex_poly.area_km2:.1f} km2')
+```
+
+
+
 ```{python}
 eoo = make_eoo(ecosystem).compute()
 print(f'EOO area: {eoo.area_km2:.0f} km²')
 ```
 
+
 ```{python}
-display(Map(layers=eoo.to_layer() + ecosystem.to_layer()))
+assert eoo.area_km2 == eoo_convex_poly.area_km2
 ```
+
 
 # Area of Occupancy (AOO) (subcriterion B2)
 
