@@ -7,4 +7,5 @@ view_state:
 ecosystem_source:
   data: https://storage.googleapis.com/rle_test_data/null_island.geojson
   ecosystem_code_column: ECO_CODE
+  ecosystem_name_column: ECO_NAME
   functional_group_column: EFG1

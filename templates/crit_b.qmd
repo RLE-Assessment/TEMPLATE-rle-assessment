@@ -5,7 +5,7 @@ jupyter: python3
 # Criterion B Details {.unnumbered}
 
 ```{python}
-#| echo: false
+#| echo: true
 
 # Default ecosystem code for template development.
 # This line is replaced by build_ecosystem_pages.py for each ecosystem.
@@ -37,9 +37,17 @@ source = config['ecosystem_source']
 ecosystems = Ecosystems.from_file(
     source['data'],
     ecosystem_column=source['ecosystem_code_column'],
+    ecosystem_name_column=source['ecosystem_name_column'],
+    functional_group_column=source['functional_group_column']
 )
 ecosystem = ecosystems.filter(ecosystem_code)
 print(f'{ecosystem.size()=}')
+```
+
+```{python}
+#| echo: true
+#| output: true
+ecosystem.to_map()
 ```
 
 # Extent of Occurrence (EOO) (subcriterion B1)
