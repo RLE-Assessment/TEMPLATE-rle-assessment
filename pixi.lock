@@ -330,7 +330,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/f9/77/3869a426f6e752dde13f3868cdf16253ca0214f92107db79c1583c9aa07b/rasterio-1.4.4-cp311-cp311-manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/f2/98/7e6d147fd16a10a5f821db6e25f192265d6ecca3d82957a4fdd592cad49c/ratelim-0.1.6-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/82/3b/64d4899d73f91ba49a8c18a8ff3f0ea8f1c1d75481760df8c68ef5235bf5/rich-15.0.0-py3-none-any.whl
-      - pypi: git+https://github.com/RLE-Assessment/rle-python-gee#836fd055a384709605dddbad0396d2545795341a
+      - pypi: git+https://github.com/RLE-Assessment/rle-python-gee#bac1e0e5db6df71ad5f755107fa6633dd8842464
       - pypi: https://files.pythonhosted.org/packages/6a/52/5ccdc01f7a8a61357d15a66b5d8a6580aa8529cb33f32e6cbb71c52622c5/s3fs-2026.3.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/a3/bb/bbae36d06c0fd670e8373da67096cd57058b57c9bad7d92969b5e3b730af/scooby-0.11.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/01/8d/2d81e8f2be6b4432a1fd5aefbcbabbf6908bb441c4c29afe0383ca58ec13/sedonadb-0.3.0-cp311-cp311-manylinux_2_28_x86_64.whl
@@ -659,7 +659,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/ec/fa/fce8dc9f09e5bc6520b6fc1b4ecfa510af9ca06eb42ad7bdff9c9b8989d0/rasterio-1.4.4.tar.gz
       - pypi: https://files.pythonhosted.org/packages/f2/98/7e6d147fd16a10a5f821db6e25f192265d6ecca3d82957a4fdd592cad49c/ratelim-0.1.6-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/82/3b/64d4899d73f91ba49a8c18a8ff3f0ea8f1c1d75481760df8c68ef5235bf5/rich-15.0.0-py3-none-any.whl
-      - pypi: git+https://github.com/RLE-Assessment/rle-python-gee#836fd055a384709605dddbad0396d2545795341a
+      - pypi: git+https://github.com/RLE-Assessment/rle-python-gee#bac1e0e5db6df71ad5f755107fa6633dd8842464
       - pypi: https://files.pythonhosted.org/packages/6a/52/5ccdc01f7a8a61357d15a66b5d8a6580aa8529cb33f32e6cbb71c52622c5/s3fs-2026.3.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/a3/bb/bbae36d06c0fd670e8373da67096cd57058b57c9bad7d92969b5e3b730af/scooby-0.11.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/74/f5/0dbed9a7fe70e09f0c80ab41b5d533af13a8104af87d0fdfc3dbb294ba30/sedonadb-0.3.0-cp311-cp311-macosx_12_0_arm64.whl
@@ -6374,7 +6374,7 @@ packages:
   - markdown-it-py>=2.2.0
   - pygments>=2.13.0,<3.0.0
   requires_python: '>=3.9.0'
-- pypi: git+https://github.com/RLE-Assessment/rle-python-gee#836fd055a384709605dddbad0396d2545795341a
+- pypi: git+https://github.com/RLE-Assessment/rle-python-gee#bac1e0e5db6df71ad5f755107fa6633dd8842464
   name: rle-python-gee
   version: 0.1.14
   requires_dist:
