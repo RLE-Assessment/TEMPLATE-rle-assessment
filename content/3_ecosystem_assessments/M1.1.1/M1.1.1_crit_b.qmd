@@ -11,6 +11,8 @@ jupyter: python3
 ecosystem_code = 'M1.1.1'
 ```
 
+Import Python modules.
+
 ```{python}
 import os
 import yaml
@@ -21,8 +23,9 @@ from rle_python_gee.eoo import make_eoo
 from rle_python_gee.aoo import make_aoo_grid
 ```
 
+Load the country config file.
+
 ```{python}
-# Load the country config
 project_root = os.environ.get('PIXI_PROJECT_ROOT', str(Path('..').resolve()))
 config_path = Path(project_root) / 'config' / 'country_config.yaml'
 with open(config_path) as f:
@@ -222,8 +225,6 @@ print(f'AOO is {aoo} cells')
 
 ### AOO Calculation (direct call)
 
-
-
 ```{python}
 aoo_count = ecosystem.aoo
 print(f'AOO: {aoo_count} grid cells')
@@ -235,7 +236,6 @@ display(Map(layers=aoo_grid_filtered.to_layer() + ecosystem.to_layer()))
 
 ## Criterion B Summary
 
-Ecosystem `{python} f"{ecosystem_code} - {ecosystem.ecosystem_name(ecosystem_code)}"`
-
-- EOO =  `{python} f"{eoo:.0f}"` km²
-- AOO =  `{python} aoo` cells
+| Ecosystem Code | Ecosystem Name | EOO | AOO |
+|---------------|----------------|-----|-----|
+| `{python} ecosystem_code` | `{python} ecosystem.ecosystem_name(ecosystem_code)` | `{python} f"{eoo:.0f}"` km² | `{python} aoo` cells |

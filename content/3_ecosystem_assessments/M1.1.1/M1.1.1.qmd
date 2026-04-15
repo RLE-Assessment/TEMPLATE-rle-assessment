@@ -160,21 +160,21 @@ Reviewed by: `{python} credits.get('reviewed_by', 'TODO')`
 Contributions by: `{python} credits.get('contributions_by', 'TODO')`
 
 <!-- Criterion A -->
-[[Criterion A](../../7_glossary.md#criterion-a):]{.parameter}&nbsp;
+[Criterion A:]{.parameter}&nbsp;
 `{python} eco.get('criterion_a_description', 'TODO')`
 
 <!-- Criterion B -->
-[[Criterion B](../../7_glossary.md#criterion-b):]{.parameter}&nbsp;
+[Criterion B:]{.parameter}&nbsp;
 `{python} eco.get('criterion_b_description', 'TODO')`
 
 <!-- Criterion C -->
-[[Criterion C](../../7_glossary.md#criterion-c):]{.parameter}&nbsp;
+[Criterion C:]{.parameter}&nbsp;
 `{python} eco.get('criterion_c_description', 'TODO')`
 
 <!-- Criterion D -->
-[[Criterion D](../../7_glossary.md#criterion-d):]{.parameter}&nbsp;
+[Criterion D:]{.parameter}&nbsp;
 `{python} eco.get('criterion_d_description', 'TODO')`
 
 <!-- Criterion E -->
-[[Criterion E](../../7_glossary.md#criterion-e):]{.parameter}&nbsp;
+[Criterion E:]{.parameter}&nbsp;
 `{python} eco.get('criterion_e_description', 'TODO')`
