@@ -35,6 +35,7 @@ pyyaml = ">=6.0.3,<7"
 geopandas = ">=1.1.3,<2"
 ipykernel = ">=7.2.0,<8"
 pytest = ">=9.0.2,<10"
+libgdal-arrow-parquet = ">=3.12.3,<4"
 
 [tool.pixi.activation.env]
 GOOGLE_CLOUD_PROJECT = "goog-rle-assessments"
