@@ -10,6 +10,10 @@
 **/execute-results/
 config/ecosystems/*
 content/3_ecosystem_assessments/*
+templates/assessment.html
+templates/assessment_files/*
+templates/crit_b.html
+templates/crit_b_files/*
 
 # uv
 uv.lock
