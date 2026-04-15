@@ -29,7 +29,7 @@ with open(config_path) as f:
     config = yaml.safe_load(f)
 ```
 
-# Load & Filter Ecosystem Data
+## Load & Filter Ecosystem Data
 
 Load data for all the ecosystems.
 
@@ -52,13 +52,13 @@ ecosystem = ecosystems.filter(ecosystem_code)
 print(f'{ecosystem.size() = }')
 ```
 
-# Extent of Occurrence (EOO) (subcriterion B1)
+## Extent of Occurrence (EOO) (subcriterion B1)
 
 > **Extent of occurrence (EOO).** The EOO of an ecosystem is the area (km2) of a minimum convex polygon – the smallest polygon in which no internal angle exceeds 180° that encompasses all known current spatial occurrences of the ecosystem type. 
 > 
 > The minimum convex polygon (also known as a convex hull) must not exclude any areas, discontinuities or disjunctions, regardless of whether the ecosystem can occur in those areas or not. Regions such as oceans (for terrestrial ecosystems), land (for coastal or marine ecosystems), or areas outside the study area (such as in a different country) must remain included within the minimum convex polygon to ensure that this standardised method is comparable across ecosystem types. In addition, these features contribute to spreading risks across the distribution of the ecosystem by making different parts of its distribution more spatially independent.
 
-## Calculate EOO
+### Calculate EOO
 
 Start by calculating the convex hull of the ecosystem's distribution.
 
@@ -103,13 +103,13 @@ Map(layers=[
 # Convert to an equal area projection (World Cylindrical Equal Area)
 hull_ea = gdf_hull.to_crs("ESRI:54034")
 # Calculate the area in km²
-area_km2 = hull_ea.geometry.iloc[0].area / 1e6
-print(f'EOO is {area_km2:.1f} km2')
+eoo = hull_ea.geometry.iloc[0].area / 1e6
+print(f'EOO is {eoo:.1f} km2')
 ```
 
 Then calculate the area of the convex hull polygon.
 
-## Direct calculation of EOO
+### Direct calculation of EOO
 
 EOO can also be calculated directly using ...
 
@@ -122,11 +122,11 @@ Verify that the area returned by calling `make_eoo(ecosystem).compute().area_km2
 
 ```{python}
 #| echo: true
-assert ecosystem.eoo == area_km2
+assert ecosystem.eoo == eoo
 ```
 
 
-# Area of Occupancy (AOO) (subcriterion B2)
+## Area of Occupancy (AOO) (subcriterion B2)
 
 > The protocol for this adjustment includes the following steps:
 >
@@ -136,9 +136,9 @@ assert ecosystem.eoo == area_km2
 >   (4) Calculate ‘cumulative proportion’ by dividing ‘cumulative area’ by ‘total area’ (cumulative proportion takes values between 0 and 1)
 >   (5) Calculate AOO by counting the number of cells with a ‘cumulative proportion’ greater than 0.01 (i.e. exclude cells that in combination account for up to 1% of the total mapped extent of the ecosystem type). 
 
-## Calculate AOO grid
+### AOO Calculation Details
 
-### Intersect AOO grid and ecosystem map
+#### Intersect AOO grid and ecosystem map
 
 > (1) Intersect AOO grid with the ecosystem’s distribution map
 
@@ -168,7 +168,7 @@ colors = apply_continuous_cmap(normalized, cmap)
 display(Map(layers=aoo_grid_filtered.to_layer(get_fill_color=colors) + ecosystem.to_layer()))
 ```
 
-### Calculate grid cell area and total area
+#### Calculate grid cell area and total area
 
 > (2) Calculate extent of the ecosystem type in each grid cell (‘area’) and sum these areas to obtain the total ecosystem area (‘total area’). 
 
@@ -189,7 +189,7 @@ total_area = gdf[ecosystem_column].sum()
 total_area
 ```
 
-### Calculate cumulative area
+#### Calculate cumulative area
 
 > (3) Arrange grid cells in ascending order based on their area (smaller first). Calculate accumulated sum of area per cell (‘cumulative area’). 
 
@@ -200,7 +200,7 @@ gdf["cumulative_area"] = gdf[ecosystem_column].cumsum()
 gdf
 ```
 
-### Calculate cumulative proportion
+#### Calculate cumulative proportion
 
 > (4) Calculate ‘cumulative proportion’ by dividing ‘cumulative area’ by ‘total area’ (cumulative proportion takes values between 0 and 1)
 
@@ -210,7 +210,7 @@ gdf["cumulative_proportion"] = gdf["cumulative_area"] / total_area
 gdf
 ```
 
-### Count AOO cells
+#### Count AOO cells
 
 > (5) Calculate AOO by counting the number of cells with a ‘cumulative proportion’ greater than 0.01 (i.e. exclude cells that in combination account for up to 1% of the total mapped extent of the ecosystem type). 
 
@@ -220,18 +220,12 @@ aoo = len(gdf[gdf["cumulative_proportion"] > 0.01])
 print(f'AOO is {aoo} cells')
 ```
 
+### AOO Calculation (direct call)
 
-## Extra Stuff
 
-```{python}
-aoo_grid = make_aoo_grid(ecosystems).compute()
-aoo_grid_filtered = aoo_grid.filter_by_ecosystem(ecosystem_code)
-```
-
-# Calculate AOO directly
 
 ```{python}
-aoo_count = ecosystem.calculate_aoo()
+aoo_count = ecosystem.aoo
 print(f'AOO: {aoo_count} grid cells')
 ```
 
@@ -239,18 +233,9 @@ print(f'AOO: {aoo_count} grid cells')
 display(Map(layers=aoo_grid_filtered.to_layer() + ecosystem.to_layer()))
 ```
 
-# Criterion B Summary
+## Criterion B Summary
 
-<!-- ```{python}
-#| echo: false
-from IPython.display import Markdown, display
+Ecosystem `{python} f"{ecosystem_code} - {ecosystem.ecosystem_name(ecosystem_code)}"`
 
-slug = ecosystem_code.lower().replace('.', '-')
-display(
-    Markdown(
-        f'AOO and EOO were measured as '
-        f'{aoo_count} 10 x 10 km grid cells '
-        f'and {eoo.area_km2:.0f} km², respectively. '
-    )
-)
-``` -->
+- EOO =  `{python} f"{eoo:.0f}"` km²
+- AOO =  `{python} aoo` cells
