@@ -346,6 +346,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/ca/d3/642a6dc3db8ea558a9b5fbc83815b197861868dc98f98a789b85c7660670/ipyevents-2.0.4-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/00/60/249e3444fcd9c833704741769981cd02fe2c7ce94126b1394e7a3b26e543/ipyfilechooser-0.6.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/49/69/e9858f2c0b99bf9f036348d1c84b8026f438bb6875effe6a9bcd9883dada/ipyleaflet-0.20.0-py3-none-any.whl
+      - pypi: git+https://github.com/RLE-Assessment/iucn-get-data#3ed8d4540a769085f143437496144210e3f8fd88
       - pypi: https://files.pythonhosted.org/packages/14/2f/967ba146e6d58cf6a652da73885f52fc68001525b4197effc174321d70b4/jmespath-1.1.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/16/95/ffe543060eb3b1570d78c3f2c1948c640a6758ff5c6479c27e474819115b/jupyter_leaflet-0.20.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/64/0e/b763d0a97c07e210ee30dd2cb335a7c0eb0cf0c9da3f5089b898bbdee290/lonboard-0.16.0-py3-none-any.whl
@@ -372,6 +373,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/f9/77/3869a426f6e752dde13f3868cdf16253ca0214f92107db79c1583c9aa07b/rasterio-1.4.4-cp311-cp311-manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/f2/98/7e6d147fd16a10a5f821db6e25f192265d6ecca3d82957a4fdd592cad49c/ratelim-0.1.6-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/82/3b/64d4899d73f91ba49a8c18a8ff3f0ea8f1c1d75481760df8c68ef5235bf5/rich-15.0.0-py3-none-any.whl
+      - pypi: git+https://github.com/RLE-Assessment/rle-python-gee#de0373000f1d6df088f4a340ad5cb0da96bfee40
       - pypi: https://files.pythonhosted.org/packages/6a/52/5ccdc01f7a8a61357d15a66b5d8a6580aa8529cb33f32e6cbb71c52622c5/s3fs-2026.3.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/a3/bb/bbae36d06c0fd670e8373da67096cd57058b57c9bad7d92969b5e3b730af/scooby-0.11.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/01/8d/2d81e8f2be6b4432a1fd5aefbcbabbf6908bb441c4c29afe0383ca58ec13/sedonadb-0.3.0-cp311-cp311-manylinux_2_28_x86_64.whl
@@ -383,8 +385,6 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/10/21/870ccc8e3819c3a371dba041197e3e09dd7df9e60f490a6a621fde225887/wkls-1.1.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b0/be/d7c88cd9293c859fc74b232abdc65a229bb953997995d6912fc85af18323/wrapt-2.1.2-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/9a/64/c53487d9f4968045b8afa51aed7ca44f58b2589e772f32745f3744476c82/yarl-1.23.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
-      - pypi: ../iucn-get-data
-      - pypi: ../rle-python-gee
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/_openmp_mutex-4.5-7_kmp_llvm.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/anyio-4.13.0-pyhcf101f3_0.conda
@@ -717,6 +717,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/ca/d3/642a6dc3db8ea558a9b5fbc83815b197861868dc98f98a789b85c7660670/ipyevents-2.0.4-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/00/60/249e3444fcd9c833704741769981cd02fe2c7ce94126b1394e7a3b26e543/ipyfilechooser-0.6.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/49/69/e9858f2c0b99bf9f036348d1c84b8026f438bb6875effe6a9bcd9883dada/ipyleaflet-0.20.0-py3-none-any.whl
+      - pypi: git+https://github.com/RLE-Assessment/iucn-get-data#3ed8d4540a769085f143437496144210e3f8fd88
       - pypi: https://files.pythonhosted.org/packages/14/2f/967ba146e6d58cf6a652da73885f52fc68001525b4197effc174321d70b4/jmespath-1.1.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/16/95/ffe543060eb3b1570d78c3f2c1948c640a6758ff5c6479c27e474819115b/jupyter_leaflet-0.20.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/64/0e/b763d0a97c07e210ee30dd2cb335a7c0eb0cf0c9da3f5089b898bbdee290/lonboard-0.16.0-py3-none-any.whl
@@ -743,6 +744,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/ec/fa/fce8dc9f09e5bc6520b6fc1b4ecfa510af9ca06eb42ad7bdff9c9b8989d0/rasterio-1.4.4.tar.gz
       - pypi: https://files.pythonhosted.org/packages/f2/98/7e6d147fd16a10a5f821db6e25f192265d6ecca3d82957a4fdd592cad49c/ratelim-0.1.6-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/82/3b/64d4899d73f91ba49a8c18a8ff3f0ea8f1c1d75481760df8c68ef5235bf5/rich-15.0.0-py3-none-any.whl
+      - pypi: git+https://github.com/RLE-Assessment/rle-python-gee#de0373000f1d6df088f4a340ad5cb0da96bfee40
       - pypi: https://files.pythonhosted.org/packages/6a/52/5ccdc01f7a8a61357d15a66b5d8a6580aa8529cb33f32e6cbb71c52622c5/s3fs-2026.3.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/a3/bb/bbae36d06c0fd670e8373da67096cd57058b57c9bad7d92969b5e3b730af/scooby-0.11.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/74/f5/0dbed9a7fe70e09f0c80ab41b5d533af13a8104af87d0fdfc3dbb294ba30/sedonadb-0.3.0-cp311-cp311-macosx_12_0_arm64.whl
@@ -754,8 +756,6 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/10/21/870ccc8e3819c3a371dba041197e3e09dd7df9e60f490a6a621fde225887/wkls-1.1.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6b/be/80e80e39e7cb90b006a0eaf11c73ac3a62bbfb3068469aec15cc0bc795de/wrapt-2.1.2-cp311-cp311-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/b2/0d/71ceabc14c146ba8ee3804ca7b3d42b1664c8440439de5214d366fec7d3a/yarl-1.23.0-cp311-cp311-macosx_11_0_arm64.whl
-      - pypi: ../iucn-get-data
-      - pypi: ../rle-python-gee
 packages:
 - conda: https://conda.anaconda.org/conda-forge/linux-64/_openmp_mutex-4.5-20_gnu.conda
   build_number: 20
@@ -3398,10 +3398,9 @@ packages:
   - pkg:pypi/isoduration?source=hash-mapping
   size: 19832
   timestamp: 1733493720346
-- pypi: ../iucn-get-data
+- pypi: git+https://github.com/RLE-Assessment/iucn-get-data#3ed8d4540a769085f143437496144210e3f8fd88
   name: iucn-get-data
   version: 0.0.8
-  sha256: 86de81ccf798894de22908b3abfd09f17aebeaacbc9cab85988268ba2db7cafb
   requires_dist:
   - earthengine-api>=1.7.16
   - ipykernel>=7.1.0
@@ -7723,10 +7722,9 @@ packages:
   - markdown-it-py>=2.2.0
   - pygments>=2.13.0,<3.0.0
   requires_python: '>=3.9.0'
-- pypi: ../rle-python-gee
+- pypi: git+https://github.com/RLE-Assessment/rle-python-gee#de0373000f1d6df088f4a340ad5cb0da96bfee40
   name: rle-python-gee
   version: 0.1.14
-  sha256: 6f4d62bfad403ad76560e93b48095dd4248591806a3ec5e072ceaf9a7e34fb4a
   requires_dist:
   - cartopy>=0.24.0
   - earthengine-api>=1.6.14

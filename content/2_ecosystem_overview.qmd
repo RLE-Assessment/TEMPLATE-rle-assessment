@@ -14,6 +14,7 @@ numbering:
 ---
 
 ```{python}
+#| label: import-modules
 #| echo: false
 #| output: false
 import os
@@ -31,6 +32,7 @@ print(f'{iucn_get_data.__version__ = }')
 ```
 
 ```{python}
+#| label: load-country-config
 #| echo: false
 #| output: false
 # Load up the country-level configuration.
@@ -40,6 +42,7 @@ pprint(config)
 ```
 
 ```{python}
+#| label: initialize-google-earth-engine
 #| echo: false
 # Initialize Google Earth Engine.
 # rle_python_gee.ee_auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
@@ -47,6 +50,7 @@ pprint(config)
 
 
 ```{python}
+#| label: load-ecosystems-data
 #| echo: false
 #| output: false
 # Load the country's ecosystems data as a pandas DataFrame.
@@ -61,6 +65,7 @@ ecosystems_df
 ```
 
 ```{python}
+#| label: calculate-ecosystem-type-and-biome-counts
 #| echo: false
 ecosystem_type_count = len(ecosystems_df)
 biome_count = len(ecosystems_df.index.get_level_values('EFG1').unique())
@@ -78,6 +83,7 @@ The distribution of {{< meta country-name >}}’s ecosystem types is shown in @f
 and map data is made publicly available ([reference?]{.mark}).
 
 ```{python}
+#| label: create-typology
 #| echo: false
 typology_es = iucn_get_data.Typology(
     language="spanish",
@@ -90,38 +96,38 @@ typology_es = iucn_get_data.Typology(
 
 
 ```{python}
-#| echo: false
 #| label: tbl-typology
+#| echo: false
 #| tbl-cap: "List of the terrestrial ecosystems of {{< meta country-name >}} developed in this project."
 typology_es
 ```
 
 ```{python}
-#| echo: false
 #| label: fig-realm-distribution
+#| echo: false
 #| fig-cap: "The distribution of the realms of {{< meta country-name >}}."
 m_realm = ecosystems.to_realm_map(view_state=config['view_state'])
 m_realm
 ```
 
 ```{python}
-#| echo: false
 #| label: fig-biome-distribution
+#| echo: false
 #| fig-cap: "The distribution of the biomes of {{< meta country-name >}}."
 m_biome = ecosystems.to_biome_map(view_state=config['view_state'])
 m_biome
 ```
 
 ```{python}
-#| echo: false
 #| label: fig-functional-group-distribution
+#| echo: false
 #| fig-cap: "The distribution of the biomes of {{< meta country-name >}}."
 ecosystems.to_functional_group_map(view_state=config['view_state'])
 ```
 
 ```{python}
-#| echo: false
 #| label: fig-heat-map-ecosystems
+#| echo: false
 #| fig-cap: "Heat map of the distribution of natural ecosystem types of {{< meta country-name >} mapped as the number of ecosystems intersecting a 10 x 10 km grid."
 print('(Heat map of the distribution of natural ecosystem types not implemented yet.)')
 ```

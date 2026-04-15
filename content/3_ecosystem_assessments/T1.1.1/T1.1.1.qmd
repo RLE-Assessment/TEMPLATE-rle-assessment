@@ -6,6 +6,7 @@ jupyter: python3
 # Assessment {.unnumbered}
 
 ```{python}
+#| label: set-ecosystem-code
 #| echo: false
 
 # Default ecosystem code for template development.
@@ -14,6 +15,7 @@ ecosystem_code = 'T1.1.1'
 ```
 
 ```{python}
+#| label: open-ecosystem-config
 #| echo: false
 import os
 import yaml
@@ -90,6 +92,7 @@ credits = eco.get('assessment_credits', {})
 [Assessment information:]{.parameter}&nbsp;
 
 ```{python}
+#| label: build-criteria-table
 #| echo: false
 #| output: asis
 
