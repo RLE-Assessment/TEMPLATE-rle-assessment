@@ -18,6 +18,7 @@ import os
 import yaml
 from pathlib import Path
 from lonboard import Map
+from rle_python_gee.viz import smart_map
 from rle_python_gee.ecosystems import Ecosystems
 from rle_python_gee.eoo import make_eoo
 from rle_python_gee.aoo import make_aoo_grid
@@ -168,7 +169,10 @@ values = aoo_grid_filtered.grid_cells[ecosystem_column].values
 normalized = (values - values.min()) / (values.max() - values.min())
 colors = apply_continuous_cmap(normalized, cmap)
 
-display(Map(layers=aoo_grid_filtered.to_layer(get_fill_color=colors) + ecosystem.to_layer()))
+display(smart_map([
+    (aoo_grid_filtered, {"get_fill_color": colors}),
+    ecosystem,
+]))
 ```
 
 #### Calculate grid cell area and total area
@@ -231,7 +235,7 @@ print(f'AOO: {aoo_count} grid cells')
 ```
 
 ```{python}
-display(Map(layers=aoo_grid_filtered.to_layer() + ecosystem.to_layer()))
+display(smart_map([aoo_grid_filtered, ecosystem]))
 ```
 
 ## Criterion B Summary
