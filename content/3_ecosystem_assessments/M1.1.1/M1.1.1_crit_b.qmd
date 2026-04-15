@@ -6,7 +6,6 @@ jupyter: python3
 
 ```{python}
 #| echo: true
-
 # Default ecosystem code for template development.
 # This line is replaced by build_ecosystem_pages.py for each ecosystem.
 ecosystem_code = 'M1.1.1'
@@ -30,7 +29,9 @@ with open(config_path) as f:
     config = yaml.safe_load(f)
 ```
 
-# Load Ecosystem Data
+# Load & Filter Ecosystem Data
+
+Load data for all the ecosystems.
 
 ```{python}
 source = config['ecosystem_source']
@@ -40,16 +41,15 @@ ecosystems = Ecosystems.from_file(
     ecosystem_name_column=source['ecosystem_name_column'],
     functional_group_column=source['functional_group_column']
 )
-ecosystem = ecosystems.filter(ecosystem_code)
-print(f'{ecosystem.size() = }')
 ```
 
-Display a map of ecosystem `{ecosystem_code}`
+Filter by the  `{python} ecosystem_code` and check the number of features.
 
 ```{python}
 #| echo: true
 #| output: true
-ecosystem.to_map()
+ecosystem = ecosystems.filter(ecosystem_code)
+print(f'{ecosystem.size() = }')
 ```
 
 # Extent of Occurrence (EOO) (subcriterion B1)
@@ -64,49 +64,171 @@ Start by calculating the convex hull of the ecosystem's distribution.
 
 ```{python}
 #| echo: true
-from lonboard import Map
-from rle_python_gee.eoo import make_eoo
+# Convert to an equal area projection (World Cylindrical Equal Area)
+import geopandas as gpd
 
-eoo_convex_poly = make_eoo(ecosystem).compute()
-display(Map(layers=eoo_convex_poly.to_layer() + ecosystem.to_layer()))
+ecosystem_geometry = ecosystem.geometry.union_all()
+gdf_ecosystem_polygons = gpd.GeoDataFrame(geometry=[ecosystem_geometry], crs=ecosystem.geometry.crs)
+
+# Determine a convex hull of the ecosystem's distribution
+hull = ecosystem_geometry.convex_hull
+
+# Convert it back to a Geodataframe in the native projection
+gdf_hull = gpd.GeoDataFrame(geometry=[hull], crs=ecosystem.geometry.crs)
 ```
 
-Calculate the area of the convex polygon.
+Display the ecosystem's distribution and the convex hull.
 
 ```{python}
 #| echo: true
-#| output: false
-print(f'EOO is {eoo_convex_poly.area_km2:.1f} km2')
+from lonboard import Map, PolygonLayer
+
+Map(layers=[
+    PolygonLayer.from_geopandas(
+        gdf_hull,
+        get_fill_color=[255, 0, 0, 40],
+        get_line_color=[255, 0, 0, 200]
+    ),
+    PolygonLayer.from_geopandas(
+        gdf_ecosystem_polygons, 
+        get_fill_color=[128, 128, 128, 128], 
+        get_line_color=[64, 64, 64, 200]
+    )
+])
 ```
 
-
-
 ```{python}
-eoo = make_eoo(ecosystem).compute()
-print(f'EOO area: {eoo.area_km2:.0f} km²')
+#| echo: true
+
+# Convert to an equal area projection (World Cylindrical Equal Area)
+hull_ea = gdf_hull.to_crs("ESRI:54034")
+# Calculate the area in km²
+area_km2 = hull_ea.geometry.iloc[0].area / 1e6
+print(f'EOO is {area_km2:.1f} km2')
 ```
 
+Then calculate the area of the convex hull polygon.
+
+## Direct calculation of EOO
+
+EOO can also be calculated directly using ...
 
 ```{python}
-assert eoo.area_km2 == eoo_convex_poly.area_km2
+#| echo: true
+ecosystem.eoo
+```
+
+Verify that the area returned by calling `make_eoo(ecosystem).compute().area_km2` is the same as the area of the convex hull polygon.
+
+```{python}
+#| echo: true
+assert ecosystem.eoo == area_km2
 ```
 
 
 # Area of Occupancy (AOO) (subcriterion B2)
 
-The protocol for this adjustment includes the following steps:
+> The protocol for this adjustment includes the following steps:
+>
+>   (1) Intersect AOO grid with the ecosystem’s distribution map. 
+>   (2) Calculate extent of the ecosystem type in each grid cell (‘area’) and sum these areas to obtain the total ecosystem area (‘total area’). 
+>   (3) Arrange grid cells in ascending order based on their area (smaller first). Calculate accumulated sum of area per cell (‘cumulative area’). 
+>   (4) Calculate ‘cumulative proportion’ by dividing ‘cumulative area’ by ‘total area’ (cumulative proportion takes values between 0 and 1)
+>   (5) Calculate AOO by counting the number of cells with a ‘cumulative proportion’ greater than 0.01 (i.e. exclude cells that in combination account for up to 1% of the total mapped extent of the ecosystem type). 
 
-> - Intersect AOO grid with the ecosystem's distribution map.
-> - Calculate extent of the ecosystem type in each grid cell ('area') and sum these areas to obtain the total ecosystem area ('total area').
-> - Arrange grid cells in ascending order based on their area (smaller first).
-> - Calculate accumulated sum of area per cell ('cumulative area').
-> - Calculate 'cumulative proportion' by dividing 'cumulative area' by 'total area'.
-> - Calculate AOO by counting the number of cells with a 'cumulative proportion' greater than 0.01.
+## Calculate AOO grid
+
+### Intersect AOO grid and ecosystem map
+
+> (1) Intersect AOO grid with the ecosystem’s distribution map
+
+```{python}
+#| echo: true
+from rle_python_gee.aoo import make_aoo_grid
+
+aoo_grid = make_aoo_grid(ecosystems).compute()
+aoo_grid_filtered = aoo_grid.filter_by_ecosystem(ecosystem_code)
+```
+
+Visualize variations in the AOO grid.
+
+```{python}
+#| echo: true
+from matplotlib.colors import LinearSegmentedColormap
+from lonboard.colormap import apply_continuous_cmap
+from rle_python_gee.aoo import slugify_ecosystem_name
+
+ecosystem_column = slugify_ecosystem_name(ecosystem_code)
+
+cmap = LinearSegmentedColormap.from_list("white_red", ["white", "red"])
+values = aoo_grid_filtered.grid_cells[ecosystem_column].values
+normalized = (values - values.min()) / (values.max() - values.min())
+colors = apply_continuous_cmap(normalized, cmap)
+
+display(Map(layers=aoo_grid_filtered.to_layer(get_fill_color=colors) + ecosystem.to_layer()))
+```
+
+### Calculate grid cell area and total area
+
+> (2) Calculate extent of the ecosystem type in each grid cell (‘area’) and sum these areas to obtain the total ecosystem area (‘total area’). 
+
+```{python}
+#| echo: true
+keep = ['geometry', 'grid_col', 'grid_row', ecosystem_column]
+gdf = aoo_grid_filtered.grid_cells[keep]
+gdf
+```
+
+The column `{python} ecosystem_column` contains the (fractional) area of the ecosystem in each grid cell.
+
+Sum up the areas of each grid cell to get the total area.
+
+```{python}
+#| echo: true
+total_area = gdf[ecosystem_column].sum()
+total_area
+```
+
+### Calculate cumulative area
+
+> (3) Arrange grid cells in ascending order based on their area (smaller first). Calculate accumulated sum of area per cell (‘cumulative area’). 
+
+```{python}
+#| echo: true
+gdf = gdf.sort_values(by=ecosystem_column) 
+gdf["cumulative_area"] = gdf[ecosystem_column].cumsum()
+gdf
+```
+
+### Calculate cumulative proportion
+
+> (4) Calculate ‘cumulative proportion’ by dividing ‘cumulative area’ by ‘total area’ (cumulative proportion takes values between 0 and 1)
+
+```{python}
+#| echo: true
+gdf["cumulative_proportion"] = gdf["cumulative_area"] / total_area
+gdf
+```
+
+### Count AOO cells
+
+> (5) Calculate AOO by counting the number of cells with a ‘cumulative proportion’ greater than 0.01 (i.e. exclude cells that in combination account for up to 1% of the total mapped extent of the ecosystem type). 
+
+```{python}
+#| echo: true
+aoo = len(gdf[gdf["cumulative_proportion"] > 0.01])
+print(f'AOO is {aoo} cells')
+```
+
+
+## Extra Stuff
 
 ```{python}
 aoo_grid = make_aoo_grid(ecosystems).compute()
 aoo_grid_filtered = aoo_grid.filter_by_ecosystem(ecosystem_code)
 ```
+
+# Calculate AOO directly
 
 ```{python}
 aoo_count = ecosystem.calculate_aoo()
@@ -119,7 +241,7 @@ display(Map(layers=aoo_grid_filtered.to_layer() + ecosystem.to_layer()))
 
 # Criterion B Summary
 
-```{python}
+<!-- ```{python}
 #| echo: false
 from IPython.display import Markdown, display
 
@@ -131,4 +253,4 @@ display(
         f'and {eoo.area_km2:.0f} km², respectively. '
     )
 )
-```
+``` -->
