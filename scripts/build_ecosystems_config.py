@@ -30,6 +30,7 @@ def main():
     country_name = config["country_name"]
     source = config["ecosystem_source"]
 
+    print(f"Loading ecosystem data from {source['data']}...")
     from iucn_get_data import open_ecosystem_map
 
     eco_map = open_ecosystem_map(
