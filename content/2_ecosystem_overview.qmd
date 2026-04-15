@@ -42,7 +42,7 @@ pprint(config)
 ```{python}
 #| echo: false
 # Initialize Google Earth Engine.
-rle_python_gee.ee_auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
+# rle_python_gee.ee_auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
 ```
 
 
