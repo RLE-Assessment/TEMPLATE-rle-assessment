@@ -138,17 +138,17 @@ if has_data:
 
 > The protocol for this adjustment includes the following steps:
 >
->   (1) Intersect AOO grid with the ecosystem’s distribution map.
->   (2) Calculate extent of the ecosystem type in each grid cell (‘area’) and sum these areas to obtain the total ecosystem area (‘total area’).
->   (3) Arrange grid cells in ascending order based on their area (smaller first). Calculate accumulated sum of area per cell (‘cumulative area’).
->   (4) Calculate ‘cumulative proportion’ by dividing ‘cumulative area’ by ‘total area’ (cumulative proportion takes values between 0 and 1)
->   (5) Calculate AOO by counting the number of cells with a ‘cumulative proportion’ greater than 0.01 (i.e. exclude cells that in combination account for up to 1% of the total mapped extent of the ecosystem type).
+>   (1) Intersect AOO grid with the ecosystem's distribution map.
+>   (2) Calculate extent of the ecosystem type in each grid cell (`area`) and sum these areas to obtain the total ecosystem area (`total area`).
+>   (3) Arrange grid cells in ascending order based on their area (smaller first). Calculate accumulated sum of area per cell (`cumulative area`).
+>   (4) Calculate `cumulative proportion` by dividing `cumulative area` by `total area` (cumulative proportion takes values between 0 and 1)
+>   (5) Calculate AOO by counting the number of cells with a `cumulative proportion` greater than 0.01 (i.e. exclude cells that in combination account for up to 1% of the total mapped extent of the ecosystem type).
 
 ### AOO Calculation Details
 
 #### Intersect AOO grid and ecosystem map
 
-> (1) Intersect AOO grid with the ecosystem’s distribution map
+> (1) Intersect AOO grid with the ecosystem's distribution map
 
 ```{python}
 #| label: intersect-aoo-grid-and-ecosystem-map
@@ -157,7 +157,7 @@ from pathlib import Path
 from rle_python_gee.aoo import make_aoo_grid_cached
 
 if has_data:
-    cache_path = Path(project_root) / ‘.cache’ / ‘aoo_grid.parquet’
+    cache_path = Path(project_root) / '.cache' / 'aoo_grid.parquet'
     aoo_grid = make_aoo_grid_cached(ecosystems, cache_path=cache_path)
     aoo_grid_filtered = aoo_grid.filter_by_ecosystem(ecosystem_code)
 ```
@@ -182,18 +182,18 @@ if has_data:
 
 #### Calculate grid cell area and total area
 
-> (2) Calculate extent of the ecosystem type in each grid cell (‘area’) and sum these areas to obtain the total ecosystem area (‘total area’).
+> (2) Calculate extent of the ecosystem type in each grid cell (`area`) and sum these areas to obtain the total ecosystem area (`total area`).
 
 ```{python}
 #| label: calculate-grid-cell-area
 #| echo: true
 if has_data:
-    keep = [‘geometry’, ‘grid_col’, ‘grid_row’, ecosystem_column]
+    keep = [‘geometry', ‘grid_col', ‘grid_row', ecosystem_column]
     gdf = aoo_grid_filtered.grid_cells[keep]
     gdf
 ```
 
-The column `{python} ecosystem_column if has_data else ‘N/A’` contains the (fractional) area of the ecosystem in each grid cell.
+The column `{python} ecosystem_column` contains the (fractional) area of the ecosystem in each grid cell.
 
 Sum up the areas of each grid cell to get the total area.
 
@@ -207,7 +207,7 @@ if has_data:
 
 #### Calculate cumulative area
 
-> (3) Arrange grid cells in ascending order based on their area (smaller first). Calculate accumulated sum of area per cell (‘cumulative area’).
+> (3) Arrange grid cells in ascending order based on their area (smaller first). Calculate accumulated sum of area per cell (`cumulative area`).
 
 ```{python}
 #| label: calculate-cumulative-area
@@ -220,7 +220,7 @@ if has_data:
 
 #### Calculate cumulative proportion
 
-> (4) Calculate ‘cumulative proportion’ by dividing ‘cumulative area’ by ‘total area’ (cumulative proportion takes values between 0 and 1)
+> (4) Calculate `cumulative proportion` by dividing `cumulative area` by `total area` (cumulative proportion takes values between 0 and 1)
 
 ```{python}
 #| label: calculate-cumulative-proportion
@@ -232,14 +232,14 @@ if has_data:
 
 #### Count AOO cells
 
-> (5) Calculate AOO by counting the number of cells with a ‘cumulative proportion’ greater than 0.01 (i.e. exclude cells that in combination account for up to 1% of the total mapped extent of the ecosystem type).
+> (5) Calculate AOO by counting the number of cells with a `cumulative proportion` greater than 0.01 (i.e. exclude cells that in combination account for up to 1% of the total mapped extent of the ecosystem type).
 
 ```{python}
 #| label: count-aoo-cells
 #| echo: true
 if has_data:
     aoo = len(gdf[gdf["cumulative_proportion"] > 0.01])
-    print(f’AOO is {aoo} cells’)
+    print(f'AOO is {aoo} cells')
 ```
 
 ### AOO Calculation (direct call)
@@ -248,7 +248,7 @@ if has_data:
 #| label: aoo-calculation-direct-call
 if has_data:
     aoo_count = ecosystem.aoo
-    print(f’AOO: {aoo_count} grid cells’)
+    print(f'AOO: {aoo_count} grid cells')
 ```
 
 ```{python}
@@ -265,9 +265,9 @@ if has_data:
 #| output: asis
 if has_data:
     eco_name = ecosystem.ecosystem_name(ecosystem_code)
-    print(f’| Ecosystem Code | Ecosystem Name | EOO | AOO |’)
-    print(f’|---------------|----------------|-----|-----|’)
-    print(f’| {ecosystem_code} | {eco_name} | {eoo:.0f} km² | {aoo} cells |’)
+    print(f'| Ecosystem Code | Ecosystem Name | EOO | AOO |')
+    print(f'|---------------|----------------|-----|-----|')
+    print(f'| {ecosystem_code} | {eco_name} | {eoo:.0f} km² | {aoo} cells |')
 else:
-    print(f’No spatial data available for {ecosystem_code}.’)
+    print(f'No spatial data available for {ecosystem_code}.')
 ```
