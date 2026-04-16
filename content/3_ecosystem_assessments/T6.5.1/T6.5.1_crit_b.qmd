@@ -92,19 +92,10 @@ Display the ecosystem's distribution and the convex hull.
 #| label: display-eoo
 #| echo: true
 from lonboard import Map, PolygonLayer
+from rle_python_gee.viz import smart_map
 
-Map(layers=[
-    PolygonLayer.from_geopandas(
-        gdf_hull,
-        get_fill_color=[255, 0, 0, 40],
-        get_line_color=[255, 0, 0, 200]
-    ),
-    PolygonLayer.from_geopandas(
-        gdf_ecosystem_polygons, 
-        get_fill_color=[128, 128, 128, 128], 
-        get_line_color=[64, 64, 64, 200]
-    )
-])
+eoo_hull = make_eoo(ecosystem).compute()
+smart_map([eoo_hull, ecosystem])
 ```
 
 ```{python}
@@ -181,7 +172,7 @@ values = aoo_grid_filtered.grid_cells[ecosystem_column].values
 normalized = (values - values.min()) / (values.max() - values.min())
 colors = apply_continuous_cmap(normalized, cmap)
 
-display(Map(layers=aoo_grid_filtered.to_layer(get_fill_color=colors) + ecosystem.to_layer()))
+smart_map([(aoo_grid_filtered, {"get_fill_color": colors}), ecosystem])
 ```
 
 #### Calculate grid cell area and total area
@@ -251,7 +242,7 @@ print(f'AOO: {aoo_count} grid cells')
 
 ```{python}
 #| label: display-aoo-map
-display(Map(layers=aoo_grid_filtered.to_layer() + ecosystem.to_layer()))
+smart_map([aoo_grid_filtered, ecosystem])
 ```
 
 ## Criterion B Summary
