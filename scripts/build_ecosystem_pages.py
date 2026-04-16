@@ -13,10 +13,12 @@ Existing files are not overwritten unless --overwrite is passed.
 
 import argparse
 import re
+import shutil
 from pathlib import Path
 
 import yaml
 
+CACHE_DIR = Path(".cache")
 CONFIG_DIR = Path("config/ecosystems")
 OUTPUT_DIR = Path("content/3_ecosystem_assessments")
 TEMPLATE_DIR = Path("templates")
@@ -98,6 +100,14 @@ def main():
         help="Overwrite existing .qmd files",
     )
     args = parser.parse_args()
+
+    if CACHE_DIR.exists():
+        shutil.rmtree(CACHE_DIR)
+        print(f"  Cleared {CACHE_DIR}/")
+
+    if args.overwrite and OUTPUT_DIR.exists():
+        shutil.rmtree(OUTPUT_DIR)
+        print(f"  Cleared {OUTPUT_DIR}/")
 
     # Read templates
     assessment_template = (TEMPLATE_DIR / "assessment.qmd").read_text()
