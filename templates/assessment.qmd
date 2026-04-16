@@ -51,8 +51,12 @@ ecosystems = Ecosystems.from_file(
     functional_group_column=source['functional_group_column']
 )
 ecosystem = ecosystems.filter(ecosystem_code)
-eoo = ecosystem.eoo
-aoo = ecosystem.aoo
+if ecosystem.size() > 0:
+    eoo = ecosystem.eoo
+    aoo = ecosystem.aoo
+else:
+    eoo = None
+    aoo = None
 ```
 
 # `{python} name` {.unnumbered}
@@ -189,8 +193,8 @@ Contributions by: `{python} credits.get('contributions_by', 'TODO')`
 
 <!-- Criterion B -->
 [Criterion B:]{.parameter}&nbsp;
-AOO was measured as `{python} aoo` (10 km x 10 km) grid cells .
-EOO was measured as `{python} f"{eoo:.0f}"` km².
+AOO was measured as `{python} aoo if aoo is not None else 'N/A'` (10 km x 10 km) grid cells .
+EOO was measured as `{python} f"{eoo:.0f}" if eoo is not None else 'N/A'` km².
 
 <!-- Criterion C -->
 [Criterion C:]{.parameter}&nbsp;
