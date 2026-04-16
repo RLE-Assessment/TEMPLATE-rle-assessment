@@ -34,6 +34,27 @@ authors = ', '.join(eco.get('authors', []))
 credits = eco.get('assessment_credits', {})
 ```
 
+```{python}
+#| label: load-ecosystem-data
+#| echo: false
+from rle_python_gee.ecosystems import Ecosystems
+
+country_config_path = Path(project_root) / 'config' / 'country_config.yaml'
+with open(country_config_path) as f:
+    country_config = yaml.safe_load(f)
+
+source = country_config['ecosystem_source']
+ecosystems = Ecosystems.from_file(
+    source['data'],
+    ecosystem_column=source['ecosystem_code_column'],
+    ecosystem_name_column=source['ecosystem_name_column'],
+    functional_group_column=source['functional_group_column']
+)
+ecosystem = ecosystems.filter(ecosystem_code)
+eoo = ecosystem.eoo
+aoo = ecosystem.aoo
+```
+
 # `{python} name` {.unnumbered}
 
 <!-- Authors -->
@@ -168,7 +189,8 @@ Contributions by: `{python} credits.get('contributions_by', 'TODO')`
 
 <!-- Criterion B -->
 [Criterion B:]{.parameter}&nbsp;
-`{python} eco.get('criterion_b_description', 'TODO')`
+AOO was measured as `{python} aoo` (10 km x 10 km) grid cells .
+EOO was measured as `{python} f"{eoo:.0f}"` km².
 
 <!-- Criterion C -->
 [Criterion C:]{.parameter}&nbsp;
