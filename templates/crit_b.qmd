@@ -89,7 +89,7 @@ if has_data:
     gdf_hull = gpd.GeoDataFrame(geometry=[hull], crs=ecosystem.geometry.crs)
 ```
 
-Display the ecosystem’s distribution and the convex hull.
+Display the ecosystem's distribution and the convex hull.
 
 ```{python}
 #| label: display-eoo
@@ -108,7 +108,7 @@ if has_data:
 if has_data:
     hull_ea = gdf_hull.to_crs("ESRI:54034")
     eoo = hull_ea.geometry.iloc[0].area / 1e6
-    print(f’EOO is {eoo:.1f} km2’)
+    print(f'EOO is {eoo:.1f} km2')
 ```
 
 Then calculate the area of the convex hull polygon.
