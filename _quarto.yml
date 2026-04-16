@@ -1,12 +1,16 @@
 project:
   type: book
 
+execute:
+  freeze: auto
+
 book:
   title: "Threatened ecosystems of Ruritania"
   subtitle: An IUCN Red List of Ecosystems Assessment
   date: "1234-12-31"
   sidebar:
     collapse-level: 1
+  downloads: [pdf]
   chapters:
     - index.qmd
     - content/0.1_foreword.qmd
