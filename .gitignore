@@ -21,3 +21,6 @@ uv.lock
 # Python files
 *.pyc
 __pycache__/
+
+# AOO grid cache
+.cache/

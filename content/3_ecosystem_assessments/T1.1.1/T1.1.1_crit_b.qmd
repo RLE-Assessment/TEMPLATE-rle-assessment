@@ -157,9 +157,11 @@ assert ecosystem.eoo == eoo
 ```{python}
 #| label: intersect-aoo-grid-and-ecosystem-map
 #| echo: true
-from rle_python_gee.aoo import make_aoo_grid
+from pathlib import Path
+from rle_python_gee.aoo import make_aoo_grid_cached
 
-aoo_grid = make_aoo_grid(ecosystems).compute()
+cache_path = Path(project_root) / '.cache' / 'aoo_grid.parquet'
+aoo_grid = make_aoo_grid_cached(ecosystems, cache_path=cache_path)
 aoo_grid_filtered = aoo_grid.filter_by_ecosystem(ecosystem_code)
 ```
 
