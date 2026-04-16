@@ -188,7 +188,7 @@ if has_data:
 #| label: calculate-grid-cell-area
 #| echo: true
 if has_data:
-    keep = [‘geometry', ‘grid_col', ‘grid_row', ecosystem_column]
+    keep = ['geometry', 'grid_col', 'grid_row', ecosystem_column]
     gdf = aoo_grid_filtered.grid_cells[keep]
     gdf
 ```
