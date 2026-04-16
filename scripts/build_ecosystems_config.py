@@ -8,10 +8,12 @@ Existing files are not overwritten.
 """
 
 import argparse
+import shutil
 from pathlib import Path
 
 import yaml
 
+CACHE_DIR = Path(".cache")
 CONFIG_PATH = Path("config/country_config.yaml")
 ECOSYSTEMS_DIR = Path("config/ecosystems")
 
@@ -23,6 +25,10 @@ def main():
         help="Overwrite existing ecosystem config files",
     )
     args = parser.parse_args()
+
+    if CACHE_DIR.exists():
+        shutil.rmtree(CACHE_DIR)
+        print(f"  Cleared {CACHE_DIR}/")
 
     with open(CONFIG_PATH) as f:
         config = yaml.safe_load(f)
