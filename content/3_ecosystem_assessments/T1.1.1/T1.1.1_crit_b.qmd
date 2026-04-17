@@ -171,8 +171,8 @@ from matplotlib.colors import LinearSegmentedColormap
 from lonboard.colormap import apply_continuous_cmap
 from rle_python_gee.aoo import slugify_ecosystem_name
 
+ecosystem_column = slugify_ecosystem_name(ecosystem_code)
 if has_data:
-    ecosystem_column = slugify_ecosystem_name(ecosystem_code)
     cmap = LinearSegmentedColormap.from_list("white_red", ["white", "red"])
     values = aoo_grid_filtered.grid_cells[ecosystem_column].values
     normalized = (values - values.min()) / (values.max() - values.min())
