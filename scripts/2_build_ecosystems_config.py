@@ -21,6 +21,10 @@ ECOSYSTEMS_DIR = Path("config/ecosystems")
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "max_ecosystems", type=int,
+        help="Maximum number of ecosystems to generate config files for",
+    )
+    parser.add_argument(
         "--overwrite", action="store_true",
         help="Overwrite existing ecosystem config files",
     )
@@ -51,8 +55,11 @@ def main():
     fg_col = source["functional_group_column"]
     eco_col = source["ecosystem_code_column"]
 
+    indices = df.index[:args.max_ecosystems]
+    print(f"Generating config for {len(indices)} of {len(df)} ecosystems...")
+
     prompted = False
-    for (functional_group, ecosystem_code) in df.index:
+    for (functional_group, ecosystem_code) in indices:
         eco_dir = ECOSYSTEMS_DIR / ecosystem_code
         eco_file = eco_dir / "ecosystem.yaml"
 
