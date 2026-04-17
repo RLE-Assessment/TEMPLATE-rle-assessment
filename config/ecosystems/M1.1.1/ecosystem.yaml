@@ -39,3 +39,14 @@ criteria_status:
   E:
     E: NE
 assessment_outcome: TODO
+year_published: TODO
+date_assessed: TODO
+assessment_credits:
+  assessed_by: TODO
+  reviewed_by: TODO
+  contributions_by: TODO
+criterion_a_description: TODO
+criterion_b_description: TODO
+criterion_c_description: TODO
+criterion_d_description: TODO
+criterion_e_description: TODO
