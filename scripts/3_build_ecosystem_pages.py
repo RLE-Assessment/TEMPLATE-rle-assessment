@@ -118,6 +118,7 @@ def main():
         print(f"No ecosystem configs found in {CONFIG_DIR}/")
         return
 
+    prompted = False
     for eco_path in eco_configs:
         with open(eco_path) as f:
             eco = yaml.safe_load(f)
@@ -133,8 +134,15 @@ def main():
         ]:
             page_path = out_dir / page_name
             if page_path.exists() and not args.overwrite:
-                print(f"  Skipping {page_path} (already exists)")
-                continue
+                if not prompted:
+                    prompted = True
+                    response = input(
+                        f"  Existing pages found (e.g. {page_path}). "
+                        f"Overwrite all? [y/N] "
+                    )
+                    if response.lower() != 'y':
+                        print("  Aborting.")
+                        return
             page_path.write_text(_replace_ecosystem_code(template, code, name))
             print(f"  Created {page_path}")
 

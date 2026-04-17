@@ -51,13 +51,21 @@ def main():
     fg_col = source["functional_group_column"]
     eco_col = source["ecosystem_code_column"]
 
+    prompted = False
     for (functional_group, ecosystem_code) in df.index:
         eco_dir = ECOSYSTEMS_DIR / ecosystem_code
         eco_file = eco_dir / "ecosystem.yaml"
 
         if eco_file.exists() and not args.overwrite:
-            print(f"  Skipping {eco_file} (already exists)")
-            continue
+            if not prompted:
+                prompted = True
+                response = input(
+                    f"  Existing config files found (e.g. {eco_file}). "
+                    f"Overwrite all? [y/N] "
+                )
+                if response.lower() != 'y':
+                    print("  Aborting.")
+                    return
 
         eco_dir.mkdir(parents=True, exist_ok=True)
 
