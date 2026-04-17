@@ -21,14 +21,542 @@ book:
     - content/1.0_introduction.qmd
     - content/2_ecosystem_overview.qmd
     - content/3_ecosystem_description.qmd
+    - part: "F1.1.1 - Catatumbo moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/F1.1.1/F1.1.1.qmd
+        - content/3_ecosystem_assessments/F1.1.1/F1.1.1_crit_b.qmd
+    - part: "F1.1.2 - Cauca Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/F1.1.2/F1.1.2.qmd
+        - content/3_ecosystem_assessments/F1.1.2/F1.1.2_crit_b.qmd
+    - part: "F1.1.3 - INDEF"
+      chapters:
+        - content/3_ecosystem_assessments/F1.1.3/F1.1.3.qmd
+        - content/3_ecosystem_assessments/F1.1.3/F1.1.3_crit_b.qmd
+    - part: "F1.1.4 - Magdalena-Urabá moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/F1.1.4/F1.1.4.qmd
+        - content/3_ecosystem_assessments/F1.1.4/F1.1.4_crit_b.qmd
+    - part: "F1.1.5 - Magdalena Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/F1.1.5/F1.1.5.qmd
+        - content/3_ecosystem_assessments/F1.1.5/F1.1.5_crit_b.qmd
+    - part: "F1.1.6 - Northwest Andean montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/F1.1.6/F1.1.6.qmd
+        - content/3_ecosystem_assessments/F1.1.6/F1.1.6_crit_b.qmd
+    - part: "F1.2.1 - INDEF"
+      chapters:
+        - content/3_ecosystem_assessments/F1.2.1/F1.2.1.qmd
+        - content/3_ecosystem_assessments/F1.2.1/F1.2.1_crit_b.qmd
+    - part: "F1.2.2 - INDEF"
+      chapters:
+        - content/3_ecosystem_assessments/F1.2.2/F1.2.2.qmd
+        - content/3_ecosystem_assessments/F1.2.2/F1.2.2_crit_b.qmd
+    - part: "F2.1.1 - INDEF"
+      chapters:
+        - content/3_ecosystem_assessments/F2.1.1/F2.1.1.qmd
+        - content/3_ecosystem_assessments/F2.1.1/F2.1.1_crit_b.qmd
+    - part: "F2.2.1 - INDEF"
+      chapters:
+        - content/3_ecosystem_assessments/F2.2.1/F2.2.1.qmd
+        - content/3_ecosystem_assessments/F2.2.1/F2.2.1_crit_b.qmd
+    - part: "F2.3.1 - INDEF"
+      chapters:
+        - content/3_ecosystem_assessments/F2.3.1/F2.3.1.qmd
+        - content/3_ecosystem_assessments/F2.3.1/F2.3.1_crit_b.qmd
+    - part: "F3.1.1 - INDEF"
+      chapters:
+        - content/3_ecosystem_assessments/F3.1.1/F3.1.1.qmd
+        - content/3_ecosystem_assessments/F3.1.1/F3.1.1_crit_b.qmd
+    - part: "FM1.2.1 - INDEF"
+      chapters:
+        - content/3_ecosystem_assessments/FM1.2.1/FM1.2.1.qmd
+        - content/3_ecosystem_assessments/FM1.2.1/FM1.2.1_crit_b.qmd
+    - part: "MFT1.1.1 - Chocó-Darién moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/MFT1.1.1/MFT1.1.1.qmd
+        - content/3_ecosystem_assessments/MFT1.1.1/MFT1.1.1_crit_b.qmd
+    - part: "MFT1.1.2 - Chocó-Darién moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/MFT1.1.2/MFT1.1.2.qmd
+        - content/3_ecosystem_assessments/MFT1.1.2/MFT1.1.2_crit_b.qmd
+    - part: "MFT1.1.3 - Western Ecuador moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/MFT1.1.3/MFT1.1.3.qmd
+        - content/3_ecosystem_assessments/MFT1.1.3/MFT1.1.3_crit_b.qmd
+    - part: "MFT1.2.1 - Amazon-Orinoco-Southern Caribbean mangroves"
+      chapters:
+        - content/3_ecosystem_assessments/MFT1.2.1/MFT1.2.1.qmd
+        - content/3_ecosystem_assessments/MFT1.2.1/MFT1.2.1_crit_b.qmd
+    - part: "MFT1.2.2 - South American Pacific mangroves"
+      chapters:
+        - content/3_ecosystem_assessments/MFT1.2.2/MFT1.2.2.qmd
+        - content/3_ecosystem_assessments/MFT1.2.2/MFT1.2.2_crit_b.qmd
+    - part: "T1.1.1 - Apure-Villavicencio dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.1/T1.1.1.qmd
+        - content/3_ecosystem_assessments/T1.1.1/T1.1.1_crit_b.qmd
+    - part: "T1.1.10 - Guaianan piedmont forestsi"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.10/T1.1.10.qmd
+        - content/3_ecosystem_assessments/T1.1.10/T1.1.10_crit_b.qmd
+    - part: "T1.1.11 - Guaianan piedmont forestsi"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.11/T1.1.11.qmd
+        - content/3_ecosystem_assessments/T1.1.11/T1.1.11_crit_b.qmd
+    - part: "T1.1.12 - Japurá-Solimões-Negro moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.12/T1.1.12.qmd
+        - content/3_ecosystem_assessments/T1.1.12/T1.1.12_crit_b.qmd
+    - part: "T1.1.13 - Japurá-Solimões-Negro moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.13/T1.1.13.qmd
+        - content/3_ecosystem_assessments/T1.1.13/T1.1.13_crit_b.qmd
+    - part: "T1.1.14 - Japurá-Solimões-Negro moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.14/T1.1.14.qmd
+        - content/3_ecosystem_assessments/T1.1.14/T1.1.14_crit_b.qmd
+    - part: "T1.1.15 - Llanos"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.15/T1.1.15.qmd
+        - content/3_ecosystem_assessments/T1.1.15/T1.1.15_crit_b.qmd
+    - part: "T1.1.16 - Magdalena-Urabá moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.16/T1.1.16.qmd
+        - content/3_ecosystem_assessments/T1.1.16/T1.1.16_crit_b.qmd
+    - part: "T1.1.17 - Magdalena-Urabá moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.17/T1.1.17.qmd
+        - content/3_ecosystem_assessments/T1.1.17/T1.1.17_crit_b.qmd
+    - part: "T1.1.18 - Magdalena-Urabá moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.18/T1.1.18.qmd
+        - content/3_ecosystem_assessments/T1.1.18/T1.1.18_crit_b.qmd
+    - part: "T1.1.19 - Magdalena-Urabá moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.19/T1.1.19.qmd
+        - content/3_ecosystem_assessments/T1.1.19/T1.1.19_crit_b.qmd
+    - part: "T1.1.2 - Caqueta moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.2/T1.1.2.qmd
+        - content/3_ecosystem_assessments/T1.1.2/T1.1.2_crit_b.qmd
+    - part: "T1.1.20 - Napo moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.20/T1.1.20.qmd
+        - content/3_ecosystem_assessments/T1.1.20/T1.1.20_crit_b.qmd
+    - part: "T1.1.21 - Napo moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.21/T1.1.21.qmd
+        - content/3_ecosystem_assessments/T1.1.21/T1.1.21_crit_b.qmd
+    - part: "T1.1.22 - Napo moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.22/T1.1.22.qmd
+        - content/3_ecosystem_assessments/T1.1.22/T1.1.22_crit_b.qmd
+    - part: "T1.1.23 - Solimões-Japurá moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.23/T1.1.23.qmd
+        - content/3_ecosystem_assessments/T1.1.23/T1.1.23_crit_b.qmd
+    - part: "T1.1.24 - Solimões-Japurá moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.24/T1.1.24.qmd
+        - content/3_ecosystem_assessments/T1.1.24/T1.1.24_crit_b.qmd
+    - part: "T1.1.25 - Solimões-Japurá moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.25/T1.1.25.qmd
+        - content/3_ecosystem_assessments/T1.1.25/T1.1.25_crit_b.qmd
+    - part: "T1.1.26 - Western Ecuador moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.26/T1.1.26.qmd
+        - content/3_ecosystem_assessments/T1.1.26/T1.1.26_crit_b.qmd
+    - part: "T1.1.27 - Western Ecuador moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.27/T1.1.27.qmd
+        - content/3_ecosystem_assessments/T1.1.27/T1.1.27_crit_b.qmd
+    - part: "T1.1.3 - Caqueta moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.3/T1.1.3.qmd
+        - content/3_ecosystem_assessments/T1.1.3/T1.1.3_crit_b.qmd
+    - part: "T1.1.4 - Caqueta moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.4/T1.1.4.qmd
+        - content/3_ecosystem_assessments/T1.1.4/T1.1.4_crit_b.qmd
+    - part: "T1.1.5 - Catatumbo moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.5/T1.1.5.qmd
+        - content/3_ecosystem_assessments/T1.1.5/T1.1.5_crit_b.qmd
+    - part: "T1.1.6 - Catatumbo moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.6/T1.1.6.qmd
+        - content/3_ecosystem_assessments/T1.1.6/T1.1.6_crit_b.qmd
+    - part: "T1.1.7 - Chocó-Darién moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.7/T1.1.7.qmd
+        - content/3_ecosystem_assessments/T1.1.7/T1.1.7_crit_b.qmd
+    - part: "T1.1.8 - Chocó-Darién moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.8/T1.1.8.qmd
+        - content/3_ecosystem_assessments/T1.1.8/T1.1.8_crit_b.qmd
+    - part: "T1.1.9 - Chocó-Darién moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.1.9/T1.1.9.qmd
+        - content/3_ecosystem_assessments/T1.1.9/T1.1.9_crit_b.qmd
+    - part: "T1.2.1 - Catatumbo Ocaña dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.1/T1.2.1.qmd
+        - content/3_ecosystem_assessments/T1.2.1/T1.2.1_crit_b.qmd
+    - part: "T1.2.10 - Cordillera Oriental montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.10/T1.2.10.qmd
+        - content/3_ecosystem_assessments/T1.2.10/T1.2.10_crit_b.qmd
+    - part: "T1.2.11 - Guajira-Barranquilla xeric scrub"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.11/T1.2.11.qmd
+        - content/3_ecosystem_assessments/T1.2.11/T1.2.11_crit_b.qmd
+    - part: "T1.2.12 - Guajira-Barranquilla xeric scrub"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.12/T1.2.12.qmd
+        - content/3_ecosystem_assessments/T1.2.12/T1.2.12_crit_b.qmd
+    - part: "T1.2.13 - Guajira-Barranquilla xeric scrub"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.13/T1.2.13.qmd
+        - content/3_ecosystem_assessments/T1.2.13/T1.2.13_crit_b.qmd
+    - part: "T1.2.14 - Guajira-Barranquilla xeric scrub"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.14/T1.2.14.qmd
+        - content/3_ecosystem_assessments/T1.2.14/T1.2.14_crit_b.qmd
+    - part: "T1.2.15 - Magdalena Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.15/T1.2.15.qmd
+        - content/3_ecosystem_assessments/T1.2.15/T1.2.15_crit_b.qmd
+    - part: "T1.2.16 - Magdalena Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.16/T1.2.16.qmd
+        - content/3_ecosystem_assessments/T1.2.16/T1.2.16_crit_b.qmd
+    - part: "T1.2.17 - Magdalena Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.17/T1.2.17.qmd
+        - content/3_ecosystem_assessments/T1.2.17/T1.2.17_crit_b.qmd
+    - part: "T1.2.18 - Magdalena Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.18/T1.2.18.qmd
+        - content/3_ecosystem_assessments/T1.2.18/T1.2.18_crit_b.qmd
+    - part: "T1.2.19 - Patìa-Dagua dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.19/T1.2.19.qmd
+        - content/3_ecosystem_assessments/T1.2.19/T1.2.19_crit_b.qmd
+    - part: "T1.2.2 - Catatumbo Ocaña dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.2/T1.2.2.qmd
+        - content/3_ecosystem_assessments/T1.2.2/T1.2.2_crit_b.qmd
+    - part: "T1.2.20 - Patìa-Dagua dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.20/T1.2.20.qmd
+        - content/3_ecosystem_assessments/T1.2.20/T1.2.20_crit_b.qmd
+    - part: "T1.2.21 - Patìa-Dagua dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.21/T1.2.21.qmd
+        - content/3_ecosystem_assessments/T1.2.21/T1.2.21_crit_b.qmd
+    - part: "T1.2.22 - Patìa-Dagua dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.22/T1.2.22.qmd
+        - content/3_ecosystem_assessments/T1.2.22/T1.2.22_crit_b.qmd
+    - part: "T1.2.23 - Patìa-Dagua dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.23/T1.2.23.qmd
+        - content/3_ecosystem_assessments/T1.2.23/T1.2.23_crit_b.qmd
+    - part: "T1.2.24 - Sinú Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.24/T1.2.24.qmd
+        - content/3_ecosystem_assessments/T1.2.24/T1.2.24_crit_b.qmd
+    - part: "T1.2.25 - Sinú Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.25/T1.2.25.qmd
+        - content/3_ecosystem_assessments/T1.2.25/T1.2.25_crit_b.qmd
+    - part: "T1.2.26 - Sinú Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.26/T1.2.26.qmd
+        - content/3_ecosystem_assessments/T1.2.26/T1.2.26_crit_b.qmd
+    - part: "T1.2.27 - Sinú Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.27/T1.2.27.qmd
+        - content/3_ecosystem_assessments/T1.2.27/T1.2.27_crit_b.qmd
+    - part: "T1.2.28 - Magdalena Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.28/T1.2.28.qmd
+        - content/3_ecosystem_assessments/T1.2.28/T1.2.28_crit_b.qmd
+    - part: "T1.2.3 - Catatumbo Ocaña dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.3/T1.2.3.qmd
+        - content/3_ecosystem_assessments/T1.2.3/T1.2.3_crit_b.qmd
+    - part: "T1.2.4 - Cauca Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.4/T1.2.4.qmd
+        - content/3_ecosystem_assessments/T1.2.4/T1.2.4_crit_b.qmd
+    - part: "T1.2.5 - Cauca Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.5/T1.2.5.qmd
+        - content/3_ecosystem_assessments/T1.2.5/T1.2.5_crit_b.qmd
+    - part: "T1.2.6 - Cauca Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.6/T1.2.6.qmd
+        - content/3_ecosystem_assessments/T1.2.6/T1.2.6_crit_b.qmd
+    - part: "T1.2.7 - Cauca Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.7/T1.2.7.qmd
+        - content/3_ecosystem_assessments/T1.2.7/T1.2.7_crit_b.qmd
+    - part: "T1.2.8 - Chicamocha Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.8/T1.2.8.qmd
+        - content/3_ecosystem_assessments/T1.2.8/T1.2.8_crit_b.qmd
+    - part: "T1.2.9 - Chicamocha Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.2.9/T1.2.9.qmd
+        - content/3_ecosystem_assessments/T1.2.9/T1.2.9_crit_b.qmd
+    - part: "T1.3.1 - Catatumbo moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.1/T1.3.1.qmd
+        - content/3_ecosystem_assessments/T1.3.1/T1.3.1_crit_b.qmd
+    - part: "T1.3.10 - Cordillera Oriental montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.10/T1.3.10.qmd
+        - content/3_ecosystem_assessments/T1.3.10/T1.3.10_crit_b.qmd
+    - part: "T1.3.11 - Cordillera Oriental montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.11/T1.3.11.qmd
+        - content/3_ecosystem_assessments/T1.3.11/T1.3.11_crit_b.qmd
+    - part: "T1.3.12 - Cordillera Oriental montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.12/T1.3.12.qmd
+        - content/3_ecosystem_assessments/T1.3.12/T1.3.12_crit_b.qmd
+    - part: "T1.3.13 - Cordillera Oriental montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.13/T1.3.13.qmd
+        - content/3_ecosystem_assessments/T1.3.13/T1.3.13_crit_b.qmd
+    - part: "T1.3.14 - Cordillera Oriental montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.14/T1.3.14.qmd
+        - content/3_ecosystem_assessments/T1.3.14/T1.3.14_crit_b.qmd
+    - part: "T1.3.15 - Cordillera Oriental montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.15/T1.3.15.qmd
+        - content/3_ecosystem_assessments/T1.3.15/T1.3.15_crit_b.qmd
+    - part: "T1.3.16 - Cordillera Oriental montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.16/T1.3.16.qmd
+        - content/3_ecosystem_assessments/T1.3.16/T1.3.16_crit_b.qmd
+    - part: "T1.3.17 - Eastern Cordillera Real montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.17/T1.3.17.qmd
+        - content/3_ecosystem_assessments/T1.3.17/T1.3.17_crit_b.qmd
+    - part: "T1.3.18 - Eastern Cordillera Real montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.18/T1.3.18.qmd
+        - content/3_ecosystem_assessments/T1.3.18/T1.3.18_crit_b.qmd
+    - part: "T1.3.19 - Eastern Cordillera Real montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.19/T1.3.19.qmd
+        - content/3_ecosystem_assessments/T1.3.19/T1.3.19_crit_b.qmd
+    - part: "T1.3.2 - Catatumbo moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.2/T1.3.2.qmd
+        - content/3_ecosystem_assessments/T1.3.2/T1.3.2_crit_b.qmd
+    - part: "T1.3.20 - Eastern Cordillera Real montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.20/T1.3.20.qmd
+        - content/3_ecosystem_assessments/T1.3.20/T1.3.20_crit_b.qmd
+    - part: "T1.3.21 - Eastern Cordillera Real montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.21/T1.3.21.qmd
+        - content/3_ecosystem_assessments/T1.3.21/T1.3.21_crit_b.qmd
+    - part: "T1.3.22 - Macarena montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.22/T1.3.22.qmd
+        - content/3_ecosystem_assessments/T1.3.22/T1.3.22_crit_b.qmd
+    - part: "T1.3.23 - Macarena montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.23/T1.3.23.qmd
+        - content/3_ecosystem_assessments/T1.3.23/T1.3.23_crit_b.qmd
+    - part: "T1.3.24 - Macarena montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.24/T1.3.24.qmd
+        - content/3_ecosystem_assessments/T1.3.24/T1.3.24_crit_b.qmd
+    - part: "T1.3.25 - Magdalena Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.25/T1.3.25.qmd
+        - content/3_ecosystem_assessments/T1.3.25/T1.3.25_crit_b.qmd
+    - part: "T1.3.26 - Magdalena Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.26/T1.3.26.qmd
+        - content/3_ecosystem_assessments/T1.3.26/T1.3.26_crit_b.qmd
+    - part: "T1.3.27 - Magdalena Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.27/T1.3.27.qmd
+        - content/3_ecosystem_assessments/T1.3.27/T1.3.27_crit_b.qmd
+    - part: "T1.3.28 - Magdalena Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.28/T1.3.28.qmd
+        - content/3_ecosystem_assessments/T1.3.28/T1.3.28_crit_b.qmd
+    - part: "T1.3.29 - Magdalena Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.29/T1.3.29.qmd
+        - content/3_ecosystem_assessments/T1.3.29/T1.3.29_crit_b.qmd
+    - part: "T1.3.3 - Cauca Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.3/T1.3.3.qmd
+        - content/3_ecosystem_assessments/T1.3.3/T1.3.3_crit_b.qmd
+    - part: "T1.3.30 - Magdalena Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.30/T1.3.30.qmd
+        - content/3_ecosystem_assessments/T1.3.30/T1.3.30_crit_b.qmd
+    - part: "T1.3.31 - Magdalena Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.31/T1.3.31.qmd
+        - content/3_ecosystem_assessments/T1.3.31/T1.3.31_crit_b.qmd
+    - part: "T1.3.32 - Magdalena Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.32/T1.3.32.qmd
+        - content/3_ecosystem_assessments/T1.3.32/T1.3.32_crit_b.qmd
+    - part: "T1.3.33 - Magdalena Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.33/T1.3.33.qmd
+        - content/3_ecosystem_assessments/T1.3.33/T1.3.33_crit_b.qmd
+    - part: "T1.3.34 - Northwest Andean montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.34/T1.3.34.qmd
+        - content/3_ecosystem_assessments/T1.3.34/T1.3.34_crit_b.qmd
+    - part: "T1.3.35 - Northwest Andean montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.35/T1.3.35.qmd
+        - content/3_ecosystem_assessments/T1.3.35/T1.3.35_crit_b.qmd
+    - part: "T1.3.36 - Northwest Andean montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.36/T1.3.36.qmd
+        - content/3_ecosystem_assessments/T1.3.36/T1.3.36_crit_b.qmd
+    - part: "T1.3.37 - Northwest Andean montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.37/T1.3.37.qmd
+        - content/3_ecosystem_assessments/T1.3.37/T1.3.37_crit_b.qmd
+    - part: "T1.3.38 - Northwest Andean montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.38/T1.3.38.qmd
+        - content/3_ecosystem_assessments/T1.3.38/T1.3.38_crit_b.qmd
+    - part: "T1.3.39 - Northwest Andean montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.39/T1.3.39.qmd
+        - content/3_ecosystem_assessments/T1.3.39/T1.3.39_crit_b.qmd
+    - part: "T1.3.4 - Cauca Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.4/T1.3.4.qmd
+        - content/3_ecosystem_assessments/T1.3.4/T1.3.4_crit_b.qmd
+    - part: "T1.3.40 - Northwest Andean montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.40/T1.3.40.qmd
+        - content/3_ecosystem_assessments/T1.3.40/T1.3.40_crit_b.qmd
+    - part: "T1.3.41 - Northwest Andean montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.41/T1.3.41.qmd
+        - content/3_ecosystem_assessments/T1.3.41/T1.3.41_crit_b.qmd
+    - part: "T1.3.42 - Santa Marta montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.42/T1.3.42.qmd
+        - content/3_ecosystem_assessments/T1.3.42/T1.3.42_crit_b.qmd
+    - part: "T1.3.43 - Santa Marta montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.43/T1.3.43.qmd
+        - content/3_ecosystem_assessments/T1.3.43/T1.3.43_crit_b.qmd
+    - part: "T1.3.44 - Santa Marta montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.44/T1.3.44.qmd
+        - content/3_ecosystem_assessments/T1.3.44/T1.3.44_crit_b.qmd
+    - part: "T1.3.5 - Cauca Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.5/T1.3.5.qmd
+        - content/3_ecosystem_assessments/T1.3.5/T1.3.5_crit_b.qmd
+    - part: "T1.3.6 - Cauca Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.6/T1.3.6.qmd
+        - content/3_ecosystem_assessments/T1.3.6/T1.3.6_crit_b.qmd
+    - part: "T1.3.7 - Cauca Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.7/T1.3.7.qmd
+        - content/3_ecosystem_assessments/T1.3.7/T1.3.7_crit_b.qmd
+    - part: "T1.3.8 - Cauca Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.8/T1.3.8.qmd
+        - content/3_ecosystem_assessments/T1.3.8/T1.3.8_crit_b.qmd
+    - part: "T1.3.9 - Cordillera Oriental montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.3.9/T1.3.9.qmd
+        - content/3_ecosystem_assessments/T1.3.9/T1.3.9_crit_b.qmd
+    - part: "T1.4.1 - Japurá-Solimões-Negro moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.4.1/T1.4.1.qmd
+        - content/3_ecosystem_assessments/T1.4.1/T1.4.1_crit_b.qmd
+    - part: "T1.4.2 - Negro-Branco moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T1.4.2/T1.4.2.qmd
+        - content/3_ecosystem_assessments/T1.4.2/T1.4.2_crit_b.qmd
+    - part: "T1.4.3 - Rio Negro Campinas"
+      chapters:
+        - content/3_ecosystem_assessments/T1.4.3/T1.4.3.qmd
+        - content/3_ecosystem_assessments/T1.4.3/T1.4.3_crit_b.qmd
     - part: "T3.1.1 - Pantepui"
       chapters:
         - content/3_ecosystem_assessments/T3.1.1/T3.1.1.qmd
         - content/3_ecosystem_assessments/T3.1.1/T3.1.1_crit_b.qmd
+    - part: "T3.1.2 - Pantepui"
+      chapters:
+        - content/3_ecosystem_assessments/T3.1.2/T3.1.2.qmd
+        - content/3_ecosystem_assessments/T3.1.2/T3.1.2_crit_b.qmd
+    - part: "T4.2.1 - Chicamocha Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T4.2.1/T4.2.1.qmd
+        - content/3_ecosystem_assessments/T4.2.1/T4.2.1_crit_b.qmd
+    - part: "T4.2.10 - Llanos"
+      chapters:
+        - content/3_ecosystem_assessments/T4.2.10/T4.2.10.qmd
+        - content/3_ecosystem_assessments/T4.2.10/T4.2.10_crit_b.qmd
+    - part: "T4.2.11 - Llanos"
+      chapters:
+        - content/3_ecosystem_assessments/T4.2.11/T4.2.11.qmd
+        - content/3_ecosystem_assessments/T4.2.11/T4.2.11_crit_b.qmd
+    - part: "T4.2.12 - Sinú Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T4.2.12/T4.2.12.qmd
+        - content/3_ecosystem_assessments/T4.2.12/T4.2.12_crit_b.qmd
     - part: "T4.2.2 - Llanos"
       chapters:
         - content/3_ecosystem_assessments/T4.2.2/T4.2.2.qmd
         - content/3_ecosystem_assessments/T4.2.2/T4.2.2_crit_b.qmd
+    - part: "T4.2.3 - Llanos"
+      chapters:
+        - content/3_ecosystem_assessments/T4.2.3/T4.2.3.qmd
+        - content/3_ecosystem_assessments/T4.2.3/T4.2.3_crit_b.qmd
+    - part: "T4.2.4 - Llanos"
+      chapters:
+        - content/3_ecosystem_assessments/T4.2.4/T4.2.4.qmd
+        - content/3_ecosystem_assessments/T4.2.4/T4.2.4_crit_b.qmd
+    - part: "T4.2.5 - Llanos"
+      chapters:
+        - content/3_ecosystem_assessments/T4.2.5/T4.2.5.qmd
+        - content/3_ecosystem_assessments/T4.2.5/T4.2.5_crit_b.qmd
+    - part: "T4.2.6 - Llanos"
+      chapters:
+        - content/3_ecosystem_assessments/T4.2.6/T4.2.6.qmd
+        - content/3_ecosystem_assessments/T4.2.6/T4.2.6_crit_b.qmd
+    - part: "T4.2.7 - Llanos"
+      chapters:
+        - content/3_ecosystem_assessments/T4.2.7/T4.2.7.qmd
+        - content/3_ecosystem_assessments/T4.2.7/T4.2.7_crit_b.qmd
+    - part: "T4.2.8 - Llanos"
+      chapters:
+        - content/3_ecosystem_assessments/T4.2.8/T4.2.8.qmd
+        - content/3_ecosystem_assessments/T4.2.8/T4.2.8_crit_b.qmd
+    - part: "T4.2.9 - Magdalena-Urabá moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/T4.2.9/T4.2.9.qmd
+        - content/3_ecosystem_assessments/T4.2.9/T4.2.9_crit_b.qmd
     - part: "T5.2.1 - Guajira-Barranquilla xeric scrub"
       chapters:
         - content/3_ecosystem_assessments/T5.2.1/T5.2.1.qmd
@@ -41,6 +569,102 @@ book:
       chapters:
         - content/3_ecosystem_assessments/T5.2.3/T5.2.3.qmd
         - content/3_ecosystem_assessments/T5.2.3/T5.2.3_crit_b.qmd
+    - part: "T6.5.1 - Northern Andean Paramo"
+      chapters:
+        - content/3_ecosystem_assessments/T6.5.1/T6.5.1.qmd
+        - content/3_ecosystem_assessments/T6.5.1/T6.5.1_crit_b.qmd
+    - part: "T6.5.2 - Northern Andean Paramo"
+      chapters:
+        - content/3_ecosystem_assessments/T6.5.2/T6.5.2.qmd
+        - content/3_ecosystem_assessments/T6.5.2/T6.5.2_crit_b.qmd
+    - part: "T6.5.3 - Northern Andean Paramo"
+      chapters:
+        - content/3_ecosystem_assessments/T6.5.3/T6.5.3.qmd
+        - content/3_ecosystem_assessments/T6.5.3/T6.5.3_crit_b.qmd
+    - part: "T6.5.4 - Northern Andean Paramo"
+      chapters:
+        - content/3_ecosystem_assessments/T6.5.4/T6.5.4.qmd
+        - content/3_ecosystem_assessments/T6.5.4/T6.5.4_crit_b.qmd
+    - part: "T6.5.5 - Santa Marta Paramo"
+      chapters:
+        - content/3_ecosystem_assessments/T6.5.5/T6.5.5.qmd
+        - content/3_ecosystem_assessments/T6.5.5/T6.5.5_crit_b.qmd
+    - part: "T6.5.6 - Santa Marta Paramo"
+      chapters:
+        - content/3_ecosystem_assessments/T6.5.6/T6.5.6.qmd
+        - content/3_ecosystem_assessments/T6.5.6/T6.5.6_crit_b.qmd
+    - part: "TF1.1.1 - Amazon-Orinoco Alluvial forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.1.1/TF1.1.1.qmd
+        - content/3_ecosystem_assessments/TF1.1.1/TF1.1.1_crit_b.qmd
+    - part: "TF1.1.2 - Amazon-Orinoco Alluvial forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.1.2/TF1.1.2.qmd
+        - content/3_ecosystem_assessments/TF1.1.2/TF1.1.2_crit_b.qmd
+    - part: "TF1.1.3 - Amazon-Orinoco Alluvial forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.1.3/TF1.1.3.qmd
+        - content/3_ecosystem_assessments/TF1.1.3/TF1.1.3_crit_b.qmd
+    - part: "TF1.1.4 - Amazon-Orinoco Alluvial forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.1.4/TF1.1.4.qmd
+        - content/3_ecosystem_assessments/TF1.1.4/TF1.1.4_crit_b.qmd
+    - part: "TF1.1.5 - Andean Alluvial forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.1.5/TF1.1.5.qmd
+        - content/3_ecosystem_assessments/TF1.1.5/TF1.1.5_crit_b.qmd
+    - part: "TF1.1.6 - Andean Alluvial forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.1.6/TF1.1.6.qmd
+        - content/3_ecosystem_assessments/TF1.1.6/TF1.1.6_crit_b.qmd
+    - part: "TF1.1.7 - Andean Alluvial forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.1.7/TF1.1.7.qmd
+        - content/3_ecosystem_assessments/TF1.1.7/TF1.1.7_crit_b.qmd
+    - part: "TF1.1.8 - Andean Pacific Alluvial forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.1.8/TF1.1.8.qmd
+        - content/3_ecosystem_assessments/TF1.1.8/TF1.1.8_crit_b.qmd
+    - part: "TF1.1.9 - Andean Pacific Alluvial forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.1.9/TF1.1.9.qmd
+        - content/3_ecosystem_assessments/TF1.1.9/TF1.1.9_crit_b.qmd
+    - part: "TF1.3.1 - Eastern Cordillera Real montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.3.1/TF1.3.1.qmd
+        - content/3_ecosystem_assessments/TF1.3.1/TF1.3.1_crit_b.qmd
+    - part: "TF1.3.2 - Magdalena Valley montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.3.2/TF1.3.2.qmd
+        - content/3_ecosystem_assessments/TF1.3.2/TF1.3.2_crit_b.qmd
+    - part: "TF1.3.3 - Northwest Andean montane forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.3.3/TF1.3.3.qmd
+        - content/3_ecosystem_assessments/TF1.3.3/TF1.3.3_crit_b.qmd
+    - part: "TF1.4.1 - Chocó-Darién moist forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.4.1/TF1.4.1.qmd
+        - content/3_ecosystem_assessments/TF1.4.1/TF1.4.1_crit_b.qmd
+    - part: "TF1.4.2 - Sinu-Magdalena wetlands"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.4.2/TF1.4.2.qmd
+        - content/3_ecosystem_assessments/TF1.4.2/TF1.4.2_crit_b.qmd
+    - part: "TF1.4.3 - Sinu-Magdalena wetlands"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.4.3/TF1.4.3.qmd
+        - content/3_ecosystem_assessments/TF1.4.3/TF1.4.3_crit_b.qmd
+    - part: "TF1.5.1 - Guajira-Barranquilla xeric scrub"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.5.1/TF1.5.1.qmd
+        - content/3_ecosystem_assessments/TF1.5.1/TF1.5.1_crit_b.qmd
+    - part: "TF1.5.2 - Magdalena Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.5.2/TF1.5.2.qmd
+        - content/3_ecosystem_assessments/TF1.5.2/TF1.5.2_crit_b.qmd
+    - part: "TF1.5.3 - Sinú Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/TF1.5.3/TF1.5.3.qmd
+        - content/3_ecosystem_assessments/TF1.5.3/TF1.5.3_crit_b.qmd
     - references.qmd
 
 bibliography: 
