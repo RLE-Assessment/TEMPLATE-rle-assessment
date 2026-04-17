@@ -1,11 +1,11 @@
-ecosystem_name: Null Island Alpine Grassland
+ecosystem_name: Null Island Marine Shelf
 country_name: Ruritania
 authors:
 - John Smith
 - Jane Smith
 biome: TODO
-functional_group: T6.5
-global_classification: T6.5.1
+functional_group: M1.1
+global_classification: M1.1.1
 iucn_status: TODO
 description: TODO
 distribution: TODO
