@@ -142,6 +142,7 @@ def main():
             (f"{code}.qmd", assessment_template),
             (f"{code}_crit_b.qmd", crit_b_template),
         ]:
+            page_path = out_dir / page_name
             page_path.write_text(_replace_ecosystem_code(template, code, name))
             print(f"  Created {page_path}")
 
