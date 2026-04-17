@@ -9,7 +9,7 @@ jupyter: python3
 #| echo: true
 # Default ecosystem code for template development.
 # This line is replaced by build_ecosystem_pages.py for each ecosystem.
-ecosystem_code = 'T1.1.1'
+ecosystem_code = 'T3.1.1'
 ```
 
 Import Python modules.

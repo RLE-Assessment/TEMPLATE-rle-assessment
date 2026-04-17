@@ -21,18 +21,26 @@ book:
     - content/1.0_introduction.qmd
     - content/2_ecosystem_overview.qmd
     - content/3_ecosystem_description.qmd
-    - part: "M1.1.1 - Null Island Marine Shelf"
+    - part: "T3.1.1 - Pantepui"
       chapters:
-        - content/3_ecosystem_assessments/M1.1.1/M1.1.1.qmd
-        - content/3_ecosystem_assessments/M1.1.1/M1.1.1_crit_b.qmd
-    - part: "T1.1.1 - Null Island Tropical Forest"
+        - content/3_ecosystem_assessments/T3.1.1/T3.1.1.qmd
+        - content/3_ecosystem_assessments/T3.1.1/T3.1.1_crit_b.qmd
+    - part: "T4.2.2 - Llanos"
       chapters:
-        - content/3_ecosystem_assessments/T1.1.1/T1.1.1.qmd
-        - content/3_ecosystem_assessments/T1.1.1/T1.1.1_crit_b.qmd
-    - part: "T6.5.1 - Null Island Alpine Grassland"
+        - content/3_ecosystem_assessments/T4.2.2/T4.2.2.qmd
+        - content/3_ecosystem_assessments/T4.2.2/T4.2.2_crit_b.qmd
+    - part: "T5.2.1 - Guajira-Barranquilla xeric scrub"
       chapters:
-        - content/3_ecosystem_assessments/T6.5.1/T6.5.1.qmd
-        - content/3_ecosystem_assessments/T6.5.1/T6.5.1_crit_b.qmd
+        - content/3_ecosystem_assessments/T5.2.1/T5.2.1.qmd
+        - content/3_ecosystem_assessments/T5.2.1/T5.2.1_crit_b.qmd
+    - part: "T5.2.2 - Guajira-Barranquilla xeric scrub"
+      chapters:
+        - content/3_ecosystem_assessments/T5.2.2/T5.2.2.qmd
+        - content/3_ecosystem_assessments/T5.2.2/T5.2.2_crit_b.qmd
+    - part: "T5.2.3 - Magdalena Valley dry forests"
+      chapters:
+        - content/3_ecosystem_assessments/T5.2.3/T5.2.3.qmd
+        - content/3_ecosystem_assessments/T5.2.3/T5.2.3_crit_b.qmd
     - references.qmd
 
 bibliography: 

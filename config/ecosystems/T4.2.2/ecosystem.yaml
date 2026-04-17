@@ -1,11 +1,11 @@
-ecosystem_name: Null Island Marine Shelf
+ecosystem_name: Llanos
 country_name: Ruritania
 authors:
 - John Smith
 - Jane Smith
 biome: TODO
-functional_group: M1.1
-global_classification: M1.1.1
+functional_group: T4.2
+global_classification: T4.2.2
 iucn_status: TODO
 description: TODO
 distribution: TODO

@@ -11,7 +11,7 @@ jupyter: python3
 
 # Default ecosystem code for template development.
 # This line is replaced by build_ecosystem_pages.py for each ecosystem.
-ecosystem_code = 'T1.1.1'
+ecosystem_code = 'T5.2.1'
 ```
 
 ```{python}

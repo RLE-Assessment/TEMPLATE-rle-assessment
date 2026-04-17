@@ -1,0 +1,52 @@
+ecosystem_name: Guajira-Barranquilla xeric scrub
+country_name: Ruritania
+authors:
+- John Smith
+- Jane Smith
+biome: TODO
+functional_group: T5.2
+global_classification: T5.2.2
+iucn_status: TODO
+description: TODO
+distribution: TODO
+characteristic_native_biota: TODO
+abiotic_environment: TODO
+key_processes_and_interactions: TODO
+major_threats: TODO
+ecosystem_collapse_definition: TODO
+assessment_summary: TODO
+criteria_status:
+  A:
+    A1: NE
+    A2a: NE
+    A2b: NE
+    A3: NE
+  B:
+    B1: NE
+    B2: NE
+    subcriteria: NE
+    B3: NE
+  C:
+    C1: NE
+    C2a: NE
+    C2b: NE
+    C3: NE
+  D:
+    D1: NE
+    D2a: NE
+    D2b: NE
+    D3: NE
+  E:
+    E: NE
+assessment_outcome: TODO
+year_published: TODO
+date_assessed: TODO
+assessment_credits:
+  assessed_by: TODO
+  reviewed_by: TODO
+  contributions_by: TODO
+criterion_a_description: TODO
+criterion_b_description: TODO
+criterion_c_description: TODO
+criterion_d_description: TODO
+criterion_e_description: TODO

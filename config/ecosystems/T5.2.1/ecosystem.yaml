@@ -1,11 +1,11 @@
-ecosystem_name: Null Island Tropical Forest
+ecosystem_name: Guajira-Barranquilla xeric scrub
 country_name: Ruritania
 authors:
 - John Smith
 - Jane Smith
 biome: TODO
-functional_group: T1.1
-global_classification: T1.1.1
+functional_group: T5.2
+global_classification: T5.2.1
 iucn_status: TODO
 description: TODO
 distribution: TODO
