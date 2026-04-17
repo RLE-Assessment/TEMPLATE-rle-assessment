@@ -99,7 +99,7 @@ from rle_python_gee.viz import smart_map
 
 if has_data:
     eoo_hull = make_eoo(ecosystem).compute()
-    smart_map([eoo_hull, ecosystem])
+    display(smart_map([eoo_hull, ecosystem]))
 ```
 
 ```{python}
@@ -177,7 +177,7 @@ if has_data:
     values = aoo_grid_filtered.grid_cells[ecosystem_column].values
     normalized = (values - values.min()) / (values.max() - values.min())
     colors = apply_continuous_cmap(normalized, cmap)
-    smart_map([(aoo_grid_filtered, {"get_fill_color": colors}), ecosystem])
+    display(smart_map([(aoo_grid_filtered, {"get_fill_color": colors}), ecosystem]))
 ```
 
 #### Calculate grid cell area and total area
@@ -190,7 +190,7 @@ if has_data:
 if has_data:
     keep = ['geometry', 'grid_col', 'grid_row', ecosystem_column]
     gdf = aoo_grid_filtered.grid_cells[keep]
-    gdf
+    display(gdf)
 ```
 
 The column `{python} ecosystem_column` contains the (fractional) area of the ecosystem in each grid cell.
@@ -202,7 +202,7 @@ Sum up the areas of each grid cell to get the total area.
 #| echo: true
 if has_data:
     total_area = gdf[ecosystem_column].sum()
-    total_area
+    display(total_area)
 ```
 
 #### Calculate cumulative area
@@ -215,7 +215,7 @@ if has_data:
 if has_data:
     gdf = gdf.sort_values(by=ecosystem_column)
     gdf["cumulative_area"] = gdf[ecosystem_column].cumsum()
-    gdf
+    display(gdf)
 ```
 
 #### Calculate cumulative proportion
@@ -227,7 +227,7 @@ if has_data:
 #| echo: true
 if has_data:
     gdf["cumulative_proportion"] = gdf["cumulative_area"] / total_area
-    gdf
+    display(gdf)
 ```
 
 #### Count AOO cells
@@ -254,7 +254,7 @@ if has_data:
 ```{python}
 #| label: display-aoo-map
 if has_data:
-    smart_map([aoo_grid_filtered, ecosystem])
+    display(smart_map([aoo_grid_filtered, ecosystem]))
 ```
 
 ## Criterion B Summary
