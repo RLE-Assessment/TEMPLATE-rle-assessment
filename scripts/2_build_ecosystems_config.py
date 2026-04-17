@@ -58,21 +58,24 @@ def main():
     indices = df.index[:args.max_ecosystems]
     print(f"Generating config for {len(indices)} of {len(df)} ecosystems...")
 
-    prompted = False
+    overwrite = args.overwrite
+    if not overwrite and ECOSYSTEMS_DIR.exists() and any(ECOSYSTEMS_DIR.iterdir()):
+        response = input(
+            f"  Existing config files found in {ECOSYSTEMS_DIR}/. "
+            f"Overwrite all? [y/N] "
+        )
+        if response.lower() != 'y':
+            print("  Aborting.")
+            return
+        overwrite = True
+
+    if overwrite and ECOSYSTEMS_DIR.exists():
+        shutil.rmtree(ECOSYSTEMS_DIR)
+        print(f"  Cleared {ECOSYSTEMS_DIR}/")
+
     for (functional_group, ecosystem_code) in indices:
         eco_dir = ECOSYSTEMS_DIR / ecosystem_code
         eco_file = eco_dir / "ecosystem.yaml"
-
-        if eco_file.exists() and not args.overwrite:
-            if not prompted:
-                prompted = True
-                response = input(
-                    f"  Existing config files found (e.g. {eco_file}). "
-                    f"Overwrite all? [y/N] "
-                )
-                if response.lower() != 'y':
-                    print("  Aborting.")
-                    return
 
         eco_dir.mkdir(parents=True, exist_ok=True)
 

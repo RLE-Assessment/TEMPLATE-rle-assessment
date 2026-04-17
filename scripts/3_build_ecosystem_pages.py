@@ -105,7 +105,18 @@ def main():
         shutil.rmtree(CACHE_DIR)
         print(f"  Cleared {CACHE_DIR}/")
 
-    if args.overwrite and OUTPUT_DIR.exists():
+    overwrite = args.overwrite
+    if not overwrite and OUTPUT_DIR.exists() and any(OUTPUT_DIR.iterdir()):
+        response = input(
+            f"  Existing pages found in {OUTPUT_DIR}/. "
+            f"Overwrite all? [y/N] "
+        )
+        if response.lower() != 'y':
+            print("  Aborting.")
+            return
+        overwrite = True
+
+    if overwrite and OUTPUT_DIR.exists():
         shutil.rmtree(OUTPUT_DIR)
         print(f"  Cleared {OUTPUT_DIR}/")
 
@@ -118,7 +129,6 @@ def main():
         print(f"No ecosystem configs found in {CONFIG_DIR}/")
         return
 
-    prompted = False
     for eco_path in eco_configs:
         with open(eco_path) as f:
             eco = yaml.safe_load(f)
@@ -132,17 +142,6 @@ def main():
             (f"{code}.qmd", assessment_template),
             (f"{code}_crit_b.qmd", crit_b_template),
         ]:
-            page_path = out_dir / page_name
-            if page_path.exists() and not args.overwrite:
-                if not prompted:
-                    prompted = True
-                    response = input(
-                        f"  Existing pages found (e.g. {page_path}). "
-                        f"Overwrite all? [y/N] "
-                    )
-                    if response.lower() != 'y':
-                        print("  Aborting.")
-                        return
             page_path.write_text(_replace_ecosystem_code(template, code, name))
             print(f"  Created {page_path}")
 
