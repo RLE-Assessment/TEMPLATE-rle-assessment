@@ -37,7 +37,7 @@ credits = eco.get('assessment_credits', {})
 ```{python}
 #| label: load-ecosystem-data
 #| echo: false
-from rle_python_gee.ecosystems import Ecosystems
+from rle.core import Ecosystems
 
 country_config_path = Path(project_root) / 'config' / 'country_config.yaml'
 with open(country_config_path) as f:

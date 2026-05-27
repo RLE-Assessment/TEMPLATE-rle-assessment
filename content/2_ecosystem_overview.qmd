@@ -23,11 +23,11 @@ from pprint import pprint
 import geopandas as gpd
 import yaml
 
-import rle_python_gee
+import rle.core
 import iucn_get_data
 from iucn_get_data import open_ecosystem_map, Typology
 
-print(f'{rle_python_gee.__version__ = }')
+print(f'{rle.core.__version__ = }')
 print(f'{iucn_get_data.__version__ = }')
 ```
 
@@ -45,7 +45,7 @@ pprint(config)
 #| label: initialize-google-earth-engine
 #| echo: false
 # Initialize Google Earth Engine.
-# rle_python_gee.ee_auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
+# rle.gee.auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
 ```
 
 
