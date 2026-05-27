@@ -20,9 +20,9 @@ import os
 import yaml
 from pathlib import Path
 from lonboard import Map
-from rle_python_gee.ecosystems import Ecosystems
-from rle_python_gee.eoo import make_eoo
-from rle_python_gee.aoo import make_aoo_grid
+from rle.core import Ecosystems
+from rle.core.eoo import make_eoo
+from rle.core.aoo import make_aoo_grid
 ```
 
 Load the country config file.
@@ -95,7 +95,7 @@ Display the ecosystem's distribution and the convex hull.
 #| label: display-eoo
 #| echo: true
 from lonboard import Map, PolygonLayer
-from rle_python_gee.viz import smart_map
+from rle.core.viz import smart_map
 
 if has_data:
     eoo_hull = make_eoo(ecosystem).compute()
@@ -154,7 +154,7 @@ if has_data:
 #| label: intersect-aoo-grid-and-ecosystem-map
 #| echo: true
 from pathlib import Path
-from rle_python_gee.aoo import make_aoo_grid_cached
+from rle.core.aoo import make_aoo_grid_cached
 
 if has_data:
     cache_path = Path(project_root) / '.cache' / 'aoo_grid.parquet'
@@ -169,7 +169,7 @@ Visualize variations in the AOO grid.
 #| echo: true
 from matplotlib.colors import LinearSegmentedColormap
 from lonboard.colormap import apply_continuous_cmap
-from rle_python_gee.aoo import slugify_ecosystem_name
+from rle.core.aoo import slugify_ecosystem_name
 
 ecosystem_column = slugify_ecosystem_name(ecosystem_code)
 if has_data:
