@@ -25,7 +25,7 @@ import yaml
 
 import rle.core
 import iucn_get_data
-from iucn_get_data import open_ecosystem_map, Typology
+from iucn_get_data import Typology
 
 print(f'{rle.core.__version__ = }')
 print(f'{iucn_get_data.__version__ = }')
@@ -42,93 +42,112 @@ pprint(config)
 ```
 
 ```{python}
-#| label: initialize-google-earth-engine
-#| echo: false
-# Initialize Google Earth Engine.
-# rle.gee.auth.initialize_ee(project=os.environ['GOOGLE_CLOUD_PROJECT'])
-```
-
-
-```{python}
 #| label: load-ecosystems-data
 #| echo: false
 #| output: false
-# Load the country's ecosystems data as a pandas DataFrame.
-ecosystems = open_ecosystem_map(
-    config['ecosystem_source']['data'],
-    get_level3_column=config['ecosystem_source']['functional_group_column'],
-    get_level456_column=config['ecosystem_source']['ecosystem_code_column']
-)
+# Load the country's ecosystems data as a GeoDataFrame.
+#
+# Column roles come from the config. The functional-group column is optional:
+# when it is not configured (or not present in the data), the GET typology
+# output (functional group, biome, realm) is omitted below.
+src = config['ecosystem_source']
+ecosystem_column = src['ecosystem_code_column']            # e.g. ECO_CODE
+ecosystem_name_column = src.get('ecosystem_name_column')   # e.g. ECO_NAME
+functional_group_column = src.get('functional_group_column')  # e.g. EFG1 or None
 
-ecosystems_df = ecosystems.functional_group_dataframe()
-ecosystems_df
+eco = rle.core.Ecosystems.from_file(
+    src['data'],
+    ecosystem_column=ecosystem_column,
+    ecosystem_name_column=ecosystem_name_column,
+    functional_group_column=functional_group_column,
+)
+ecosystems_df = eco.to_geodataframe()
+
+# The functional-group column is present only when it is both configured and
+# actually in the loaded data.
+has_functional_group = (
+    functional_group_column is not None
+    and functional_group_column in ecosystems_df.columns
+)
 ```
 
 ```{python}
 #| label: calculate-ecosystem-type-and-biome-counts
 #| echo: false
-ecosystem_type_count = len(ecosystems_df)
-biome_count = len(ecosystems_df.index.get_level_values('EFG1').unique())
+ecosystem_type_count = len(eco.unique_ecosystems())
+biome_count = len(eco.unique_functional_groups()) if has_functional_group else None
 ```
 
-
-The {{< meta country-name >}} ecosystem typology includes `{python} ecosystem_type_count` ecosystem types across `{python} biome_count` biomes (@tbl-typology).
-The ecosystem typology is consistent with the IUCN global ecosystem typology [@keith2020get]
-to support crosswalks and comparisons with Red Lists of ecosystems in other countries and
-regions. The {{< meta country-name >}} ecosystem typology has a hierarchical structure, where each ecosystem type is assigned to a realm, biome and functional group (ecotype).
-Realm refers to one of the four component media in the biosphere (@fig-realm-distribution),
-biome is the segment of the biosphere united by major functional traits and macro-environmental features (@fig-biome-distribution),
-and functional group is a group of related ecosystems within a biome (@fig-functional-group-distribution).
-The distribution of {{< meta country-name >}}’s ecosystem types is shown in @fig-heat-map-ecosystems,
-and map data is made publicly available ([reference?]{.mark}).
 
 ```{python}
-#| label: create-typology
+#| label: ecosystem-overview-narrative
 #| echo: false
-typology_es = iucn_get_data.Typology(
-    language="spanish",
-    ecosystems=ecosystems_df.drop(columns=['COD_new', 'ECRG', 'EFG2', 'EFG_Etter', 'GETyp_CODn'], errors='ignore'),
-    ecosystems_functional_group_column='EFG1',
-    ecosystems_column='ECO_CODE',
-    ecosystem_name_column='ECO_NAME',
-)
-```
+#| output: asis
+# Build the overview text from the data. The GET-typology sentences (biome
+# count, IUCN GET crosswalk, realm/biome/functional-group hierarchy) are
+# included only when a functional-group column is present.
+country = config['country_name']
 
+sentences = []
+if has_functional_group:
+    sentences.append(
+        f"The {country} ecosystem typology includes {ecosystem_type_count} "
+        f"ecosystem types across {biome_count} biomes (@tbl-typology)."
+    )
+    sentences.append(
+        "The ecosystem typology is consistent with the IUCN global ecosystem "
+        "typology [@keith2020get] to support crosswalks and comparisons with "
+        "Red Lists of ecosystems in other countries and regions."
+    )
+    sentences.append(
+        f"The {country} ecosystem typology has a hierarchical structure, where "
+        "each ecosystem type is assigned to a realm, biome and functional group "
+        "(ecotype). Realm refers to one of the four component media in the "
+        "biosphere, biome is the segment of the biosphere united by major "
+        "functional traits and macro-environmental features, and functional "
+        "group is a group of related ecosystems within a biome."
+    )
+else:
+    sentences.append(
+        f"The {country} ecosystem typology includes {ecosystem_type_count} "
+        f"ecosystem types (@tbl-typology)."
+    )
+
+sentences.append(
+    f"The distribution of {country}'s ecosystem types is shown in "
+    "@fig-heat-map-ecosystems."
+)
+
+print(" ".join(sentences))
+```
 
 ```{python}
 #| label: tbl-typology
 #| echo: false
 #| tbl-cap: "List of the terrestrial ecosystems of {{< meta country-name >}} developed in this project."
-typology_es
+# With a functional-group column, show the full GET typology (realm / biome /
+# functional group / ecosystem). Otherwise show a plain ecosystem list.
+if has_functional_group:
+    typology = iucn_get_data.Typology(
+        language="spanish",
+        ecosystems=ecosystems_df,
+        ecosystems_functional_group_column=functional_group_column,
+        ecosystems_column=ecosystem_column,
+        ecosystem_name_column=ecosystem_name_column,
+    )
+    display(typology)
+else:
+    cols = [c for c in (ecosystem_column, ecosystem_name_column) if c]
+    display(
+        ecosystems_df[cols].drop_duplicates().reset_index(drop=True)
+    )
 ```
 
-```{python}
-#| label: fig-realm-distribution
-#| echo: false
-#| fig-cap: "The distribution of the realms of {{< meta country-name >}}."
-m_realm = ecosystems.to_realm_map(view_state=config['view_state'])
-m_realm
-```
-
-```{python}
-#| label: fig-biome-distribution
-#| echo: false
-#| fig-cap: "The distribution of the biomes of {{< meta country-name >}}."
-m_biome = ecosystems.to_biome_map(view_state=config['view_state'])
-m_biome
-```
-
-```{python}
-#| label: fig-functional-group-distribution
-#| echo: false
-#| fig-cap: "The distribution of the biomes of {{< meta country-name >}}."
-ecosystems.to_functional_group_map(view_state=config['view_state'])
-```
 
 ```{python}
 #| label: fig-heat-map-ecosystems
 #| echo: false
-#| fig-cap: "Heat map of the distribution of natural ecosystem types of {{< meta country-name >} mapped as the number of ecosystems intersecting a 10 x 10 km grid."
+#| fig-cap: "Heat map of the distribution of natural ecosystem types of {{< meta country-name >}} mapped as the number of ecosystems intersecting a 10 x 10 km grid."
 print('(Heat map of the distribution of natural ecosystem types not implemented yet.)')
 ```
 
