@@ -12,6 +12,7 @@ Existing files are not overwritten unless --overwrite is passed.
 """
 
 import argparse
+import hashlib
 import re
 import shutil
 from pathlib import Path
@@ -32,9 +33,20 @@ _DEFAULT_CODE = "M1.1.1"
 _DEFAULT_NAME = "Null Island Marine Shelf"
 
 
-def _replace_ecosystem_code(template_text: str, code: str, name: str) -> str:
-    """Replace the ecosystem_code assignment and heading text in a template."""
-    text = _CODE_PATTERN.sub(rf"\g<1>'{code}'", template_text)
+def _replace_ecosystem_code(template_text: str, code: str, name: str,
+                            config_hash: str | None = None) -> str:
+    """Replace the ecosystem_code assignment and heading text in a template.
+
+    When ``config_hash`` is given, it is embedded as a comment on the
+    ``ecosystem_code`` line. The generated page is otherwise byte-identical no
+    matter what the source ``ecosystem.yaml`` contains, so without this Quarto's
+    ``freeze: auto`` cache would serve a stale render after the config is edited.
+    Threading the config hash into the page invalidates that cache on any edit.
+    """
+    replacement = rf"\g<1>'{code}'"
+    if config_hash is not None:
+        replacement += f"  # source-config sha256: {config_hash}"
+    text = _CODE_PATTERN.sub(replacement, template_text)
     text = text.replace(f"{_DEFAULT_NAME} ({_DEFAULT_CODE})", f"{name} ({code})")
     text = text.replace(f"{_DEFAULT_CODE} Criterion B", f"{code} Criterion B")
     return text
@@ -132,18 +144,24 @@ def main():
     for eco_path in eco_configs:
         with open(eco_path) as f:
             eco = yaml.safe_load(f)
+        # Hash the source config so freeze re-executes the assessment page when it
+        # is edited. Only the assessment page reads ecosystem.yaml; crit_b derives
+        # from the spatial data, so it gets no hash (avoids needless AOO/EOO reruns).
+        config_hash = hashlib.sha256(eco_path.read_bytes()).hexdigest()
 
         code = eco["global_classification"]
         name = eco.get("ecosystem_name", code)
         out_dir = OUTPUT_DIR / code
         out_dir.mkdir(parents=True, exist_ok=True)
 
-        for page_name, template in [
-            (f"{code}.qmd", assessment_template),
-            (f"{code}_crit_b.qmd", crit_b_template),
+        for page_name, template, page_hash in [
+            (f"{code}.qmd", assessment_template, config_hash),
+            (f"{code}_crit_b.qmd", crit_b_template, None),
         ]:
             page_path = out_dir / page_name
-            page_path.write_text(_replace_ecosystem_code(template, code, name))
+            page_path.write_text(
+                _replace_ecosystem_code(template, code, name, page_hash)
+            )
             print(f"  Created {page_path}")
 
     # Update _quarto.yml chapters list

@@ -30,11 +30,13 @@ wkls = ">=1.1.0, <2"
 
 [tool.pixi.tasks]
 tinytex-install = "quarto install tinytex"
-# Regenerate config/ecosystems/ if it has drifted from ecosystem_source; the render
-# tasks depend on it so a render always runs against an in-sync config.
-ecosystems-sync = "python scripts/sync_ecosystems.py"
-quarto-render = { cmd = "quarto render", depends-on = ["ecosystems-sync"] }
-preview = { cmd = "quarto preview", depends-on = ["ecosystems-sync"] }
+# Rebuild the derived ecosystem layer (content/3_ecosystem_assessments/ + _quarto.yml
+# chapters) from config/ecosystems/ before rendering, scaffolding config/ecosystems/
+# from ecosystem_source if it is missing. Use `pixi run render` / `pixi run preview`
+# (not raw `quarto render`), so the book config is consistent before Quarto reads it.
+build-ecosystems = "python scripts/build_ecosystems.py"
+render = { cmd = "quarto render", depends-on = ["build-ecosystems"] }
+preview = { cmd = "quarto preview", depends-on = ["build-ecosystems"] }
 
 [tool.pixi.dependencies]
 python = "==3.11"

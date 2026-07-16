@@ -15,7 +15,7 @@ Make changes, preview the changes, and repeat until satisfied.
 
 Render the final HTML and PDF artifacts:
 ```
-pixi run quarto-render
+pixi run render
 ```
 
 Commit and push your changes to publish the site.
