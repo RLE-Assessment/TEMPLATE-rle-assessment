@@ -4,6 +4,12 @@ project:
 execute:
   freeze: auto
 
+# The criteria table (rowspan) and the pandas dataframe outputs in the criterion-B
+# pages are raw HTML tables Quarto can't parse into Pandoc tables; it skips them and
+# warns. Disable raw-HTML-table processing to silence those warnings (no visual change;
+# native Markdown tables are unaffected).
+html-table-processing: none
+
 book:
   title: "Threatened ecosystems of Ruritania"
   subtitle: An IUCN Red List of Ecosystems Assessment
