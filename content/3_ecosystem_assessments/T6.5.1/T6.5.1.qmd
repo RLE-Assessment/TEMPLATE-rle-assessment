@@ -11,7 +11,7 @@ jupyter: python3
 
 # Default ecosystem code for template development.
 # This line is replaced by build_ecosystem_pages.py for each ecosystem.
-ecosystem_code = 'T6.5.1'
+ecosystem_code = 'T6.5.1'  # source-config sha256: b21521f68c32da9b357e123735c0fd125f3d88918f002e90327cb450ce0880bc
 ```
 
 ```{python}
@@ -47,8 +47,8 @@ source = country_config['ecosystem_source']
 ecosystems = Ecosystems.from_file(
     source['data'],
     ecosystem_column=source['ecosystem_code_column'],
-    ecosystem_name_column=source['ecosystem_name_column'],
-    functional_group_column=source['functional_group_column']
+    ecosystem_name_column=source.get('ecosystem_name_column'),
+    functional_group_column=source.get('functional_group_column')
 )
 ecosystem = ecosystems.filter(ecosystem_code)
 if ecosystem.size() > 0:

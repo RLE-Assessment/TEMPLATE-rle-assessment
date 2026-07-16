@@ -45,8 +45,8 @@ source = config['ecosystem_source']
 ecosystems = Ecosystems.from_file(
     source['data'],
     ecosystem_column=source['ecosystem_code_column'],
-    ecosystem_name_column=source['ecosystem_name_column'],
-    functional_group_column=source['functional_group_column']
+    ecosystem_name_column=source.get('ecosystem_name_column'),
+    functional_group_column=source.get('functional_group_column')
 )
 ```
 
