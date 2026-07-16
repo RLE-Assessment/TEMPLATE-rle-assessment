@@ -26,19 +26,22 @@ ECOSYSTEMS_DIR = Path("config/ecosystems")
 SCRIPTS_DIR = Path("scripts")
 
 
+def _run(*args):
+    """Run a build script, exiting cleanly on failure (the child already
+    printed its own error) instead of raising a noisy CalledProcessError."""
+    try:
+        subprocess.run([sys.executable, *args], check=True)
+    except subprocess.CalledProcessError as exc:
+        sys.exit(exc.returncode)
+
+
 def main():
     have_configs = any(ECOSYSTEMS_DIR.glob("*/ecosystem.yaml"))
     if not have_configs:
         print(f"{ECOSYSTEMS_DIR}/ is empty — scaffolding from ecosystem_source...")
-        subprocess.run(
-            [sys.executable, str(SCRIPTS_DIR / "2_build_ecosystems_config.py")],
-            check=True,
-        )
+        _run(str(SCRIPTS_DIR / "2_build_ecosystems_config.py"))
 
-    subprocess.run(
-        [sys.executable, str(SCRIPTS_DIR / "3_build_ecosystem_pages.py"), "--overwrite"],
-        check=True,
-    )
+    _run(str(SCRIPTS_DIR / "3_build_ecosystem_pages.py"), "--overwrite")
 
 
 if __name__ == "__main__":

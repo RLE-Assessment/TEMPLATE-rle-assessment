@@ -15,6 +15,7 @@ import argparse
 import hashlib
 import re
 import shutil
+import sys
 from pathlib import Path
 
 import yaml
@@ -144,6 +145,12 @@ def main():
     for eco_path in eco_configs:
         with open(eco_path) as f:
             eco = yaml.safe_load(f)
+        if not isinstance(eco, dict) or "global_classification" not in eco:
+            sys.exit(
+                f"ERROR: {eco_path} is empty or not a valid ecosystem config "
+                f"(expected a YAML mapping with 'global_classification'). "
+                f"Fix or remove it."
+            )
         # Hash the source config so freeze re-executes the assessment page when it
         # is edited. Only the assessment page reads ecosystem.yaml; crit_b derives
         # from the spatial data, so it gets no hash (avoids needless AOO/EOO reruns).
