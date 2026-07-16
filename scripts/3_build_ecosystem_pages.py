@@ -36,6 +36,24 @@ _DEFAULT_CODE = "M1.1.1"
 _DEFAULT_NAME = "Null Island Marine Shelf"
 
 
+def _write_if_changed(path: Path, text: str) -> bool:
+    """Write ``text`` to ``path`` only when it differs from what is on disk.
+
+    Skipping unchanged files preserves their mtime. ``quarto preview``'s
+    serveFiles re-renders a page only when its input is newer than its output
+    (an mtime comparison), so rewriting byte-identical pages every build would
+    force a full-book re-render on every preview. Leaving them untouched keeps
+    preview fast and avoids the large render batch that triggers the
+    fileRenderHash crash.
+    """
+    if path.exists() and path.read_text() == text:
+        print(f"  Unchanged {path}")
+        return False
+    path.write_text(text)
+    print(f"  Wrote {path}")
+    return True
+
+
 def _replace_ecosystem_code(template_text: str, code: str, name: str,
                             config_hash: str | None = None) -> str:
     """Replace the ecosystem_code assignment and heading text in a template.
@@ -104,8 +122,12 @@ def _update_quarto_yml(eco_configs: list[Path]) -> None:
             result.extend(new_entries)
         result.append(ln)
 
-    QUARTO_YML.write_text("\n".join(result) + "\n")
-    print(f"  Updated {QUARTO_YML}")
+    new_text = "\n".join(result) + "\n"
+    if new_text == text:
+        print(f"  Unchanged {QUARTO_YML}")
+    else:
+        QUARTO_YML.write_text(new_text)
+        print(f"  Updated {QUARTO_YML}")
 
 
 def main():
@@ -151,10 +173,10 @@ def main():
             (f"{code}_crit_b.qmd", crit_b_template, None),
         ]:
             page_path = out_dir / page_name
-            page_path.write_text(
-                _replace_ecosystem_code(template, code, name, page_hash)
+            _write_if_changed(
+                page_path,
+                _replace_ecosystem_code(template, code, name, page_hash),
             )
-            print(f"  Created {page_path}")
 
     # Update _quarto.yml chapters list
     _update_quarto_yml(eco_configs)
