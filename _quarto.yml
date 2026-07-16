@@ -1,5 +1,9 @@
 project:
   type: book
+  # Share the lonboard/anywidget map bundle across pages instead of inlining a
+  # ~3.4 MB copy per map (see scripts/dedupe_widget_assets.py).
+  post-render:
+    - scripts/dedupe_widget_assets.py
 
 execute:
   freeze: auto
