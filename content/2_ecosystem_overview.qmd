@@ -72,6 +72,30 @@ has_functional_group = (
 ```
 
 ```{python}
+#| label: functional-group-column-warning
+#| echo: false
+#| output: asis
+# Surface a visible warning when a functional-group column is configured but
+# absent from the data. Without this, the GET-typology sections below are
+# omitted silently, so a typo (or a dataset with no GET crosswalk) looks
+# indistinguishable from an intentional choice.
+if functional_group_column is not None and not has_functional_group:
+    available = ", ".join(map(str, ecosystems_df.columns))
+    print(
+        "::: {.callout-warning}\n"
+        "## Functional-group column not found\n\n"
+        f"The configured `functional_group_column` "
+        f"(`{functional_group_column}`) is not a column in the ecosystem "
+        "data, so the IUCN Global Ecosystem Typology sections (functional "
+        "group, biome, realm) are omitted from this chapter.\n\n"
+        "Set `functional_group_column` in `config/country_config.yaml` to a "
+        "valid column (or remove it if the data has no GET crosswalk). "
+        f"Available columns: {available}\n"
+        ":::\n"
+    )
+```
+
+```{python}
 #| label: calculate-ecosystem-type-and-biome-counts
 #| echo: false
 ecosystem_type_count = len(eco.unique_ecosystems())

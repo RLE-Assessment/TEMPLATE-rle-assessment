@@ -8,14 +8,14 @@ For setup instructions, see the [RLE-Assessment organization README](https://git
 
 Preview the site:
 ```
-pixi run quarto preview
+pixi run preview
 ```
 
 Make changes, preview the changes, and repeat until satisfied.
 
 Render the final HTML and PDF artifacts:
 ```
-pixi run quarto render
+pixi run quarto-render
 ```
 
 Commit and push your changes to publish the site.

@@ -4,7 +4,10 @@ Reads config/country_config.yaml, loads the ecosystem data, and creates
 a scaffold YAML file for each unique ecosystem under
 config/ecosystems/{ecosystem_code}/ecosystem.yaml.
 
-Existing files are not overwritten.
+The functional-group column is optional: when it is not configured (or not
+present in the data), each scaffold's ``functional_group`` is left as "N/A".
+
+Existing files are not overwritten unless --overwrite is passed.
 """
 
 import argparse
@@ -21,8 +24,9 @@ ECOSYSTEMS_DIR = Path("config/ecosystems")
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "max_ecosystems", type=int,
-        help="Maximum number of ecosystems to generate config files for",
+        "max_ecosystems", type=int, nargs="?", default=None,
+        help="Maximum number of ecosystems to generate config files for "
+             "(default: all ecosystems in the data)",
     )
     parser.add_argument(
         "--overwrite", action="store_true",
@@ -40,23 +44,37 @@ def main():
     country_name = config["country_name"]
     source = config["ecosystem_source"]
 
-    print(f"Loading ecosystem data from {source['data']}...")
-    from iucn_get_data import open_ecosystem_map
+    ecosystem_column = source["ecosystem_code_column"]
+    ecosystem_name_column = source.get("ecosystem_name_column")
+    functional_group_column = source.get("functional_group_column")
 
-    eco_map = open_ecosystem_map(
+    print(f"Loading ecosystem data from {source['data']}...")
+    from rle.core import Ecosystems
+
+    eco = Ecosystems.from_file(
         source["data"],
-        get_level3_column=source["functional_group_column"],
-        get_level456_column=source["ecosystem_code_column"],
+        ecosystem_column=ecosystem_column,
+        ecosystem_name_column=ecosystem_name_column,
+        functional_group_column=functional_group_column,
+    )
+    gdf = eco.to_geodataframe()
+
+    # The functional-group column is used only when it is both configured and
+    # present in the data; otherwise every scaffold gets "N/A".
+    has_functional_group = (
+        functional_group_column is not None
+        and functional_group_column in gdf.columns
+    )
+    has_name = (
+        ecosystem_name_column is not None
+        and ecosystem_name_column in gdf.columns
     )
 
-    df = eco_map.functional_group_dataframe()
-
-    # df has a MultiIndex of (functional_group_column, ecosystem_code_column)
-    fg_col = source["functional_group_column"]
-    eco_col = source["ecosystem_code_column"]
-
-    indices = df.index[:args.max_ecosystems]
-    print(f"Generating config for {len(indices)} of {len(df)} ecosystems...")
+    # Naturally sorted, de-duplicated ecosystem codes.
+    codes = eco.unique_ecosystems()
+    if args.max_ecosystems is not None:
+        codes = codes[:args.max_ecosystems]
+    print(f"Generating config for {len(codes)} ecosystems...")
 
     overwrite = args.overwrite
     if not overwrite and ECOSYSTEMS_DIR.exists() and any(ECOSYSTEMS_DIR.iterdir()):
@@ -73,19 +91,20 @@ def main():
         shutil.rmtree(ECOSYSTEMS_DIR)
         print(f"  Cleared {ECOSYSTEMS_DIR}/")
 
-    for (functional_group, ecosystem_code) in indices:
-        eco_dir = ECOSYSTEMS_DIR / ecosystem_code
-        eco_file = eco_dir / "ecosystem.yaml"
+    for ecosystem_code in codes:
+        rows = gdf[gdf[ecosystem_column] == ecosystem_code]
 
-        eco_dir.mkdir(parents=True, exist_ok=True)
+        functional_group = "N/A"
+        if has_functional_group and not rows.empty:
+            functional_group = str(rows[functional_group_column].iloc[0])
 
-        # Extract ecosystem name if available in the row
-        row = df.loc[(functional_group, ecosystem_code)]
         eco_name = ""
-        for col in ["ECO_NAME", "ecosystem_name", "name"]:
-            if col in row.index:
-                eco_name = str(row[col])
-                break
+        if has_name and not rows.empty:
+            eco_name = str(rows[ecosystem_name_column].iloc[0])
+
+        eco_dir = ECOSYSTEMS_DIR / str(ecosystem_code)
+        eco_file = eco_dir / "ecosystem.yaml"
+        eco_dir.mkdir(parents=True, exist_ok=True)
 
         scaffold = {
             "ecosystem_name": eco_name,

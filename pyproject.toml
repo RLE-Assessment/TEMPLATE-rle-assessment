@@ -20,14 +20,21 @@ platforms = ["osx-arm64", "linux-64"]
 
 # For production use:
 iucn_get_data = { git = "https://github.com/RLE-Assessment/iucn-get-data" }
-rle-python = { git = "https://github.com/RLE-Assessment/rle-python", tag = "v0.2.0", extras = ["viz"] }
+# TEMP: track rle-python GitHub HEAD (main) instead of the v0.2.0 tag.
+# Revert to the tagged pin below once the fix is released.
+# rle-python = { git = "https://github.com/RLE-Assessment/rle-python", tag = "v0.2.0", extras = ["viz"] }
+rle-python = { git = "https://github.com/RLE-Assessment/rle-python", branch = "main", extras = ["viz"] }
 rle-python-gee = { git = "https://github.com/RLE-Assessment/rle-python-gee", tag = "v0.2.1" }
 
 wkls = ">=1.1.0, <2"
 
 [tool.pixi.tasks]
 tinytex-install = "quarto install tinytex"
-quarto-render = "quarto render"
+# Regenerate config/ecosystems/ if it has drifted from ecosystem_source; the render
+# tasks depend on it so a render always runs against an in-sync config.
+ecosystems-sync = "python scripts/sync_ecosystems.py"
+quarto-render = { cmd = "quarto render", depends-on = ["ecosystems-sync"] }
+preview = { cmd = "quarto preview", depends-on = ["ecosystems-sync"] }
 
 [tool.pixi.dependencies]
 python = "==3.11"
