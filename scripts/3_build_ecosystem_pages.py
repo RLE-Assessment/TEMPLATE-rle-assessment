@@ -8,7 +8,9 @@ content/3_ecosystem_assessments/{ecosystem_code}/:
 Each generated file is a copy of the template with the ecosystem_code
 line replaced. Templates are renderable on their own for development.
 
-Existing files are not overwritten unless --overwrite is passed.
+Existing pages are overwritten in place; nothing is deleted. Stale pages for
+ecosystems no longer in config/ecosystems/ are left untouched (build_ecosystems.py
+errors on such orphans rather than deleting them).
 """
 
 import argparse
@@ -107,33 +109,16 @@ def _update_quarto_yml(eco_configs: list[Path]) -> None:
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--overwrite", action="store_true",
-        help="Overwrite existing .qmd files",
-    )
-    args = parser.parse_args()
+    argparse.ArgumentParser(description=__doc__).parse_args()
 
     if CACHE_DIR.exists():
         shutil.rmtree(CACHE_DIR)
         print(f"  Cleared {CACHE_DIR}/")
 
-    overwrite = args.overwrite
-    if not overwrite and OUTPUT_DIR.exists() and any(OUTPUT_DIR.iterdir()):
-        response = input(
-            f"  Existing pages found in {OUTPUT_DIR}/. "
-            f"Overwrite all? [y/N] "
-        )
-        if response.lower() != 'y':
-            print("  Aborting.")
-            return
-        overwrite = True
-
-    if overwrite and OUTPUT_DIR.exists():
-        shutil.rmtree(OUTPUT_DIR)
-        print(f"  Cleared {OUTPUT_DIR}/")
-
-    # Read templates
+    # Pages are (over)written in place per ecosystem; nothing is deleted. Removing
+    # stale pages for ecosystems no longer in config/ecosystems/ is the caller's
+    # responsibility (build_ecosystems.py errors on such orphans rather than
+    # deleting them).
     assessment_template = (TEMPLATE_DIR / "assessment.qmd").read_text()
     crit_b_template = (TEMPLATE_DIR / "crit_b.qmd").read_text()
 
