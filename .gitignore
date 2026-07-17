@@ -7,8 +7,9 @@
 /_site/
 /_book/
 /site_libs/
-_freeze/site_libs/
+/_freeze/
 **/*.quarto_ipynb
+**/*.quarto_ipynb_*
 **/execute-results/
 templates/assessment.html
 templates/assessment_files/*
