@@ -265,12 +265,6 @@ if has_data:
     print(f'AOO: {aoo_count} grid cells')
 ```
 
-```{python}
-#| label: display-aoo-map
-if has_data:
-    display(smart_map([aoo_grid_filtered, ecosystem]))
-```
-
 ## Criterion B Summary
 
 ```{python}
