@@ -11,6 +11,9 @@ requires = ["hatchling"]
 [tool.pixi.workspace]
 channels = ["conda-forge"]
 platforms = ["osx-arm64", "linux-64"]
+# pixi.lock uses lock-file format v7 (introduced in pixi 0.68.0); older pixi
+# versions cannot read it. pixi prompts to self-update when this is not met.
+requires-pixi = ">=0.68.0"
 
 [tool.pixi.pypi-dependencies]
 # For local development use the editable paths below:
