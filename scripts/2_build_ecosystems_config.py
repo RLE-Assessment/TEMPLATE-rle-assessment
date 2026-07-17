@@ -44,7 +44,14 @@ def main():
     country_name = config["country_name"]
     source = config["ecosystem_source"]
 
-    ecosystem_column = source["ecosystem_code_column"]
+    # ecosystem_code_column is optional: when absent, identify/enumerate
+    # ecosystems by the name column (the index then serves as the numeric handle).
+    ecosystem_column = source.get("ecosystem_code_column") or source.get("ecosystem_name_column")
+    if ecosystem_column is None:
+        raise SystemExit(
+            "ecosystem_source needs ecosystem_code_column or ecosystem_name_column "
+            "in config/country_config.yaml"
+        )
     ecosystem_name_column = source.get("ecosystem_name_column")
     functional_group_column = source.get("functional_group_column")
 
@@ -70,8 +77,11 @@ def main():
         and ecosystem_name_column in gdf.columns
     )
 
-    # Naturally sorted, de-duplicated ecosystem codes.
+    # Naturally sorted, de-duplicated ecosystem codes. The 1-based position in
+    # this list is the ecosystem "index" — the same value the COG encodes for
+    # each pixel (see rle.core.Ecosystems.to_raster / build_ecosystem_index.py).
     codes = eco.unique_ecosystems()
+    code_to_index = {code: i for i, code in enumerate(codes, start=1)}
     if args.max_ecosystems is not None:
         codes = codes[:args.max_ecosystems]
     print(f"Generating config for {len(codes)} ecosystems...")
@@ -113,6 +123,7 @@ def main():
             "biome": "TODO",
             "functional_group": functional_group,
             "global_classification": ecosystem_code,
+            "index": code_to_index[ecosystem_code],
             "iucn_status": "TODO",
             "description": "TODO",
             "distribution": "TODO",

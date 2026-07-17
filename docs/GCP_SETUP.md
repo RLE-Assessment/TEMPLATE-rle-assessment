@@ -106,6 +106,22 @@ Go to your repository's **Settings > Secrets and variables > Actions** and add:
 | `GCP_WORKLOAD_IDENTITY_PROVIDER` | `projects/PROJECT_NUMBER/locations/global/workloadIdentityPools/github-pool/providers/github-provider` |
 | `GCP_SERVICE_ACCOUNT` | `github-actions-rle@PLACEHOLDER_GCP_PROJECT_ID.iam.gserviceaccount.com` |
 
+## Rasterize the Ecosystem Map to a COG (optional)
+
+To store a high-resolution raster of the ecosystem map as a Cloud-Optimized GeoTIFF (COG) in the GCP project — for example, to serve later as a web-map layer — run:
+
+```bash
+python scripts/rasterize_ecosystem_to_cog.py --project PLACEHOLDER_GCP_PROJECT_ID
+```
+
+This manual step:
+
+- rasterizes the `ecosystem_source` vector (from `config/country_config.yaml`) in the `ESRI:54034` projection used by the AOO/EOO calculations, at the resolution set by `ecosystem_raster.resolution_m` (default 100 m; override with `--resolution 10`);
+- **enables the `storage.googleapis.com` API** and **creates a public-read bucket** `gs://PLACEHOLDER_GCP_PROJECT_ID-rle-cogs` if it does not already exist;
+- uploads the COG and records its public URL back into `config/country_config.yaml` under `ecosystem_raster.cog_url`.
+
+It is intentionally **not** part of `pixi run render` (rasterizing + uploading is slow and needs GCP write credentials). Existing COGs are skipped; re-run with `--force` after the ecosystem data changes.
+
 ## Verification
 
 After configuration, push a commit to the `main` branch. The GitHub Actions workflow should:

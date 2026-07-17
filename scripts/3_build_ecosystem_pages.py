@@ -24,6 +24,7 @@ import yaml
 
 CACHE_DIR = Path(".cache")
 CONFIG_DIR = Path("config/ecosystems")
+COUNTRY_CONFIG = Path("config/country_config.yaml")
 OUTPUT_DIR = Path("content/3_ecosystem_assessments")
 TEMPLATE_DIR = Path("templates")
 QUARTO_YML = Path("_quarto.yml")
@@ -88,8 +89,14 @@ def _update_quarto_yml(eco_configs: list[Path]) -> None:
             eco = yaml.safe_load(f)
         code = eco["global_classification"]
         name = eco.get("ecosystem_name", code)
+        index = eco.get("index")
         prefix = f"{OUTPUT_DIR}/{code}/{code}"
-        new_entries.append(f'    - part: "{code} - {name}"')
+        # When there is no separate code (code == name), show just the name
+        # rather than a redundant "Name - Name". Prefix with the ecosystem index
+        # so the sidebar matches the page heading ("{index} · {name}").
+        base = name if str(code) == str(name) else f"{code} - {name}"
+        label = f"{index} · {base}" if index is not None else base
+        new_entries.append(f'    - part: "{label}"')
         new_entries.append(f"      chapters:")
         new_entries.append(f"        - {prefix}.qmd")
         new_entries.append(f"        - {prefix}_crit_b.qmd")
@@ -149,6 +156,11 @@ def main():
         print(f"No ecosystem configs found in {CONFIG_DIR}/")
         return
 
+    # The assessment page reads country_config.yaml too (ecosystem_source and the
+    # ecosystem_raster COG URL), so fold it into the freeze hash — otherwise
+    # editing the COG config wouldn't re-execute the page under freeze: auto.
+    country_config_bytes = COUNTRY_CONFIG.read_bytes() if COUNTRY_CONFIG.exists() else b""
+
     for eco_path in eco_configs:
         with open(eco_path) as f:
             eco = yaml.safe_load(f)
@@ -159,9 +171,12 @@ def main():
                 f"Fix or remove it."
             )
         # Hash the source config so freeze re-executes the assessment page when it
-        # is edited. Only the assessment page reads ecosystem.yaml; crit_b derives
-        # from the spatial data, so it gets no hash (avoids needless AOO/EOO reruns).
-        config_hash = hashlib.sha256(eco_path.read_bytes()).hexdigest()
+        # is edited. The page reads both this ecosystem.yaml and country_config.yaml
+        # (ecosystem_source + ecosystem_raster), so hash both. crit_b derives from
+        # the spatial data, so it gets no hash (avoids needless AOO/EOO reruns).
+        config_hash = hashlib.sha256(
+            eco_path.read_bytes() + country_config_bytes
+        ).hexdigest()
 
         code = eco["global_classification"]
         name = eco.get("ecosystem_name", code)

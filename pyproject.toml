@@ -28,6 +28,9 @@ rle-python-gee = { git = "https://github.com/RLE-Assessment/rle-python-gee", tag
 
 wkls = ">=1.1.0, <2"
 
+# The ecosystem COG is displayed client-side by assets/cog-viewer.mjs (deck.gl
+# via esm.sh), so no Python COG/raster libraries are needed here.
+
 [tool.pixi.tasks]
 tinytex-install = "quarto install tinytex"
 # Rebuild the derived ecosystem layer (content/3_ecosystem_assessments/ + _quarto.yml

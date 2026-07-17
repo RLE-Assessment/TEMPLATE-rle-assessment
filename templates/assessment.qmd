@@ -30,8 +30,13 @@ with open(config_path) as f:
 
 # Extract commonly used fields.
 name = eco.get('ecosystem_name', 'TODO')
+index = eco.get('index')
 authors = ', '.join(eco.get('authors', []))
 credits = eco.get('assessment_credits', {})
+
+# Page heading: prefix with the ecosystem index when available (the same
+# numeric id encoded in the ecosystem COG).
+heading = f"{index} · {name}" if index is not None else name
 ```
 
 ```{python}
@@ -44,9 +49,11 @@ with open(country_config_path) as f:
     country_config = yaml.safe_load(f)
 
 source = country_config['ecosystem_source']
+# ecosystem_code_column is optional: fall back to the name column.
+ecosystem_column = source.get('ecosystem_code_column') or source.get('ecosystem_name_column')
 ecosystems = Ecosystems.from_file(
     source['data'],
-    ecosystem_column=source['ecosystem_code_column'],
+    ecosystem_column=ecosystem_column,
     ecosystem_name_column=source.get('ecosystem_name_column'),
     functional_group_column=source.get('functional_group_column')
 )
@@ -59,7 +66,11 @@ else:
     aoo = None
 ```
 
-# `{python} name` {.unnumbered}
+# `{python} heading` {.unnumbered}
+
+<!-- Ecosystem index -->
+[Ecosystem index:]{.parameter}&nbsp;
+`{python} index if index is not None else 'N/A'`
 
 <!-- Authors -->
 [Authors:]{.parameter}&nbsp;
@@ -88,6 +99,46 @@ else:
 <!-- Distribution -->
 [Distribution:]{.parameter}&nbsp;
 `{python} eco.get('distribution', 'TODO')`
+
+<!-- Ecosystem map (COG) -->
+[Ecosystem map:]{.parameter}&nbsp;
+
+```{python}
+#| label: display-ecosystem-cog
+#| echo: false
+#| output: asis
+# Display the published ecosystem COG with a browser-only viewer. The COG is
+# read client-side over HTTP range requests by assets/cog-viewer.mjs (deck.gl
+# COGLayer via esm.sh), which selects the pyramid level for the current zoom
+# (true level-of-detail) and reprojects ESRI:54034 on the GPU. THIS ecosystem's
+# pixels are highlighted (crimson) over the muted other classes.
+import json
+
+raster_cfg = country_config.get('ecosystem_raster') or {}
+cog_url = raster_cfg.get('cog_url')
+
+if not cog_url:
+    print(
+        "::: {.callout-note}\n"
+        "The ecosystem map raster (COG) has not been built yet. Run "
+        "`python scripts/rasterize_ecosystem_to_cog.py` to generate and "
+        "publish it, then re-render.\n"
+        ":::"
+    )
+else:
+    # Generated pages live at content/3_ecosystem_assessments/<code>/<code>.qmd,
+    # so the shared viewer module (registered as a Quarto resource) is three
+    # levels up. Deps are pulled from esm.sh inside the module.
+    module_src = "../../../assets/cog-viewer.mjs"
+    viewer_opts = {"url": cog_url, "index": index, "height": 520}
+    print(
+        f'<div id="ecosystem-cog-viewer" style="height:520px;width:100%;"></div>\n'
+        f'<script type="module">\n'
+        f'import mount from "{module_src}";\n'
+        f'mount(document.getElementById("ecosystem-cog-viewer"), {json.dumps(viewer_opts)});\n'
+        f'</script>'
+    )
+```
 
 <!-- Characteristic Native Biota -->
 [Characteristic Native Biota:]{.parameter}&nbsp;

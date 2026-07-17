@@ -51,7 +51,8 @@ pprint(config)
 # when it is not configured (or not present in the data), the GET typology
 # output (functional group, biome, realm) is omitted below.
 src = config['ecosystem_source']
-ecosystem_column = src['ecosystem_code_column']            # e.g. ECO_CODE
+# ecosystem_code_column is optional: fall back to the name column.
+ecosystem_column = src.get('ecosystem_code_column') or src.get('ecosystem_name_column')  # e.g. ECO_CODE
 ecosystem_name_column = src.get('ecosystem_name_column')   # e.g. ECO_NAME
 functional_group_column = src.get('functional_group_column')  # e.g. EFG1 or None
 
@@ -161,10 +162,28 @@ if has_functional_group:
     )
     display(typology)
 else:
-    cols = [c for c in (ecosystem_column, ecosystem_name_column) if c]
+    # De-duplicate in case the code and name columns are the same (no separate
+    # code column), so the same column is not selected twice.
+    cols = list(dict.fromkeys(c for c in (ecosystem_column, ecosystem_name_column) if c))
     display(
         ecosystems_df[cols].drop_duplicates().reset_index(drop=True)
     )
+```
+
+
+```{python}
+#| label: tbl-ecosystem-index
+#| echo: false
+#| tbl-cap: "Ecosystem index for {{< meta country-name >}}. Each index is the pixel value used for that ecosystem in the rasterized ecosystem map (COG)."
+# The canonical index -> code -> name table, written by build_ecosystem_index.py.
+# It is the legend for interpreting ecosystem COG pixel values.
+import pandas as pd
+
+index_csv = os.path.join('..', 'config', 'ecosystems', 'index.csv')
+if os.path.exists(index_csv):
+    display(pd.read_csv(index_csv))
+else:
+    print('(Ecosystem index has not been built yet — run `pixi run build-ecosystems`.)')
 ```
 
 

@@ -105,6 +105,12 @@ def main():
     elif _recorded_source() != source:
         _source_drift_error(_recorded_source(), source)
 
+    # --- ecosystem index: derived from ecosystem_source, regenerated every run.
+    # Writes config/ecosystems/index.csv and backfills index: into each
+    # ecosystem.yaml (idempotent, additive). Kept current regardless of whether
+    # the scaffolds were (re)generated above.
+    _run(str(SCRIPTS_DIR / "build_ecosystem_index.py"))
+
     # --- content/3: derived, but never delete stale pages implicitly
     orphans = _page_codes() - _config_codes()
     if orphans:

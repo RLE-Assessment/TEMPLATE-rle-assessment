@@ -33,6 +33,18 @@ project_root = os.environ.get('PIXI_PROJECT_ROOT', str(Path('..').resolve()))
 config_path = Path(project_root) / 'config' / 'country_config.yaml'
 with open(config_path) as f:
     config = yaml.safe_load(f)
+
+# Ecosystem index (the COG pixel value for this ecosystem), looked up by code
+# from the canonical index table. Absent if the index has not been built yet.
+import csv
+ecosystem_index = None
+index_csv = Path(project_root) / 'config' / 'ecosystems' / 'index.csv'
+if index_csv.exists():
+    with open(index_csv) as f:
+        for row in csv.DictReader(f):
+            if row['code'] == ecosystem_code:
+                ecosystem_index = int(row['index'])
+                break
 ```
 
 ## Load & Filter Ecosystem Data
@@ -42,9 +54,11 @@ Load data for all the ecosystems.
 ```{python}
 #| label: load-ecosystems
 source = config['ecosystem_source']
+# ecosystem_code_column is optional: fall back to the name column.
+ecosystem_column = source.get('ecosystem_code_column') or source.get('ecosystem_name_column')
 ecosystems = Ecosystems.from_file(
     source['data'],
-    ecosystem_column=source['ecosystem_code_column'],
+    ecosystem_column=ecosystem_column,
     ecosystem_name_column=source.get('ecosystem_name_column'),
     functional_group_column=source.get('functional_group_column')
 )
@@ -265,9 +279,10 @@ if has_data:
 #| output: asis
 if has_data:
     eco_name = ecosystem.ecosystem_name(ecosystem_code)
-    print(f'| Ecosystem Code | Ecosystem Name | EOO | AOO |')
-    print(f'|---------------|----------------|-----|-----|')
-    print(f'| {ecosystem_code} | {eco_name} | {eoo:.0f} km² | {aoo} cells |')
+    index_str = ecosystem_index if ecosystem_index is not None else 'N/A'
+    print(f'| Index | Ecosystem Code | Ecosystem Name | EOO | AOO |')
+    print(f'|-------|---------------|----------------|-----|-----|')
+    print(f'| {index_str} | {ecosystem_code} | {eco_name} | {eoo:.0f} km² | {aoo} cells |')
 else:
     print(f'No spatial data available for {ecosystem_code}.')
 ```

@@ -1,5 +1,9 @@
 project:
   type: book
+  # The client-side COG viewer module is loaded by the ecosystem pages as
+  # ../../../assets/cog-viewer.mjs; copy it into the rendered site.
+  resources:
+    - assets/cog-viewer.mjs
   # Share the lonboard/anywidget map bundle across pages instead of inlining a
   # ~3.4 MB copy per map (see scripts/dedupe_widget_assets.py).
   post-render:
