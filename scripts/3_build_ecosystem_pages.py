@@ -82,11 +82,26 @@ def _update_quarto_yml(eco_configs: list[Path]) -> None:
     """
     text = QUARTO_YML.read_text()
 
-    # Build per-ecosystem part entries
-    new_entries = []
+    # Order parts by ecosystem index so the sidebar reads 1, 2, 3, ... N, matching
+    # the page headings. eco_configs is directory-name sorted (case-sensitive), which
+    # disagrees with the index order (assigned from the natural/case-insensitive
+    # enumeration in unique_ecosystems()). Ecosystems without an index (index not
+    # built yet) sort last, by name.
+    ecos = []
     for eco_path in eco_configs:
         with open(eco_path) as f:
-            eco = yaml.safe_load(f)
+            ecos.append(yaml.safe_load(f))
+    ecos.sort(
+        key=lambda e: (
+            e.get("index") is None,
+            e.get("index") if e.get("index") is not None else 0,
+            str(e.get("ecosystem_name", e["global_classification"])),
+        )
+    )
+
+    # Build per-ecosystem part entries
+    new_entries = []
+    for eco in ecos:
         code = eco["global_classification"]
         name = eco.get("ecosystem_name", code)
         index = eco.get("index")
