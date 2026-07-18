@@ -65,11 +65,7 @@ ecosystem_column = source.get('ecosystem_code_column') or source.get('ecosystem_
 # filtering to one ecosystem uses parquet predicate pushdown instead of loading
 # the whole national map into memory. Falls back to `data`.
 ecosystems = Ecosystems.from_file(
-<<<<<<< HEAD
-    ensure_vector_source(source['data']),
-=======
-    source.get('optimized_data') or source['data'],
->>>>>>> origin/main
+    ensure_vector_source(source.get('optimized_data') or source['data']),
     ecosystem_column=ecosystem_column,
     ecosystem_name_column=source.get('ecosystem_name_column'),
     functional_group_column=source.get('functional_group_column')
