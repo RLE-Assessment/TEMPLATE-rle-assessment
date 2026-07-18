@@ -26,6 +26,8 @@ from pathlib import Path
 
 import yaml
 
+from _config import ensure_vector_source, load_country_config
+
 CONFIG_PATH = Path("config/country_config.yaml")
 ECOSYSTEMS_DIR = Path("config/ecosystems")
 INDEX_CSV = ECOSYSTEMS_DIR / "index.csv"
@@ -37,8 +39,7 @@ def compute_index(config_path: Path = CONFIG_PATH) -> list[tuple[int, str, str]]
     ``index`` is 1-based and matches the COG pixel values produced by
     ``Ecosystems.to_raster``.
     """
-    with open(config_path) as f:
-        config = yaml.safe_load(f)
+    config = load_country_config(config_path)
     source = config["ecosystem_source"]
 
     from rle.core import Ecosystems
@@ -53,7 +54,7 @@ def compute_index(config_path: Path = CONFIG_PATH) -> list[tuple[int, str, str]]
         )
 
     eco = Ecosystems.from_file(
-        source["data"],
+        ensure_vector_source(source["data"]),
         ecosystem_column=ecosystem_column,
         ecosystem_name_column=source.get("ecosystem_name_column"),
         functional_group_column=source.get("functional_group_column"),

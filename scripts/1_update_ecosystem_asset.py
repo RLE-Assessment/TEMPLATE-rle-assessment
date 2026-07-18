@@ -4,6 +4,8 @@ import argparse
 
 import yaml
 
+from _config import ensure_vector_source
+
 CONFIG_PATH = "config/country_config.yaml"
 
 
@@ -14,6 +16,10 @@ def main():
         help="Ecosystem data source (EE asset ID, gs:// URI, or local file path)",
     )
     args = parser.parse_args()
+
+    # Reject a raster value up front so the misconfiguration is caught here
+    # rather than deep in geopandas/GDAL when a later step reads the source.
+    ensure_vector_source(args.data)
 
     with open(CONFIG_PATH) as f:
         config = yaml.safe_load(f)

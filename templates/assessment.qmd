@@ -42,7 +42,12 @@ heading = f"{index} · {name}" if index is not None else name
 ```{python}
 #| label: load-ecosystem-data
 #| echo: false
+import sys
 from rle.core import Ecosystems
+
+# Shared config helpers live in scripts/; make them importable from here.
+sys.path.insert(0, str(Path(project_root) / 'scripts'))
+from _config import ensure_vector_source
 
 country_config_path = Path(project_root) / 'config' / 'country_config.yaml'
 with open(country_config_path) as f:
@@ -52,7 +57,7 @@ source = country_config['ecosystem_source']
 # ecosystem_code_column is optional: fall back to the name column.
 ecosystem_column = source.get('ecosystem_code_column') or source.get('ecosystem_name_column')
 ecosystems = Ecosystems.from_file(
-    source['data'],
+    ensure_vector_source(source['data']),
     ecosystem_column=ecosystem_column,
     ecosystem_name_column=source.get('ecosystem_name_column'),
     functional_group_column=source.get('functional_group_column')

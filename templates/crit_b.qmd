@@ -53,11 +53,16 @@ Load data for all the ecosystems.
 
 ```{python}
 #| label: load-ecosystems
+import sys
+# Shared config helpers live in scripts/; make them importable from here.
+sys.path.insert(0, str(Path(project_root) / 'scripts'))
+from _config import ensure_vector_source
+
 source = config['ecosystem_source']
 # ecosystem_code_column is optional: fall back to the name column.
 ecosystem_column = source.get('ecosystem_code_column') or source.get('ecosystem_name_column')
 ecosystems = Ecosystems.from_file(
-    source['data'],
+    ensure_vector_source(source['data']),
     ecosystem_column=ecosystem_column,
     ecosystem_name_column=source.get('ecosystem_name_column'),
     functional_group_column=source.get('functional_group_column')
