@@ -26,6 +26,8 @@ from pathlib import Path
 
 import yaml
 
+from _config import ensure_vector_source
+
 # The IUCN-approved equal-area projection used by the AOO/EOO grid. The COG is
 # generated in this CRS so it aligns with the assessment's area calculations.
 AOO_CRS = "ESRI:54034"
@@ -355,7 +357,7 @@ def main() -> None:
         )
 
     eco = Ecosystems.from_file(
-        source["data"],
+        ensure_vector_source(source["data"]),
         ecosystem_column=ecosystem_column,
         ecosystem_name_column=source.get("ecosystem_name_column"),
         functional_group_column=source.get("functional_group_column"),
