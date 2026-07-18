@@ -46,6 +46,14 @@ build-ecosystems = "python scripts/build_ecosystems.py"
 # (and after changing ecosystem_source.data) on a machine with enough RAM;
 # renders then read the caches instead of the national map. NOT a render dependency.
 build-caches = "python scripts/build_caches.py"
+# Rasterize the ecosystem_source vector to a categorical COG in GCS and record
+# its public URL under ecosystem_raster, so the assessment pages can display the
+# ecosystem map. Idempotent: the object key encodes the data source + resolution,
+# so it rebuilds when ecosystem_source.data changes and is a cheap existence
+# check otherwise. Needs GCP write credentials + billing, and must run before
+# `render` (which reads ecosystem_raster.cog_url). Run by the deploy workflow;
+# NOT a render dependency, so local renders and GCP-less repos still work.
+rasterize = "python scripts/rasterize_ecosystem_to_cog.py"
 render = { cmd = "quarto render", depends-on = ["build-ecosystems"] }
 preview = { cmd = "quarto preview", depends-on = ["build-ecosystems"] }
 

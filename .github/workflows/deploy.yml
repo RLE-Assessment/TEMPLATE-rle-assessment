@@ -50,6 +50,16 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      # Build/publish the ecosystem COG and record ecosystem_raster.cog_url so the
+      # assessment pages can show the ecosystem map. Idempotent and skip-if-exists,
+      # so it only does heavy work when ecosystem_source.data changes. Skipped when
+      # GCP is not configured (pages then show the "COG not built yet" note). Must
+      # run before Render, which reads the recorded cog_url.
+      - name: Build and publish ecosystem COG
+        if: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER != '' }}
+        env:
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+        run: pixi run rasterize
       - name: Render Quarto Project
         env:
           GOOGLE_CLOUD_PROJECT: ${{ secrets.GCP_PROJECT_ID }}

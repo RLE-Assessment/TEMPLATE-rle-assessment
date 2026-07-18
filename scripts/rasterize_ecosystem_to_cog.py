@@ -89,12 +89,38 @@ def _is_auth_error(exc: BaseException) -> bool:
     )
 
 
-def ensure_bucket(project: str, bucket: str, location: str) -> None:
-    """Enable the Storage API and ensure a public-read bucket exists.
+def _is_permission_error(result: subprocess.CompletedProcess) -> bool:
+    """True if a gcloud command failed due to insufficient permissions.
 
-    Idempotent: enabling an already-enabled API and creating an existing bucket
-    are treated as no-ops. The bucket is made publicly readable so the COG can
-    be served to a browser-based web map without signed URLs.
+    Covers the several phrasings gcloud uses across commands, e.g.
+    ``services enable`` reports ``PERMISSION_DENIED`` while
+    ``buckets add-iam-policy-binding`` reports ``does not have permission ...
+    denied on resource``.
+    """
+    text = f"{result.stdout}\n{result.stderr}".lower()
+    return (
+        "permission_denied" in text
+        or "permission denied" in text
+        or "does not have permission" in text
+        or "does not have storage." in text
+        or "denied on resource" in text
+        or "accessdenied" in text
+        or "forbidden" in text
+        or "403" in text
+    )
+
+
+def ensure_bucket(project: str, bucket: str, location: str) -> None:
+    """Best-effort: ensure the Storage API is enabled and a public bucket exists.
+
+    The provisioning steps here (enable API, create bucket, grant public read,
+    set CORS) are best-effort. Once a project/bucket has been provisioned by an
+    earlier run, a service account holding only object-write permission
+    (roles/storage.objectAdmin) gets PERMISSION_DENIED on these admin
+    operations — which is the normal case when this runs in CI. So we warn and
+    continue rather than fail; the essential step is uploading the COG object
+    (done by the caller), not re-provisioning infrastructure. Missing billing
+    stays fatal, since nothing can succeed without it.
     """
     print(f"Ensuring Cloud Storage API is enabled on {project}...")
     enable = _run(
@@ -102,7 +128,11 @@ def ensure_bucket(project: str, bucket: str, location: str) -> None:
          f"--project={project}"]
     )
     if enable.returncode != 0:
-        sys.exit(f"Failed to enable storage.googleapis.com:\n{enable.stderr.strip()}")
+        if _is_permission_error(enable):
+            print("  WARNING: no permission to enable storage.googleapis.com; "
+                  "assuming it is already enabled.")
+        else:
+            sys.exit(f"Failed to enable storage.googleapis.com:\n{enable.stderr.strip()}")
 
     print(f"Ensuring bucket gs://{bucket} exists...")
     create = _run(
@@ -129,6 +159,9 @@ def ensure_bucket(project: str, bucket: str, location: str) -> None:
                 f"--billing-account=<ACCOUNT_ID>\n\n"
                 f"Then re-run this script."
             )
+        elif _is_permission_error(create):
+            print(f"  WARNING: no permission to create gs://{bucket}; "
+                  "assuming it already exists.")
         else:
             sys.exit(f"Failed to create bucket gs://{bucket}:\n{stderr.strip()}")
 
@@ -138,9 +171,13 @@ def ensure_bucket(project: str, bucket: str, location: str) -> None:
          "--member=allUsers", "--role=roles/storage.objectViewer"]
     )
     if grant.returncode != 0:
-        sys.exit(
-            f"Failed to grant public read on gs://{bucket}:\n{grant.stderr.strip()}"
-        )
+        if _is_permission_error(grant):
+            print(f"  WARNING: no permission to set public-read IAM on gs://{bucket}; "
+                  "assuming it is already public.")
+        else:
+            sys.exit(
+                f"Failed to grant public read on gs://{bucket}:\n{grant.stderr.strip()}"
+            )
 
     ensure_cors(bucket)
 
@@ -148,8 +185,10 @@ def ensure_bucket(project: str, bucket: str, location: str) -> None:
 def ensure_cors(bucket: str) -> None:
     """Apply the browser byte-range CORS policy to the bucket.
 
-    Idempotent. Applied whenever the script runs (both on bucket creation and on
-    the skip-if-exists path) so existing buckets pick up the policy too.
+    Best-effort/idempotent. Applied whenever the script runs (both on bucket
+    creation and on the skip-if-exists path) so existing buckets pick up the
+    policy too. Setting CORS needs bucket-admin permission, so an object-write
+    service account is warned-and-skipped (the existing bucket keeps its policy).
     """
     print(f"Setting CORS on gs://{bucket} (expose Content-Range)...")
     fd, cors_file = tempfile.mkstemp(suffix=".json")
@@ -163,7 +202,11 @@ def ensure_cors(bucket: str) -> None:
     finally:
         os.unlink(cors_file)
     if result.returncode != 0:
-        sys.exit(f"Failed to set CORS on gs://{bucket}:\n{result.stderr.strip()}")
+        if _is_permission_error(result):
+            print(f"  WARNING: no permission to set CORS on gs://{bucket}; "
+                  "assuming the byte-range CORS policy is already applied.")
+        else:
+            sys.exit(f"Failed to set CORS on gs://{bucket}:\n{result.stderr.strip()}")
 
 
 def upload_to_gcs(local_path: Path, bucket: str, key: str) -> None:
