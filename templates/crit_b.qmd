@@ -56,8 +56,11 @@ Load data for all the ecosystems.
 source = config['ecosystem_source']
 # ecosystem_code_column is optional: fall back to the name column.
 ecosystem_column = source.get('ecosystem_code_column') or source.get('ecosystem_name_column')
+# Prefer the ecosystem-sorted `optimized_data` copy when configured, so that
+# filtering to one ecosystem uses parquet predicate pushdown instead of loading
+# the whole national map into memory. Falls back to `data`.
 ecosystems = Ecosystems.from_file(
-    source['data'],
+    source.get('optimized_data') or source['data'],
     ecosystem_column=ecosystem_column,
     ecosystem_name_column=source.get('ecosystem_name_column'),
     functional_group_column=source.get('functional_group_column')
@@ -171,7 +174,14 @@ from pathlib import Path
 from rle.core.aoo import make_aoo_grid_cached
 
 if has_data:
-    cache_path = Path(project_root) / '.cache' / 'aoo_grid.parquet'
+    # Prefer a prebuilt grid cache (e.g. a gs:// URI) so the national AOO grid
+    # is not recomputed during CI renders — computing it from the full national
+    # ecosystem map peaks at many GB of RAM. Fall back to a local cache when no
+    # prebuilt cache is configured. Build one with `pixi run build-caches`.
+    cache_path = (
+        source.get('aoo_grid_cache_url')
+        or (Path(project_root) / '.cache' / 'aoo_grid.parquet')
+    )
     aoo_grid = make_aoo_grid_cached(ecosystems, cache_path=cache_path)
     aoo_grid_filtered = aoo_grid.filter_by_ecosystem(ecosystem_code)
 ```
