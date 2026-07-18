@@ -77,8 +77,8 @@ else:
 # `{python} heading` {.unnumbered}
 
 <!-- Ecosystem index -->
-[Ecosystem index:]{.parameter}&nbsp;
-`{python} index if index is not None else 'N/A'`
+<!-- [Ecosystem index:]{.parameter}&nbsp;
+`{python} index if index is not None else 'N/A'` -->
 
 <!-- Authors -->
 [Authors:]{.parameter}&nbsp;
