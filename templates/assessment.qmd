@@ -130,7 +130,9 @@ if not cog_url:
         "::: {.callout-note}\n"
         "The ecosystem map raster (COG) has not been built yet. Run "
         "`python scripts/rasterize_ecosystem_to_cog.py` to generate and "
-        "publish it, then re-render.\n"
+        "publish it, then re-render. This requires billing to be enabled on "
+        "the GCP project — Cloud Storage buckets, unlike Earth Engine, cannot "
+        "be created without it.\n"
         ":::"
     )
 else:
