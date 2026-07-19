@@ -20,10 +20,11 @@ permissions:
   contents: read
   pages: write
   id-token: write
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+# Serialize Pages deploys under one explicit, per-repository group; never cancel
+# an in-progress production deploy. GitHub keeps only the latest queued run per
+# group, so redundant pushes coalesce automatically.
 concurrency:
-  group: 'pages'
+  group: pages-${{ github.repository }}
   cancel-in-progress: false
 jobs:
   deploy:
@@ -32,18 +33,46 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    # Bound a hung run. Large national renders can take a while, so allow ample
+    # headroom (the default is 6h).
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v5
       - name: Setup Pages
         uses: actions/configure-pages@v6
       - name: Setup Pixi
         uses: prefix-dev/setup-pixi@v0.10.0
+        timeout-minutes: 15
         with:
-          pixi-version: latest
+          # Pin pixi for reproducible, stable cache keys (floor matches
+          # requires-pixi >=0.68.0 in pyproject.toml).
+          pixi-version: v0.68.0
+          # setup-pixi auto-keys the environment cache off pixi.lock.
+          cache: true
+          # pixi install --locked: fail fast if pixi.lock has drifted from pyproject.toml.
+          locked: true
+      - name: Cache TinyTeX
+        uses: actions/cache@v4
+        with:
+          path: ~/.TinyTeX
+          # Refresh when the environment (incl. the pinned Quarto version) changes.
+          key: tinytex-${{ runner.os }}-${{ hashFiles('pixi.lock') }}
+          restore-keys: tinytex-${{ runner.os }}-
+      # Always run: `quarto install tinytex` detects an existing install (from the
+      # restored cache) and skips the download, so this is fast on a cache hit —
+      # while still registering TinyTeX (tlmgr PATH symlinks) so the PDF render
+      # finds it. Retried because the download is network-dependent.
       - name: Install TinyTeX
+        timeout-minutes: 15
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pixi run tinytex-install
+        run: |
+          for attempt in 1 2 3; do
+            pixi run tinytex-install && exit 0
+            echo "::warning::tinytex-install attempt $attempt failed; retrying in 15s"
+            sleep 15
+          done
+          echo "::error::tinytex-install failed after 3 attempts"; exit 1
       - name: Authenticate to Google Cloud
         if: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER != '' }}
         uses: google-github-actions/auth@v3
@@ -59,7 +88,13 @@ jobs:
         if: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER != '' }}
         env:
           GOOGLE_CLOUD_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
-        run: pixi run rasterize
+        run: |
+          for attempt in 1 2 3; do
+            pixi run rasterize && exit 0
+            echo "::warning::rasterize attempt $attempt failed; retrying in 15s"
+            sleep 15
+          done
+          echo "::error::rasterize failed after 3 attempts"; exit 1
       - name: Render Quarto Project
         env:
           GOOGLE_CLOUD_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
