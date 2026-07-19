@@ -51,6 +51,12 @@ jobs:
           cache: true
           # pixi install --locked: fail fast if pixi.lock has drifted from pyproject.toml.
           locked: true
+      # Fail fast (before TinyTeX/auth/COG/the long render) when the ecosystem
+      # caches the render depends on are missing/stale, or a large data source has
+      # no caches and would OOM. HTTP-only, so it needs no GCP credentials.
+      - name: Check ecosystem caches
+        timeout-minutes: 5
+        run: pixi run check-caches
       - name: Cache TinyTeX
         uses: actions/cache@v4
         with:

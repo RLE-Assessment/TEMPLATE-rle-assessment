@@ -54,6 +54,10 @@ build-caches = "python scripts/build_caches.py"
 # `render` (which reads ecosystem_raster.cog_url). Run by the deploy workflow;
 # NOT a render dependency, so local renders and GCP-less repos still work.
 rasterize = "python scripts/rasterize_ecosystem_to_cog.py"
+# Fail fast (before the expensive render) when the caches a render depends on are
+# missing/stale, or when a large ecosystem_source.data has no caches configured and
+# would OOM CI. HTTP-only (no GCP creds); run by the deploy workflow before render.
+check-caches = "python scripts/check_caches.py"
 render = { cmd = "quarto render", depends-on = ["build-ecosystems"] }
 preview = { cmd = "quarto preview", depends-on = ["build-ecosystems"] }
 
