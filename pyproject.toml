@@ -41,10 +41,12 @@ tinytex-install = "quarto install tinytex"
 # from ecosystem_source if it is missing. Use `pixi run render` / `pixi run preview`
 # (not raw `quarto render`), so the book config is consistent before Quarto reads it.
 build-ecosystems = "python scripts/build_ecosystems.py"
-# Precompute the caches renders read (ecosystem-sorted parquet + AOO grid) and
-# write them to ecosystem_source.optimized_data / aoo_grid_cache_url. Run once
-# (and after changing ecosystem_source.data) on a machine with enough RAM;
-# renders then read the caches instead of the national map. NOT a render dependency.
+# Precompute the caches renders read (ecosystem-sorted parquet + AOO grid). When
+# ecosystem_source.optimized_data / aoo_grid_cache_url are unset, the destinations
+# are derived from the GCP project + data filename and recorded back into the
+# config: `pixi run build-caches --project <gcp-project>` (or set
+# GOOGLE_CLOUD_PROJECT). Run once (and after changing ecosystem_source.data) on a
+# machine with enough RAM; renders then read the caches. NOT a render dependency.
 build-caches = "python scripts/build_caches.py"
 # Rasterize the ecosystem_source vector to a categorical COG in GCS and record
 # its public URL under ecosystem_raster, so the assessment pages can display the
