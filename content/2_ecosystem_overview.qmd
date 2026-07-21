@@ -153,9 +153,12 @@ print(" ".join(sentences))
 # With a functional-group column, show the full GET typology (realm / biome /
 # functional group / ecosystem). Otherwise show a plain ecosystem list.
 if has_functional_group:
+    # Drop the geometry column: its raw WKB/WKT is very long and adds nothing to
+    # this list of ecosystem types (iucn_get_data also excludes it defensively).
+    typology_df = ecosystems_df.drop(columns="geometry", errors="ignore")
     typology = iucn_get_data.Typology(
         language="spanish",
-        ecosystems=ecosystems_df,
+        ecosystems=typology_df,
         ecosystems_functional_group_column=functional_group_column,
         ecosystems_column=ecosystem_column,
         ecosystem_name_column=ecosystem_name_column,
