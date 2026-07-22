@@ -143,6 +143,41 @@ function makeGetTileData(index) {
   };
 }
 
+// Build a getTileData that colors each pixel by its category, looking up
+// `palette[value]` → [r,g,b,a]. `palette` is indexed by the raw pixel value
+// (the ecosystem index); slot 0 and any value without an entry (or with alpha
+// 0) render transparent, as does NODATA. Categories must use non-zero alpha or
+// the DrawRGBA shader discards them.
+function makeGetTileDataCategorical(palette) {
+  return async function getTileData(image, options) {
+    const { device, x, y, signal, pool } = options;
+    const tile = await image.fetchTile(x, y, { boundless: false, pool, signal });
+    const { array } = tile;
+    const { width, height } = array;
+    const src = array.data; // single-band uint8, pixel-interleaved
+    const rgba = new Uint8Array(width * height * 4);
+    for (let i = 0; i < src.length; i++) {
+      const v = src[i];
+      if (v === NODATA) continue; // leave (0,0,0,0) → discarded in shader
+      const c = palette[v];
+      if (!c || c[3] === 0) continue; // unknown/transparent class
+      const o = i * 4;
+      rgba[o] = c[0];
+      rgba[o + 1] = c[1];
+      rgba[o + 2] = c[2];
+      rgba[o + 3] = c[3];
+    }
+    const texture = device.createTexture({
+      data: rgba,
+      format: "rgba8unorm",
+      width,
+      height,
+      sampler: { minFilter: "nearest", magFilter: "nearest" },
+    });
+    return { texture, byteLength: rgba.byteLength, width, height };
+  };
+}
+
 function renderTile(data) {
   return {
     renderPipeline: [{ module: DrawRGBA, props: { textureName: data.texture } }],
@@ -155,11 +190,15 @@ function renderTile(data) {
  * @param {HTMLElement} el   Container element (its height is set from opts).
  * @param {object} opts
  * @param {string} opts.url     Public COG URL (HTTP range readable + CORS).
- * @param {number} [opts.index] This ecosystem's index; its pixels are crimson.
+ * @param {number} [opts.index] This ecosystem's index; its pixels are crimson
+ *   (highlight mode). Ignored when `palette` is given.
+ * @param {number[][]} [opts.palette] Categorical mode: colors indexed by pixel
+ *   value → [r,g,b,a] (0..255). Each ecosystem index renders in its own color;
+ *   values without an entry (and NODATA) are transparent.
  * @param {number} [opts.height] Map height in px (default 500).
  */
 export default async function mount(el, opts) {
-  const { url, index } = opts || {};
+  const { url, index, palette } = opts || {};
   const height = Number(opts && opts.height) || 500;
 
   el.style.position = "relative";
@@ -223,7 +262,7 @@ export default async function mount(el, opts) {
       geotiff: gt,
       pool: decoderPool,
       epsgResolver: esriResolver,
-      getTileData: makeGetTileData(index),
+      getTileData: palette ? makeGetTileDataCategorical(palette) : makeGetTileData(index),
       renderTile,
       onGeoTIFFLoad: (_geotiff, options) => {
         const b = options.geographicBounds;
