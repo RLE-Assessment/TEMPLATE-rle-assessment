@@ -48,6 +48,12 @@ build-ecosystems = "python scripts/build_ecosystems.py"
 # GOOGLE_CLOUD_PROJECT). Run once (and after changing ecosystem_source.data) on a
 # machine with enough RAM; renders then read the caches. NOT a render dependency.
 build-caches = "python scripts/build_caches.py"
+# Write a query-optimized GeoParquet copy of a vector source (sorted by the
+# ecosystem column + small row groups) so per-ecosystem reads use predicate
+# pushdown and don't time out on a single giant row group. Reproducible data-prep
+# step, run on a local copy of the source, then publish the output:
+# `pixi run optimize-source INPUT OUTPUT.parquet --ecosystem-column <col>`.
+optimize-source = "python scripts/optimize_source.py"
 # Rasterize the ecosystem_source vector to a categorical COG in GCS and record
 # its public URL under ecosystem_raster, so the assessment pages can display the
 # ecosystem map. Idempotent: the object key encodes the data source + resolution,
