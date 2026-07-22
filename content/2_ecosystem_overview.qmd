@@ -140,11 +140,7 @@ else:
 
 sentences.append(
     f"The distribution of {country}'s ecosystem types is shown in "
-    "@fig-heat-map-ecosystems."
-)
-
-sentences.append(
-    "Each ecosystem is shown in a distinct color in @fig-ecosystem-map."
+    "@fig-ecosystem-map, with each ecosystem in a distinct color."
 )
 
 print(" ".join(sentences))
@@ -328,14 +324,6 @@ else:
         'display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));'
         f'gap:2px 12px;">{swatches}</div>'
     )
-```
-
-
-```{python}
-#| label: fig-heat-map-ecosystems
-#| echo: false
-#| fig-cap: "Heat map of the distribution of natural ecosystem types of {{< meta country-name >}} mapped as the number of ecosystems intersecting a 10 x 10 km grid."
-print('(Heat map of the distribution of natural ecosystem types not implemented yet.)')
 ```
 
 
