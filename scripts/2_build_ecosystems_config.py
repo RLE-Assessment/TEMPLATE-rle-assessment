@@ -16,7 +16,7 @@ from pathlib import Path
 
 import yaml
 
-from _config import ensure_vector_source, load_country_config
+from _config import load_country_config, load_ecosystems_lite
 
 CACHE_DIR = Path(".cache")
 ECOSYSTEMS_DIR = Path("config/ecosystems")
@@ -55,15 +55,10 @@ def main():
     ecosystem_name_column = source.get("ecosystem_name_column")
     functional_group_column = source.get("functional_group_column")
 
-    print(f"Loading ecosystem data from {source['data']}...")
-    from rle.core import Ecosystems
-
-    eco = Ecosystems.from_file(
-        ensure_vector_source(source["data"]),
-        ecosystem_column=ecosystem_column,
-        ecosystem_name_column=ecosystem_name_column,
-        functional_group_column=functional_group_column,
-    )
+    print(f"Loading ecosystem data from {source.get('optimized_data') or source['data']}...")
+    # Column-projected read (no geometry) so a large national source is not
+    # fully downloaded just to enumerate ecosystems and read their names/groups.
+    eco = load_ecosystems_lite(source)
     gdf = eco.to_geodataframe()
 
     # The functional-group column is used only when it is both configured and
