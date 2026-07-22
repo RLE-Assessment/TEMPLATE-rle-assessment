@@ -26,7 +26,7 @@ from pathlib import Path
 
 import yaml
 
-from _config import ensure_vector_source, load_country_config
+from _config import load_country_config, load_ecosystems_lite
 
 CONFIG_PATH = Path("config/country_config.yaml")
 ECOSYSTEMS_DIR = Path("config/ecosystems")
@@ -42,8 +42,6 @@ def compute_index(config_path: Path = CONFIG_PATH) -> list[tuple[int, str, str]]
     config = load_country_config(config_path)
     source = config["ecosystem_source"]
 
-    from rle.core import Ecosystems
-
     # ecosystem_code_column is optional: fall back to the name column so
     # ecosystems are enumerated (and indexed) by name when no code exists.
     ecosystem_column = source.get("ecosystem_code_column") or source.get("ecosystem_name_column")
@@ -53,12 +51,9 @@ def compute_index(config_path: Path = CONFIG_PATH) -> list[tuple[int, str, str]]
             "in config/country_config.yaml"
         )
 
-    eco = Ecosystems.from_file(
-        ensure_vector_source(source["data"]),
-        ecosystem_column=ecosystem_column,
-        ecosystem_name_column=source.get("ecosystem_name_column"),
-        functional_group_column=source.get("functional_group_column"),
-    )
+    # Column-projected read (no geometry) so a large national source is not
+    # fully downloaded just to enumerate ecosystems.
+    eco = load_ecosystems_lite(source)
 
     codes = eco.unique_ecosystems()  # naturally sorted, deduplicated
 
