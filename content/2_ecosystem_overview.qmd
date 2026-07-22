@@ -143,6 +143,10 @@ sentences.append(
     "@fig-heat-map-ecosystems."
 )
 
+sentences.append(
+    "Each ecosystem is shown in a distinct color in @fig-ecosystem-map."
+)
+
 print(" ".join(sentences))
 ```
 
@@ -187,6 +191,143 @@ if os.path.exists(index_csv):
     display(pd.read_csv(index_csv))
 else:
     print('(Ecosystem index has not been built yet — run `pixi run build-ecosystems`.)')
+```
+
+
+```{python}
+#| label: display-ecosystem-map
+#| echo: false
+#| output: asis
+# All-ecosystems distribution map. Reuses the same browser COG viewer as the
+# per-ecosystem assessment pages (assets/cog-viewer.mjs, deck.gl COGLayer via
+# esm.sh), but in categorical mode: each ecosystem index gets its own color.
+# The coloring dimension is set by `map_color_by` in the country config
+# (default: one color per ecosystem; `functional_group` groups ecosystems by
+# their functional group). All grouping happens here in Python — the viewer
+# module only maps pixel value -> color from the palette we pass it. Emitted as
+# a Quarto figure Div so @fig-ecosystem-map resolves while the <script> runs.
+import json
+import colorsys
+
+country = config['country_name']
+raster_cfg = config.get('ecosystem_raster') or {}
+cog_url = raster_cfg.get('cog_url')
+color_by = config.get('map_color_by', 'ecosystem')
+
+if not cog_url:
+    print(
+        "::: {.callout-note}\n"
+        "The ecosystem map raster (COG) has not been built yet. Run "
+        "`python scripts/rasterize_ecosystem_to_cog.py` to generate and "
+        "publish it, then re-render.\n"
+        ":::"
+    )
+else:
+    # index -> code, in the same natural-sort order to_raster() used, so the
+    # 1-based position equals the COG pixel value. Prefer the built index.csv;
+    # fall back to unique_ecosystems() when it has not been generated yet.
+    index_csv = os.path.join('..', 'config', 'ecosystems', 'index.csv')
+    if os.path.exists(index_csv):
+        idx_df = pd.read_csv(index_csv)
+        index_to_code = {int(r['index']): str(r['code']) for _, r in idx_df.iterrows()}
+    else:
+        index_to_code = {i: str(c) for i, c in enumerate(eco.unique_ecosystems(), start=1)}
+
+    # Choose the grouping dimension. functional_group needs a real FG column;
+    # otherwise fall back to per-ecosystem coloring with a note.
+    fallback_note = None
+    code_to_group = None
+    if color_by == 'functional_group':
+        if has_functional_group:
+            code_to_group = (
+                ecosystems_df.drop_duplicates(ecosystem_column)
+                .set_index(ecosystem_column)[functional_group_column]
+                .astype(str)
+                .to_dict()
+            )
+        else:
+            fallback_note = (
+                "`map_color_by: functional_group` was set, but no functional-group "
+                "column is configured — coloring by ecosystem instead."
+            )
+            color_by = 'ecosystem'
+
+    # Group key per ecosystem index (the ecosystem code itself, or its FG value).
+    index_group = {}
+    for i, code in index_to_code.items():
+        index_group[i] = code_to_group.get(code, code) if code_to_group is not None else code
+
+    # Distinct color per unique group (golden-ratio HSV -> RGB), assigned in the
+    # first-appearance order of the natural-sorted indices for stability.
+    GOLDEN, SAT, VAL, ALPHA = 0.6180339887498949, 0.65, 0.95, 200
+    group_color = {}
+    for i in sorted(index_group):
+        g = index_group[i]
+        if g not in group_color:
+            k = len(group_color)
+            r, gg, b = colorsys.hsv_to_rgb((k * GOLDEN) % 1.0, SAT, VAL)
+            group_color[g] = [round(r * 255), round(gg * 255), round(b * 255), ALPHA]
+
+    # palette indexed by pixel value; slot 0 and any gap stay transparent.
+    max_index = max(index_group) if index_group else 0
+    palette = [[0, 0, 0, 0] for _ in range(max_index + 1)]
+    for i, g in index_group.items():
+        palette[i] = group_color[g]
+
+    if fallback_note:
+        print("::: {.callout-note}\n" + fallback_note + "\n:::\n")
+
+    module_src = "../assets/cog-viewer.mjs"  # overview page is one level deep
+    viewer_opts = {"url": cog_url, "palette": palette, "height": 520}
+    div_and_script = (
+        '<div id="ecosystem-overview-cog-viewer" style="height:520px;width:100%;"></div>\n'
+        '<script type="module">\n'
+        f'import mount from "{module_src}";\n'
+        f'mount(document.getElementById("ecosystem-overview-cog-viewer"), {json.dumps(viewer_opts)});\n'
+        '</script>'
+    )
+    # Figure Div: last paragraph is the caption; @fig-ecosystem-map references it.
+    print(
+        "::: {#fig-ecosystem-map}\n"
+        + div_and_script + "\n\n"
+        + f"Distribution of the ecosystem types of {country}, each ecosystem "
+        + "drawn in a distinct color, rendered client-side from the published "
+        + "ecosystem COG.\n"
+        + ":::"
+    )
+
+    # Legend: one row per color group, from the same group_color map so the
+    # swatches match the map exactly. Scrollable so it stays compact for
+    # countries with many ecosystems.
+    names = eco.ecosystem_names() if ecosystem_name_column else {}
+    if color_by == 'functional_group':
+        seen = []
+        for i in sorted(index_group):
+            g = index_group[i]
+            if g not in seen:
+                seen.append(g)
+        legend_rows = [(g, str(g)) for g in seen]
+    else:
+        legend_rows = []
+        for i in sorted(index_to_code):
+            code = index_to_code[i]
+            label = code + (f" — {names[code]}" if code in names else "")
+            legend_rows.append((code, label))
+
+    swatches = "".join(
+        '<div style="display:flex;align-items:center;gap:6px;'
+        'font:12px system-ui,sans-serif;">'
+        '<span style="flex:0 0 auto;width:14px;height:14px;border:1px solid #999;'
+        f'background:rgb({group_color[g][0]},{group_color[g][1]},{group_color[g][2]});">'
+        '</span>'
+        f'<span>{label}</span></div>'
+        for g, label in legend_rows
+    )
+    print(
+        '\n<div style="max-height:260px;overflow:auto;margin-top:8px;'
+        'display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));'
+        f'gap:2px 12px;">{swatches}</div>'
+    )
 ```
 
 
