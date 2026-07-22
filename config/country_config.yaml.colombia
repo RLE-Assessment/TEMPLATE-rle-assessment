@@ -7,3 +7,6 @@ view_state:
 ecosystem_source:
   data: https://data.source.coop/tyler/colombia-ecosystems-map/ecosistemas/ECOSISTEMAS_MEC_122024.parquet
   ecosystem_name_column: ecos_general
+# Overview-map coloring: `ecosystem` (default) or `functional_group` (needs a
+# functional_group_column, so it falls back to `ecosystem` for this dataset).
+# map_color_by: ecosystem
