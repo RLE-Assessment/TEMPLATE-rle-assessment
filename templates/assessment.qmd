@@ -43,7 +43,7 @@ heading = f"{index} · {name}" if index is not None else name
 #| label: load-ecosystem-data
 #| echo: false
 import sys
-from rle.core import Ecosystems
+from rle.core import Ecosystems, criterion_b_status, rle_category
 
 # Shared config helpers live in scripts/; make them importable from here.
 sys.path.insert(0, str(Path(project_root) / 'scripts'))
@@ -182,6 +182,20 @@ else:
 #| echo: false
 #| output: asis
 
+def _status_cell(value):
+    # Color-code a status cell by its RLE category (VU/EN/CR/LC/...); values that
+    # are not a known category code (e.g. a placeholder) render plain.
+    cat = rle_category(value)
+    if not cat:
+        return f'      <td>{value}</td>'
+    bg = cat['background_color']
+    fg = '#000' if bg in ('yellow', 'green', 'lightgray', 'white') else '#fff'
+    return (
+        f'      <td style="background:{bg};color:{fg};font-weight:bold;'
+        f'text-align:center;">{value}</td>'
+    )
+
+
 def _build_criteria_table(criteria_status):
     rows = []
     criteria_order = [
@@ -200,14 +214,14 @@ def _build_criteria_table(criteria_status):
                     f'    <tr>\n'
                     f'      <td rowspan="{len(subcriteria)}">Criterion {criterion}</td>\n'
                     f'      <td>{sub}</td>\n'
-                    f'      <td>{value}</td>\n'
+                    f'{_status_cell(value)}\n'
                     f'    </tr>'
                 )
             else:
                 rows.append(
                     f'    <tr>\n'
                     f'      <td>{sub}</td>\n'
-                    f'      <td>{value}</td>\n'
+                    f'{_status_cell(value)}\n'
                     f'    </tr>'
                 )
     return (
@@ -224,7 +238,28 @@ def _build_criteria_table(criteria_status):
         '</table>'
     )
 
-print(_build_criteria_table(eco.get('criteria_status', {})))
+# Fill the Criterion B row (B1/B2) with the categories computed from the spatial
+# metrics (EOO/AOO), overriding the manually-authored YAML values. B3 and the
+# a-c sub-conditions stay as authored (not derivable from the spatial metrics).
+criteria_status = dict(eco.get('criteria_status', {}) or {})
+if eoo is not None or aoo is not None:
+    _b = criterion_b_status(eoo_km2=eoo, aoo_cells=aoo)
+    _b_row = dict(criteria_status.get('B', {}) or {})
+    if _b['B1'] is not None:
+        _b_row['B1'] = _b['B1']
+    if _b['B2'] is not None:
+        _b_row['B2'] = _b['B2']
+    criteria_status['B'] = _b_row
+
+print(_build_criteria_table(criteria_status))
+print(
+    '\n::: {.callout-note appearance="simple"}\n'
+    'Criterion B **B1 and B2 are computed from the EOO and AOO spatial thresholds** '
+    '(IUCN RLE Guidelines v2.0). A final listing under B1/B2 also requires at least '
+    'one of sub-conditions (a) continuing decline, (b) threatening processes, or '
+    '(c) few threat-defined locations. Other criteria reflect the assessment config.\n'
+    ':::'
+)
 ```
 
 <!-- Assessment outcome -->

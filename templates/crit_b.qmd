@@ -20,7 +20,7 @@ import os
 import yaml
 from pathlib import Path
 from lonboard import Map
-from rle.core import Ecosystems
+from rle.core import Ecosystems, criterion_b_status, rle_category
 from rle.core.eoo import make_eoo
 from rle.core.aoo import make_aoo_grid
 ```
@@ -286,12 +286,60 @@ if has_data:
 #| label: criterion-b-summary
 #| echo: false
 #| output: asis
+# Classify the Criterion B status from the spatial metrics (EOO -> B1, AOO -> B2)
+# using the IUCN RLE Guidelines v2.0 thresholds, and present the overall category
+# as a colored badge plus a per-sub-criterion table. These are the *spatial*
+# thresholds only; a final listing also needs >=1 of sub-conditions a-c (noted).
+
+
+def _cat_label(abbr):
+    cat = rle_category(abbr)
+    return f'{cat["name"]} ({abbr})' if cat else (abbr or 'N/A')
+
+
+def _cat_colors(abbr):
+    cat = rle_category(abbr)
+    bg = cat['background_color'] if cat else 'transparent'
+    # Dark text on light fills, light text on dark fills.
+    fg = '#000' if bg in ('yellow', 'green', 'lightgray', 'white') else '#fff'
+    return bg, fg
+
+
 if has_data:
     eco_name = ecosystem.ecosystem_name(ecosystem_code)
     index_str = ecosystem_index if ecosystem_index is not None else 'N/A'
-    print(f'| Index | Ecosystem Code | Ecosystem Name | EOO | AOO |')
-    print(f'|-------|---------------|----------------|-----|-----|')
-    print(f'| {index_str} | {ecosystem_code} | {eco_name} | {eoo:.0f} km² | {aoo} cells |')
+    status = criterion_b_status(eoo_km2=eoo, aoo_cells=aoo)
+    overall = status['overall']
+    bg, fg = _cat_colors(overall)
+
+    chip = (
+        f'<span style="display:inline-block;padding:3px 10px;border-radius:4px;'
+        f'background:{bg};color:{fg};font-weight:bold;">{_cat_label(overall)}</span>'
+    )
+    print(
+        f'<div style="border-left:6px solid {bg};padding:8px 14px;margin:8px 0;">'
+        f'<div style="font-size:0.8em;text-transform:uppercase;letter-spacing:0.05em;'
+        f'opacity:0.7;">Criterion B status (spatial)</div>'
+        f'<div style="margin-top:4px;">{chip} '
+        f'<span style="opacity:0.75;">&mdash; {eco_name} ({ecosystem_code}), '
+        f'index {index_str}</span></div></div>\n'
+    )
+
+    print(
+        '::: {.callout-note appearance="simple"}\n'
+        'Status reflects the **spatial thresholds** for EOO (B1) and AOO (B2) only. '
+        'A final listing under B1/B2 additionally requires at least one of: '
+        '(a) an observed or inferred continuing decline; (b) threatening processes '
+        'likely to cause continuing decline within 20 years; or (c) few threat-defined '
+        'locations &mdash; none of which are derived from the spatial metrics.\n'
+        ':::\n'
+    )
+
+    print('| Sub-criterion | Metric | Value | Category |')
+    print('|---|---|---|---|')
+    print(f'| B1 | EOO | {eoo:.0f} km² | {_cat_label(status["B1"])} |')
+    print(f'| B2 | AOO | {aoo} cells | {_cat_label(status["B2"])} |')
+    print(f'| **Overall B** | — | — | **{_cat_label(overall)}** |')
 else:
     print(f'No spatial data available for {ecosystem_code}.')
 ```
