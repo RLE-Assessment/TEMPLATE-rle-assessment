@@ -7,7 +7,9 @@ cheaply:
 
   * ``optimized_data`` — an ecosystem-sorted copy of the map with small row
     groups, so filtering to one ecosystem uses parquet predicate pushdown
-    (reads only that ecosystem's rows) instead of loading the whole map.
+    (reads only that ecosystem's rows) instead of loading the whole map. When the
+    source is already sorted with small row groups (see ``scripts/optimize_source.py``),
+    that copy is skipped and ``optimized_data`` points straight at the source.
   * ``aoo_grid_cache_url`` — the precomputed national AOO grid.
 
 When neither URL is configured, the destinations are derived from the GCP
@@ -31,12 +33,15 @@ from pathlib import Path
 import yaml
 
 from _config import ensure_vector_source
+from optimize_source import DEFAULT_ROW_GROUP_SIZE, optimize_to_parquet
 
 CONFIG_PATH = Path("config/country_config.yaml")
 
-# Small row groups let pyarrow prune to a single ecosystem's rows on read.
-_ROW_GROUP_SIZE = 10_000
 _PLACEHOLDER_PROJECT = "goog-rle-assessments"
+_REMOTE_SCHEMES = ("http://", "https://", "gs://", "s3://", "az://")
+# Loading a remote parquet this large (uncompressed geometry) whole will time out
+# unless it has small row groups; guard before attempting it.
+_LARGE_GEOMETRY_BYTES = 1024 ** 3
 
 
 def _bucket_name(project: str) -> str:
@@ -103,6 +108,95 @@ def record_urls_in_config(config_path: Path, updates: dict) -> None:
     config_path.write_text("".join(lines))
 
 
+def _is_remote(data) -> bool:
+    return str(data).startswith(_REMOTE_SCHEMES)
+
+
+def source_footer(data, ecosystem_column) -> dict | None:
+    """Footer-only stats for a parquet source (no data download).
+
+    Returns None for non-parquet sources or if the footer can't be read. The dict
+    carries ``num_row_groups``, ``num_rows``, ``max_rows_per_group``, the ecosystem
+    column's per-row-group ``(min, max)`` stats (``eco_minmax``; None if any are
+    absent), and ``geometry_uncompressed_bytes`` — enough to decide "already
+    optimized?" and to guard against a doomed full load, all from HTTP range reads
+    of the footer.
+    """
+    if not str(data).split("?")[0].rstrip("/").lower().endswith(".parquet"):
+        return None
+    try:
+        import json
+
+        import fsspec
+        import pyarrow.parquet as pq
+
+        with fsspec.open(data, "rb") as f:
+            md = pq.ParquetFile(f).metadata
+            names = [md.schema.column(i).path for i in range(md.num_columns)]
+
+            geo_col = None
+            raw = (md.metadata or {}).get(b"geo")
+            if raw:
+                try:
+                    geo_col = json.loads(raw.decode()).get("primary_column")
+                except (ValueError, AttributeError):
+                    geo_col = None
+
+            eco_idx = names.index(ecosystem_column) if ecosystem_column in names else None
+            per_bytes: dict[str, int] = {}
+            eco_minmax = [] if eco_idx is not None else None
+            max_rows = 0
+            for g in range(md.num_row_groups):
+                rg = md.row_group(g)
+                max_rows = max(max_rows, rg.num_rows)
+                for c in range(rg.num_columns):
+                    col = rg.column(c)
+                    per_bytes[col.path_in_schema] = (
+                        per_bytes.get(col.path_in_schema, 0) + col.total_uncompressed_size
+                    )
+                if eco_minmax is not None:
+                    st = rg.column(eco_idx).statistics
+                    eco_minmax.append((st.min, st.max) if st and st.has_min_max else None)
+
+            if eco_minmax is not None and any(mm is None for mm in eco_minmax):
+                eco_minmax = None  # can't verify sortedness without complete stats
+
+            if geo_col not in per_bytes:
+                geo_col = "geometry" if "geometry" in per_bytes else (
+                    max(per_bytes, key=per_bytes.get) if per_bytes else None)
+
+            return {
+                "num_row_groups": md.num_row_groups,
+                "num_rows": md.num_rows,
+                "max_rows_per_group": max_rows,
+                "eco_minmax": eco_minmax,
+                "geometry_uncompressed_bytes": per_bytes.get(geo_col, 0) if geo_col else 0,
+            }
+    except Exception:  # noqa: BLE001 - footer read is best-effort
+        return None
+
+
+def is_pushdown_optimized(footer, row_group_size=DEFAULT_ROW_GROUP_SIZE) -> bool:
+    """True if a parquet is sorted by the ecosystem column with small row groups.
+
+    Requires (from ``source_footer``): more than one row group, the largest row
+    group small enough to prune usefully, and the ecosystem column's per-row-group
+    min/max monotonically non-decreasing (globally sorted). All footer-only.
+    """
+    if not footer or footer["eco_minmax"] is None:
+        return False
+    if footer["num_row_groups"] < 2:
+        return False
+    if footer["max_rows_per_group"] > max(row_group_size * 5, 50_000):
+        return False
+    prev_max = None
+    for mn, mx in footer["eco_minmax"]:
+        if prev_max is not None and mn < prev_max:
+            return False  # a later row group starts below an earlier one → not sorted
+        prev_max = mx
+    return True
+
+
 def build_caches(config_path: Path = CONFIG_PATH, project=None) -> None:
     """Load ``ecosystem_source.data`` once and write the configured caches."""
     with open(config_path) as f:
@@ -120,6 +214,28 @@ def build_caches(config_path: Path = CONFIG_PATH, project=None) -> None:
 
     data = ensure_vector_source(source["data"])
 
+    # Footer-only inspection (no data download): is the source already sorted with
+    # small row groups? If so we can point optimized_data straight at it.
+    footer = source_footer(data, ecosystem_column)
+    already_optimized = is_pushdown_optimized(footer)
+
+    # A large, unoptimized, remote parquet can't be loaded whole without timing out
+    # (one giant row group -> one enormous range read). Fail fast with a fix rather
+    # than hang on the read below.
+    if (not already_optimized and _is_remote(data) and footer
+            and footer["geometry_uncompressed_bytes"] >= _LARGE_GEOMETRY_BYTES):
+        sys.exit(
+            f"{data}\nis a large, unoptimized remote parquet "
+            f"({footer['geometry_uncompressed_bytes'] / 1024 ** 3:.1f} GB geometry, "
+            f"{footer['num_row_groups']} row group(s)); loading it whole will time out.\n\n"
+            "Optimize it first (sort by ecosystem + small row groups), then point "
+            "ecosystem_source.data at the result:\n"
+            "  # download a local copy of the source, then:\n"
+            f"  pixi run optimize-source LOCAL_COPY.parquet OPTIMIZED.parquet "
+            f"--ecosystem-column {ecosystem_column}\n"
+            "  # publish OPTIMIZED.parquet and set ecosystem_source.data to it."
+        )
+
     # Destinations: respect explicitly-configured URLs; otherwise (neither set)
     # derive both from the project + data and record them back into the config.
     optimized = source.get("optimized_data")
@@ -127,8 +243,13 @@ def build_caches(config_path: Path = CONFIG_PATH, project=None) -> None:
     derived: dict = {}
     if not optimized and not cache_url:
         derived = derive_cache_urls(_require_project(project), data)
-        optimized = derived["optimized_data"]
         cache_url = derived["aoo_grid_cache_url"]
+        if already_optimized:
+            # Source is already sorted + small-row-group: use it directly, no re-sort.
+            optimized = data
+            derived["optimized_data"] = data
+        else:
+            optimized = derived["optimized_data"]
 
     from rle.core import Ecosystems
     from rle.core.aoo import make_aoo_grid
@@ -143,13 +264,12 @@ def build_caches(config_path: Path = CONFIG_PATH, project=None) -> None:
     gdf = eco.load()
     print(f"  {len(gdf)} features")
 
-    if optimized:
+    # Write the sorted copy only when we are not reusing the source as optimized_data.
+    if optimized and optimized != data:
         print(f"Writing ecosystem-sorted parquet -> {optimized}")
-        (
-            gdf.sort_values(ecosystem_column)
-            .reset_index(drop=True)
-            .to_parquet(optimized, row_group_size=_ROW_GROUP_SIZE)
-        )
+        optimize_to_parquet(gdf, optimized, ecosystem_column=ecosystem_column)
+    elif optimized == data:
+        print(f"Source is already pushdown-optimized; using it as optimized_data ({data}).")
 
     if cache_url:
         print(f"Computing AOO grid -> {cache_url}")
