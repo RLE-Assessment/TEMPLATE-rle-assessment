@@ -93,10 +93,16 @@ jobs:
       - name: Build and publish ecosystem COG
         if: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER != '' }}
         env:
-          GOOGLE_CLOUD_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
+          # The COG bucket is derived from this project ({project}-rle-cogs).
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
         run: |
+          # Pass the project explicitly rather than via GOOGLE_CLOUD_PROJECT:
+          # pixi's activation env pins GOOGLE_CLOUD_PROJECT to the Earth Engine
+          # project (goog-rle-assessments), which is valid for EE but cannot be a
+          # GCS bucket prefix ('goog' is reserved). --project overrides it so the
+          # COG bucket uses the real GCP project from the GCP_PROJECT_ID secret.
           for attempt in 1 2 3; do
-            pixi run rasterize && exit 0
+            pixi run rasterize --project "$GCP_PROJECT_ID" && exit 0
             echo "::warning::rasterize attempt $attempt failed; retrying in 15s"
             sleep 15
           done
