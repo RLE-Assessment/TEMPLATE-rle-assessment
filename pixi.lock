@@ -314,7 +314,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/zipp-4.1.0-pyhcf101f3_0.conda
       - pypi: git+https://github.com/RLE-Assessment/iucn-get-data#900dd6205e8c3303acb158f638dcea0730223ee5
       - pypi: git+https://github.com/RLE-Assessment/rle-python-gee?tag=v0.2.1#5096d8320a9b6e66fa7a0989c6f71a7a97c4648b
-      - pypi: git+https://github.com/RLE-Assessment/rle-python?branch=main#ae5c6338efa725893d30fc01122a9c8c452a70be
+      - pypi: git+https://github.com/RLE-Assessment/rle-python?branch=main#63180e292bbfff6fff70cd92498632f515d3ea4c
       - pypi: https://files.pythonhosted.org/packages/00/60/249e3444fcd9c833704741769981cd02fe2c7ce94126b1394e7a3b26e543/ipyfilechooser-0.6.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/05/2e/7c85f00260aa332fbab9caba209290a07be645ee1d5691415ae635a7382a/rasterstats-0.21.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/0b/f7/85273299ab57117850cc0a936c64151171fac4da49bc6fba0dad984a7c5f/affine-2.4.0-py3-none-any.whl
@@ -688,7 +688,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstd-1.5.7-hbf9d68e_6.conda
       - pypi: git+https://github.com/RLE-Assessment/iucn-get-data#900dd6205e8c3303acb158f638dcea0730223ee5
       - pypi: git+https://github.com/RLE-Assessment/rle-python-gee?tag=v0.2.1#5096d8320a9b6e66fa7a0989c6f71a7a97c4648b
-      - pypi: git+https://github.com/RLE-Assessment/rle-python?branch=main#ae5c6338efa725893d30fc01122a9c8c452a70be
+      - pypi: git+https://github.com/RLE-Assessment/rle-python?branch=main#63180e292bbfff6fff70cd92498632f515d3ea4c
       - pypi: https://files.pythonhosted.org/packages/00/60/249e3444fcd9c833704741769981cd02fe2c7ce94126b1394e7a3b26e543/ipyfilechooser-0.6.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/04/bd/3e935ca6e87dc4969683f5dd9e49adaf2cb5734253d93317b6b346e0bd33/cryptography-46.0.0-cp311-abi3-macosx_10_9_universal2.whl
       - pypi: https://files.pythonhosted.org/packages/04/e3/f4de7795959d95d88b32b85740d5d2d6b0a2e17233258f0331aee6cb7b13/geoarrow_rust_core-0.6.3-cp311-cp311-macosx_11_0_arm64.whl
@@ -8287,7 +8287,7 @@ packages:
   - ipykernel>=7.1.0
   - lonboard ; extra == 'viz'
   requires_python: '>=3.11,<3.13'
-- pypi: git+https://github.com/RLE-Assessment/rle-python?branch=main#ae5c6338efa725893d30fc01122a9c8c452a70be
+- pypi: git+https://github.com/RLE-Assessment/rle-python?branch=main#63180e292bbfff6fff70cd92498632f515d3ea4c
   name: rle-python
   version: 0.2.1
   requires_dist:
