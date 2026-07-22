@@ -9,13 +9,21 @@ expensive render and fails with an actionable message when:
   * a configured cache (``optimized_data`` / ``aoo_grid_cache_url``) does not exist
     at its URL — it was never built, or ``ecosystem_source.data`` changed and the
     caches were not rebuilt; or
-  * no caches are configured but ``ecosystem_source.data`` is large enough that the
-    render will likely OOM (default threshold 2 GB; override with
-    ``CHECK_CACHES_MAX_UNCACHED_GB``).
+  * no caches are configured but ``ecosystem_source.data`` is heavy enough that the
+    render will likely OOM or time out.
+
+For the second case, compressed file size is a poor proxy for the render's memory:
+a 1.7 GB parquet whose geometry is 2.2 GB *uncompressed* (and materialises far
+larger as shapely objects) passed a 2 GB file-size guard yet OOM-killed the render.
+So for parquet sources this reads the cheap footer metadata and thresholds on the
+memory-relevant signals — uncompressed geometry size and feature count — plus flags
+few-row-group parquet (which defeats the per-ecosystem predicate pushdown). It
+falls back to compressed size for non-parquet sources or when the footer can't be
+read.
 
 It intentionally does NOT build the caches in CI — that is the very memory-heavy
-work the caches exist to move offline. It only reads HTTP HEAD metadata (the cache
-and data buckets are public), so it needs no GCP credentials.
+work the caches exist to move offline. It only reads HTTP metadata (the cache and
+data buckets are public), so it needs no GCP credentials.
 """
 
 import os
@@ -25,7 +33,19 @@ from urllib.error import HTTPError, URLError
 
 from _config import load_country_config
 
-DEFAULT_MAX_UNCACHED_GB = 2.0
+_GB = 1024 ** 3
+_MB = 1024 ** 2
+
+# No caches configured: thresholds above which the render likely OOMs/times out.
+DEFAULT_MAX_UNCACHED_GB = 2.0        # compressed size (non-parquet / no-footer fallback)
+DEFAULT_MAX_GEOMETRY_GB = 1.0        # uncompressed geometry column (parquet)
+DEFAULT_MAX_FEATURES = 200_000       # feature (row) count (parquet)
+# A parquet with fewer than this many row groups can't be pruned by the
+# per-ecosystem predicate pushdown (every page rescans the whole geometry
+# column), but only worth flagging when the geometry is non-trivial.
+_MIN_ROW_GROUPS = 3
+_PUSHDOWN_GEOMETRY_FLOOR = 512 * _MB
+
 _CACHE_KEYS = ("optimized_data", "aoo_grid_cache_url")
 
 
@@ -59,12 +79,78 @@ def remote_size(url: str):
     return int(cl) if cl and cl.isdigit() else None
 
 
-def evaluate(*, configured, missing, data_size_bytes, max_uncached_gb):
+def _parquet_footer_stats(fileobj) -> dict:
+    """Return memory-relevant stats from a parquet footer (no data read).
+
+    ``geometry_uncompressed_bytes`` is the uncompressed size of the GeoParquet
+    primary geometry column (from the file's ``geo`` metadata; falls back to a
+    column named ``geometry`` or the largest column). This is a far better proxy
+    for the render's peak RAM than the compressed file size.
+    """
+    import json
+
+    import pyarrow.parquet as pq
+
+    md = pq.ParquetFile(fileobj).metadata
+
+    geo_col = None
+    kv = md.metadata or {}
+    raw = kv.get(b"geo")
+    if raw:
+        try:
+            geo_col = json.loads(raw.decode()).get("primary_column")
+        except (ValueError, AttributeError):
+            geo_col = None
+
+    per: dict[str, int] = {}
+    for g in range(md.num_row_groups):
+        rg = md.row_group(g)
+        for c in range(rg.num_columns):
+            col = rg.column(c)
+            per[col.path_in_schema] = per.get(col.path_in_schema, 0) + col.total_uncompressed_size
+
+    if geo_col not in per:
+        geo_col = "geometry" if "geometry" in per else (max(per, key=per.get) if per else None)
+
+    return {
+        "num_rows": md.num_rows,
+        "num_row_groups": md.num_row_groups,
+        "geometry_uncompressed_bytes": per.get(geo_col, 0) if geo_col else 0,
+    }
+
+
+def probe_source(data: str) -> dict:
+    """Gather stats about ``ecosystem_source.data`` for the OOM/timeout heuristic.
+
+    HTTP-only. Reads the parquet footer for a memory-relevant estimate; falls back
+    to the compressed Content-Length for non-parquet sources or on any error.
+    """
+    stats = {
+        "size_bytes": remote_size(data),
+        "is_parquet": str(data).split("?")[0].rstrip("/").lower().endswith(".parquet"),
+        "geometry_uncompressed_bytes": None,
+        "num_rows": None,
+        "num_row_groups": None,
+    }
+    if stats["is_parquet"]:
+        try:
+            import fsspec
+
+            with fsspec.open(data, "rb") as f:
+                stats.update(_parquet_footer_stats(f))
+        except Exception as exc:  # noqa: BLE001 - footer read is best-effort
+            print(f"check-caches: could not read parquet footer ({exc}); "
+                  "falling back to compressed file size.")
+    return stats
+
+
+def evaluate(*, configured, missing, stats, thresholds):
     """Pure decision. Returns ``(ok: bool, message: str)``.
 
     ``configured`` is the {key: url} of cache URLs that are set; ``missing`` is the
-    subset [(key, url), ...] that do not exist; ``data_size_bytes`` is the size of
-    ``ecosystem_source.data`` (only consulted when no caches are configured).
+    subset [(key, url), ...] that do not exist. ``stats`` (from ``probe_source``) is
+    only consulted when no caches are configured. ``thresholds`` carries
+    ``max_uncached_gb`` / ``max_geometry_gb`` / ``max_features``.
     """
     if configured:
         if missing:
@@ -77,17 +163,54 @@ def evaluate(*, configured, missing, data_size_bytes, max_uncached_gb):
             )
         return True, "All configured ecosystem caches are present."
 
-    if data_size_bytes is not None and data_size_bytes >= max_uncached_gb * 1024 ** 3:
-        gb = data_size_bytes / 1024 ** 3
+    geom = stats.get("geometry_uncompressed_bytes")
+    rows = stats.get("num_rows")
+    rgs = stats.get("num_row_groups")
+    size = stats.get("size_bytes")
+
+    reasons = []
+    if geom is not None and geom >= thresholds["max_geometry_gb"] * _GB:
+        reasons.append(f"its geometry is {geom / _GB:.1f} GB uncompressed")
+    if rows is not None and rows >= thresholds["max_features"]:
+        reasons.append(f"it has {rows:,} features")
+    if (rgs is not None and rgs < _MIN_ROW_GROUPS
+            and geom is not None and geom >= _PUSHDOWN_GEOMETRY_FLOOR):
+        reasons.append(
+            f"it has only {rgs} parquet row group(s), so per-ecosystem filtering "
+            "cannot use predicate pushdown (every page rescans the whole map)"
+        )
+    # Fallback for non-parquet sources / unreadable footers: compressed size only.
+    if not reasons and geom is None and size is not None \
+            and size >= thresholds["max_uncached_gb"] * _GB:
+        reasons.append(f"it is {size / _GB:.1f} GB")
+
+    if reasons:
+        bullets = "\n".join(f"  - {r}" for r in reasons)
         return False, (
-            f"ecosystem_source.data is {gb:.1f} GB and no caches are configured "
-            "(optimized_data / aoo_grid_cache_url). The render loads/recomputes the "
-            "whole map in memory and will likely OOM the CI runner.\n\n"
-            "Configure optimized_data + aoo_grid_cache_url and run "
+            "ecosystem_source.data will likely OOM or time out the render, and no "
+            "caches are configured (optimized_data / aoo_grid_cache_url):\n"
+            f"{bullets}\n\n"
+            "The render loads/recomputes the whole map (and the national AOO grid) "
+            "in memory. Configure optimized_data + aoo_grid_cache_url and run "
             "`pixi run build-caches` on a big-RAM machine, then re-deploy.\n"
-            f"(To override this guard, set CHECK_CACHES_MAX_UNCACHED_GB above {gb:.1f}.)"
+            "(Overrides: CHECK_CACHES_MAX_GEOMETRY_GB, CHECK_CACHES_MAX_FEATURES, "
+            "CHECK_CACHES_MAX_UNCACHED_GB.)"
         )
     return True, "Ecosystem data is small enough to render without caches."
+
+
+def _thresholds() -> dict:
+    return {
+        "max_uncached_gb": float(
+            os.environ.get("CHECK_CACHES_MAX_UNCACHED_GB", DEFAULT_MAX_UNCACHED_GB)
+        ),
+        "max_geometry_gb": float(
+            os.environ.get("CHECK_CACHES_MAX_GEOMETRY_GB", DEFAULT_MAX_GEOMETRY_GB)
+        ),
+        "max_features": int(
+            os.environ.get("CHECK_CACHES_MAX_FEATURES", DEFAULT_MAX_FEATURES)
+        ),
+    }
 
 
 def main() -> None:
@@ -97,16 +220,13 @@ def main() -> None:
     configured = {k: source[k] for k in _CACHE_KEYS if source.get(k)}
     missing = [(k, url) for k, url in configured.items() if not remote_exists(url)]
 
-    data_size_bytes = None if configured else remote_size(source["data"])
+    stats = {} if configured else probe_source(source["data"])
 
-    max_uncached_gb = float(
-        os.environ.get("CHECK_CACHES_MAX_UNCACHED_GB", DEFAULT_MAX_UNCACHED_GB)
-    )
     ok, message = evaluate(
         configured=configured,
         missing=missing,
-        data_size_bytes=data_size_bytes,
-        max_uncached_gb=max_uncached_gb,
+        stats=stats,
+        thresholds=_thresholds(),
     )
     if ok:
         print(f"check-caches: {message}")
