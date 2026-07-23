@@ -5,7 +5,7 @@ view_state:
   latitude: 4.0
   zoom: 11
 ecosystem_source:
-  data: https://data.source.coop/tyler/colombia-ecosystems-map/ecosistemas/ECOSISTEMAS_MEC_122024.parquet
+  data: /Users/tylere/Documents/GitHub/RLE-Assessment/rle_workshop/data/ECOSISTEMAS_MEC_122024.parquet
   ecosystem_name_column: ecos_general
   optimized_data: gs://rle-tyler-rle-cogs/cache/ECOSISTEMAS_MEC_122024_sorted.parquet
   aoo_grid_cache_url: gs://rle-tyler-rle-cogs/cache/ECOSISTEMAS_MEC_122024_aoo_grid.parquet
