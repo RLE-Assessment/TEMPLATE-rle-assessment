@@ -18,13 +18,17 @@
 // origin); the inner import is a CORS module fetch esm.sh allows, and the
 // worker's own dependency tree resolves against its esm.sh URL.
 
+// The ?deps= pin keeps every module on ONE deck.gl/luma.gl version. Without it,
+// deck.gl-geotiff's `^9.4.0` floats to the next deck.gl minor (and its luma.gl)
+// while @deck.gl/mapbox's `~9.4.0` does not, and luma.gl throws "multiple
+// versions detected".
 import maplibregl from "https://esm.sh/maplibre-gl@4.7.1";
-import { MapboxOverlay } from "https://esm.sh/@deck.gl/mapbox@9.3.0";
-import { COGLayer } from "https://esm.sh/@developmentseed/deck.gl-geotiff@0.7.0";
-import { DecoderPool, GeoTIFF } from "https://esm.sh/@developmentseed/geotiff@0.7.0";
+import { MapboxOverlay } from "https://esm.sh/@deck.gl/mapbox@9.4.0?deps=@deck.gl/core@9.4.0,@deck.gl/layers@9.4.0,@deck.gl/geo-layers@9.4.0,@deck.gl/mesh-layers@9.4.0,@luma.gl/core@9.4.2,@luma.gl/engine@9.4.2,@luma.gl/webgl@9.4.2,@luma.gl/shadertools@9.4.2,@luma.gl/gpgpu@9.4.2";
+import { COGLayer } from "https://esm.sh/@developmentseed/deck.gl-geotiff@0.8.1?deps=@deck.gl/core@9.4.0,@deck.gl/layers@9.4.0,@deck.gl/geo-layers@9.4.0,@deck.gl/mesh-layers@9.4.0,@luma.gl/core@9.4.2,@luma.gl/engine@9.4.2,@luma.gl/webgl@9.4.2,@luma.gl/shadertools@9.4.2,@luma.gl/gpgpu@9.4.2";
+import { DecoderPool, GeoTIFF } from "https://esm.sh/@developmentseed/geotiff@0.8.1";
 
 const MAPLIBRE_CSS_URL = "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css";
-const GEOTIFF_WORKER_URL = "https://esm.sh/@developmentseed/geotiff@0.7.0/pool/worker";
+const GEOTIFF_WORKER_URL = "https://esm.sh/@developmentseed/geotiff@0.8.1/pool/worker";
 const BASEMAP_STYLE = "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 
 // Highlight palette (straight-alpha RGBA, 0..255).
