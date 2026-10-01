@@ -120,8 +120,8 @@ function makeGetTileData(index) {
       const v = src[i];
       const o = i * 4;
       let c;
-      if (v === NODATA) {
-        continue; // leave (0,0,0,0) → discarded in shader
+      if (v === NODATA || v === 0) {
+        continue; // 0 = no-ecosystem background; 255 = nodata → both transparent
       } else if (v === highlightVal) {
         c = HIGHLIGHT;
       } else {
@@ -265,9 +265,17 @@ export default async function mount(el, opts) {
       getTileData: palette ? makeGetTileDataCategorical(palette) : makeGetTileData(index),
       renderTile,
       onGeoTIFFLoad: (_geotiff, options) => {
-        const b = options.geographicBounds;
-        if (Number.isFinite(b.west) && Number.isFinite(b.east) && b.east > b.west) {
-          map.fitBounds([[b.west, b.south], [b.east, b.north]], { padding: 20, duration: 0 });
+        try {
+          const b = options?.geographicBounds;
+          if (b &&
+              Number.isFinite(b.west) && Number.isFinite(b.east) &&
+              Number.isFinite(b.south) && Number.isFinite(b.north) &&
+              b.east > b.west) {
+            map.fitBounds([[b.west, b.south], [b.east, b.north]], { padding: 20, duration: 0 });
+          }
+        } catch (e) {
+          showError("Bounds error: " + (e?.message ?? String(e)));
+          return;
         }
         status.remove();
       },
