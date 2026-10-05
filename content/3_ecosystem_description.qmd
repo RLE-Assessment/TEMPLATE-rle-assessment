@@ -1,4 +1,10 @@
 ---
+jupyter: python3
+# The table reads config/ecosystems/*/ecosystem.yaml, which freeze: auto would not
+# notice changing (it only tracks this file). The page is cheap (no spatial data),
+# so always re-execute it.
+execute:
+  freeze: false
 numbering:
   table:
     enumerator: 3.%s
@@ -47,3 +53,86 @@ references.
 | Criterion C | Description of data, analysis and methods used to assess the criterion and the status outcome. |
 | Criterion D | Description of data, analysis and methods used to assess the criterion and the status outcome. |
 | Criterion E | Description of data, analysis and methods used to assess the criterion and the status outcome. |
+
+## Summary of assessment outcomes
+
+```{python}
+#| label: summary-criteria-table
+#| echo: false
+#| output: asis
+import os
+import sys
+from pathlib import Path
+
+import yaml
+from rle.core import rle_category
+
+project_root = Path(os.environ.get('PIXI_PROJECT_ROOT', str(Path('..').resolve())))
+sys.path.insert(0, str(project_root / 'scripts'))
+from _criteria import CRITERIA, criteria_summary
+
+
+def _status_cell(value):
+    # Same color coding as the per-ecosystem criteria table; values that are not
+    # a category code (e.g. a free-text outcome) render plain.
+    cat = rle_category(value)
+    if not cat:
+        return f'<td>{value}</td>'
+    bg = cat['background_color']
+    fg = '#000' if bg in ('yellow', 'green', 'lightgray', 'white') else '#fff'
+    return (f'<td style="background:{bg};color:{fg};font-weight:bold;'
+            f'text-align:center;">{value}</td>')
+
+
+ecos = []
+for eco_file in (project_root / 'config' / 'ecosystems').glob('*/ecosystem.yaml'):
+    with open(eco_file) as f:
+        ecos.append(yaml.safe_load(f))
+# Index order, matching the sidebar; ecosystems without an index sort last.
+ecos.sort(key=lambda e: (e.get('index') is None, e.get('index') or 0,
+                         str(e['global_classification'])))
+
+rows = []
+for eco in ecos:
+    code = eco['global_classification']
+    name = eco.get('ecosystem_name') or code
+    label = name if str(name) == str(code) else f'{name} ({code})'
+    href = f'3_ecosystem_assessments/{code}/{code}.html'
+    summary = criteria_summary(eco)
+    cells = ''.join(_status_cell(summary[c]) for c in CRITERIA + ['overall'])
+    rows.append(f'<tr><td>{eco.get("index", "")}</td>'
+                f'<td><a href="{href}">{label}</a></td>{cells}</tr>')
+
+header = ''.join(f'<th>{c}</th>' for c in CRITERIA)
+print(
+    '<table class="criteria-table">\n'
+    f'<thead><tr><th>#</th><th>Ecosystem</th>{header}<th>Overall</th></tr></thead>\n'
+    '<tbody>\n' + '\n'.join(rows) + '\n</tbody>\n</table>'
+)
+print(
+    '\n::: {.callout-note appearance="simple"}\n'
+    'Each criterion shows the most threatened category among its sub-criteria. '
+    '**Overall** is the assessment outcome when one has been recorded, otherwise '
+    'the most threatened of criteria A–E. Criterion B1 and B2 reflect the EOO and '
+    'AOO spatial thresholds only.\n'
+    ':::'
+)
+```
+
+::: {.content-hidden unless-meta="show-instructions"}
+
+:::: {.callout-important}
+## How to customize the Ecosystem description page
+
+- To modify the introductory text or the components table, edit the
+`content/3_ecosystem_description.qmd` file.
+- The summary of assessment outcomes table is built from
+`config/ecosystems/*/ecosystem.yaml`. Edit the `criteria_status` and
+`assessment_outcome` fields there to update it.
+- To fill in the computed Criterion B1/B2 categories, run
+`pixi run build-criterion-b` and commit the updated configs.
+
+**To hide these instructions on all pages, set `show-instructions: false`
+in the `_quarto.yml` file.**
+::::
+:::

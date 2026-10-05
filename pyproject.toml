@@ -66,6 +66,11 @@ rasterize = "python scripts/rasterize_ecosystem_to_cog.py"
 # missing/stale, or when a large ecosystem_source.data has no caches configured and
 # would OOM CI. HTTP-only (no GCP creds); run by the deploy workflow before render.
 check-caches = "python scripts/check_caches.py"
+# Compute each ecosystem's EOO/AOO and write the Criterion B1/B2 categories into
+# config/ecosystems/*/ecosystem.yaml, for the summary table on 3_ecosystem_description. Run
+# after changing ecosystem_source (loads every ecosystem's geometry), then commit
+# the updated configs. NOT a render dependency.
+build-criterion-b = "python scripts/build_criterion_b.py"
 render = { cmd = "quarto render", depends-on = ["build-ecosystems"] }
 preview = { cmd = "quarto preview", depends-on = ["build-ecosystems"] }
 
